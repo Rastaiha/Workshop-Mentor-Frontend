@@ -1,9 +1,9 @@
-# Workshop Admin Frontend
+# Workshop Mentor Frontend
 
 ## Installation
 
-- `git clone https://github.com/Rastaiha/workshop_admin_frontend.git`
-- `cd workshop_admin_frontend`
+- `git clone https://github.com/Rastaiha/workshop_mentor_frontend.git`
+- `cd workshop_mentor_frontend`
 - `yarn`
 - `yarn start`
 - visit http://localhost:3000/
