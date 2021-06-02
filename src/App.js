@@ -13,6 +13,7 @@ import Notifier from './components/Notifications/Notifications';
 import { initRedirectAction } from './redux/slices/redirect';
 import Root from './root';
 import MuiTheme from './Theme/MuiThemes/MuiTheme';
+import RTLMuiTheme from './Theme/MuiThemes/RTLMuiTheme';
 import translations from './translations';
 import jss from './utils/jssRTL';
 
@@ -48,7 +49,7 @@ const App = ({ dir, redirectTo, forceRedirect, initRedirect }) => {
     <IntlProvider translations={translations}>
       {dir === 'rtl' ? (
         <>
-          <ThemeProvider theme={MuiTheme}>
+          <ThemeProvider theme={RTLMuiTheme}>
             <StylesProvider jss={jss}>
               <Mentor />
             </StylesProvider>
