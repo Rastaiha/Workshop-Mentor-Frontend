@@ -18,6 +18,7 @@ import { Link, useParams } from 'react-router-dom';
 import ResponsiveAppBar from '../components/Appbar/ResponsiveAppBar';
 import Articles from '../components/SpecialComponents/MentorPage/Articles';
 import MentorWorkshops from '../components/SpecialComponents/MentorPage/MentorWorkshops';
+import RegistrationForm from '../components/SpecialComponents/MentorPage/RegistrationForm';
 import Teams from '../components/SpecialComponents/MentorPage/Teams';
 import {
   getEventInfoAction,
@@ -42,6 +43,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const tabs = [
+  {
+    label: 'فرم ثبت‌نام',
+    icon: '',
+    component: RegistrationForm,
+  },
   {
     label: 'کارگاه‌ها',
     icon: ClassIcon,

@@ -46,6 +46,7 @@ const Events = ({ getAllEventsInfo, events }) => {
   const classes = useStyles();
 
   useEffect(() => {
+    console.log("WWWWWWWWWWWWW  ")
     getAllEventsInfo();
   }, [getAllEventsInfo])
 

@@ -24,6 +24,7 @@ const GameWidget = ({ link = '' }) => {
   const [scale, setScale] = useState(0.7);
   const [iFrameHeight, setIFrameHeight] = useState(500);
 
+  // todo
   console.log(scale);
 
   return (

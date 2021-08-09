@@ -4,6 +4,7 @@ import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
   applyDiscountUrl,
+  getAllEventsInfo,
   getEventInfoUrl,
   getEventRegistrationInfoUrl,
   getWorkshopsDescriptionUrl,
@@ -13,7 +14,7 @@ import {
 export const getAllEventsInfoAction = createAsyncThunkApi(
   'events/getAllEventsInfoAction',
   Apis.GET,
-  getEventInfoUrl,
+  getAllEventsInfo,
 );
 
 export const getEventInfoAction = createAsyncThunkApi(

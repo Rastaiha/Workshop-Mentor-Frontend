@@ -5,7 +5,9 @@ export const accountCRUDUrl = ({ id }) => id ? `auth/accounts/${id}/` : 'auth/ac
 export const profileCRUDUrl = ({ id }) => id ? `auth/profile/${id}/` : 'auth/profile/';
 export const studentshipCRUDUrl = 'auth/studentship/';
 
-export const getEventInfoUrl = ({ id }) => id ? `fsm/event/${id}` : 'fsm/event/';
+export const getAllEventsInfo = 'fsm/event/';
+// todo:
+export const getEventInfoUrl = ({ id = undefined }) => id ? `fsm/event/${id}/` : 'fsm/event/';
 
 export const workshopsUrl = 'fsm/fsm/';
 
