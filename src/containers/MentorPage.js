@@ -1,30 +1,11 @@
-import {
-  Button,
-  ButtonGroup,
-  Container,
-  Grid,
-  Hidden,
-  makeStyles,
-  Paper,
-} from '@material-ui/core';
-import ClassIcon from '@material-ui/icons/Class';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import GroupIcon from '@material-ui/icons/Group';
-import React, { useEffect, useState } from 'react';
+
+import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useTranslate } from 'react-redux-multilingual/lib/context';
-import { Link } from 'react-router-dom';
 
 import ResponsiveAppBar from '../components/Appbar/ResponsiveAppBar';
-import Articles from '../components/SpecialComponents/MentorPage/Articles';
-import MentorWorkshops from '../components/SpecialComponents/MentorPage/MentorWorkshops';
-import Teams from '../components/SpecialComponents/MentorPage/Teams';
-import {
-  getArticlesAction,
-  getUnreadNotificationsAction,
-  getWorkshopsAction,
-  getWorkshopTeamsAction,
-} from '../redux/slices/mentor';
+import EventCard from '../components/Cards/Event';
+import { getAllEventsInfoAction } from '../redux/slices/event'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -35,124 +16,76 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
   },
-  rightBox: {
+  logo: {
+    maxHeight: '80vh',
+    maxWidth: '100%',
+  },
+  paper: {
+    width: '100%',
+    height: '100%',
     padding: theme.spacing(2),
   },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
+  title: {
+    fontSize: 40,
+    fontWeight: 600,
+    textShadow: '1px 1px #dbd9d9',
+  },
+  subtitle: {
+    fontSize: 25,
+    fontWeight: 400,
+    textShadow: '1px 1px #dbd9d9',
+  },
+  listItem: {
+    fontSize: 20,
+    fontWeight: 300,
+    textShadow: '1px 1px #dbd9d9',
   },
 }));
 
-const tabs = [
-  {
-    label: 'کارگاه‌ها',
-    icon: ClassIcon,
-    component: MentorWorkshops,
-  },
-  {
-    label: 'مقالات',
-    icon: ClassIcon,
-    component: Articles,
-  },
-  {
-    label: 'تیم‌ها',
-    icon: GroupIcon,
-    component: Teams,
-  },
-  {
-    label: 'درخواست‌ها',
-    component: Teams,
-    props: {
-      mode: 'notifications',
-    },
-  },
-];
-
-const MentorPage = ({
-  workshops,
-  teams,
-  getAllWorkshops,
-  getAllArticles,
-  getUnreadNotifications,
-  getWorkshopTeams,
-}) => {
-  const t = useTranslate();
-  const [tabIndex, setTabIndex] = useState(0);
+const Events = ({ getAllEventsInfo, events }) => {
   const classes = useStyles();
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      getUnreadNotifications();
-    }, 60000);
-    return () => clearInterval(interval);
-  }, [getUnreadNotifications]);
-
-  useEffect(() => {
-    workshops.forEach((workshop) => {
-      if (!teams[workshop.id]) {
-        getWorkshopTeams({ fsmId: workshop.id });
-      }
-    });
-  }, [getWorkshopTeams, workshops, teams]);
-
-  useEffect(() => {
-    getAllWorkshops();
-    getAllArticles();
-  }, [getAllWorkshops, getAllArticles]);
-
-  const TabComponent = tabs[tabIndex].component;
+    getAllEventsInfo();
+  }, [getAllEventsInfo])
 
   return (
     <>
       <ResponsiveAppBar mode="MENTOR_DASHBOARD" />
       <Container className={classes.container}>
-        <Grid container spacing={2} direction="row" justify="center">
+        <Grid
+          container
+          justify="space-evenly"
+          alignItems="flex-start"
+          spacing={2}>
           <Grid
-            container
             item
-            sm={3}
-            xs={12}
+            container
+            sm={6}
             direction="column"
-            justify="space-between">
+            justify="space-evenly"
+            alignItems="center"
+            style={{ minHeight: '100%' }}
+            spacing={2}>
             <Grid item>
-              <ButtonGroup orientation="vertical" color="primary" fullWidth>
-                {tabs.map((tab, index) => (
-                  <Button
-                    key={index}
-                    onClick={() => setTabIndex(index)}
-                    variant={tabIndex === index && 'contained'}
-                    startIcon={tab.icon && <tab.icon />}>
-                    {tab.label}
-                  </Button>
-                ))}
-              </ButtonGroup>
+              <Typography className={classes.title}>{'رویدادها'}</Typography>
             </Grid>
-            <Hidden xsDown>
-              <Grid item>
-                <Button
-                  fullWidth
-                  color="primary"
-                  component={Link}
-                  to="/"
-                  startIcon={<ExitToAppIcon />}>
-                  {t('back')}
-                </Button>
-              </Grid>
-            </Hidden>
-          </Grid>
-          <Grid item sm={9} xs={12}>
-            <Paper elevation={3} className={classes.rightBox}>
-              <TabComponent {...tabs[tabIndex].props} />
-            </Paper>
-          </Grid>
-          <Hidden smUp>
-            <Grid item>
-              <Button fullWidth color="primary" startIcon={<ExitToAppIcon />}>
-                {t('back')}
-              </Button>
+            <Grid
+              item
+              container
+              direction="column"
+              justify="center"
+              alignItems="center"
+              spacing={2}>
+              {events.map((event, index) => (
+                <Grid key={index} item>
+                  <EventCard
+                    {...event}
+                  />
+                </Grid>
+              ))}
             </Grid>
-          </Hidden>
+          </Grid>
         </Grid>
       </Container>
     </>
@@ -160,13 +93,12 @@ const MentorPage = ({
 };
 
 const mapStateToProps = (state) => ({
-  workshops: state.mentor.workshops,
-  teams: state.mentor.teams,
+  events: state.event.events || [],
 });
 
-export default connect(mapStateToProps, {
-  getAllWorkshops: getWorkshopsAction,
-  getUnreadNotifications: getUnreadNotificationsAction,
-  getWorkshopTeams: getWorkshopTeamsAction,
-  getAllArticles: getArticlesAction,
-})(MentorPage);
+export default connect(
+  mapStateToProps,
+  {
+    getAllEventsInfo: getAllEventsInfoAction,
+  }
+)(Events);

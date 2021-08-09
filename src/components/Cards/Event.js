@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { baseURL } from '../../axios';
 
 const useStyles = makeStyles((theme) => ({
   statImage: {
@@ -22,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   notificationTitle: {
-    fontSize: 30,
     color: '#4d4a70',
   },
   paper: {
@@ -52,9 +50,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Event = ({
+  cover_page,
   name = 'مسافر صفر',
   description = 'مرگ بر آمریکا و آروان با هم جفتشون!',
-  image,
   id,
   is_active = 'true',
 }) => {
@@ -64,7 +62,7 @@ const Event = ({
     <Card className={classes.paper}>
       <CardActionArea
         component={Link}
-        to={`${process.env.PUBLIC_URL}/event/registration/${id}`}
+        to={`${process.env.PUBLIC_URL}/event/${id}`}
         disabled={!is_active}>
         <Grid container spacing={1} className={classes.mainContainer}>
           <Grid
@@ -75,9 +73,9 @@ const Event = ({
             xs={12}
             sm={5}>
             <img
-              src={baseURL + image}
+              src={cover_page}
               alt=""
-              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </Grid>
           <Grid
@@ -90,11 +88,9 @@ const Event = ({
             spacing={1}
             className={classes.content}>
             <Grid item container alignItems="flex-end" spacing={1}>
-              <Grid item>
-                <Typography variant="h3" className={classes.notificationTitle}>
-                  {name}
-                </Typography>
-              </Grid>
+              <Typography variant="h3" className={classes.notificationTitle}>
+                {name}
+              </Typography>
             </Grid>
             <Grid item>
               <Typography variant="body2" color="textSecondary">

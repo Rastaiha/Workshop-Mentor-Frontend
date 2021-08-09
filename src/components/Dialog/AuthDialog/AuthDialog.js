@@ -60,11 +60,7 @@ function AuthDialog({
 
   useEffect(() => {
     if (open && isLoggedIn) {
-      if (user.is_mentor) {
-        history.push('/mentor');
-      } else {
-        history.push('/events');
-      }
+      history.push('/mentor');
     }
   }, [isLoggedIn, user, open, history]);
 
@@ -76,7 +72,6 @@ function AuthDialog({
       });
       return;
     }
-
     login({ username, password });
   };
 
@@ -93,25 +88,16 @@ function AuthDialog({
           alignItems="stretch"
           className={classes.leftContainer}>
           <Grid container item direction="row">
-            <Grid item xs={3}>
-              <IconButton
-                aria-label="close"
-                onClick={handleClose}
-                className={classes.closeIcon}>
-                <CloseIcon />
-              </IconButton>
-            </Grid>
-            <Grid item container xs={6} justify="center" alignItems="center">
+            <Grid item container justify="center" alignItems="center">
               <Typography component="h3" variant="h2" align="center">
                 {t('login')}
               </Typography>
             </Grid>
-            <Grid item xs={3} />
           </Grid>
           <Grid item>
             <TextField
               value={username}
-              label="نام‌کاربری"
+              label={t('username')}
               type="text"
               fullWidth
               onChange={(e) => setUsername(e.target.value)}
@@ -131,13 +117,6 @@ function AuthDialog({
             />
           </Grid>
           <Grid item>
-            <Typography align="center">
-              {'اگر رمزتون رو فراموش کردین، به '}
-              <Link to="/change-password">{'این‌جا'}</Link>
-              {' مراجعه کنید.'}
-            </Typography>
-          </Grid>
-          <Grid item>
             <Button
               fullWidth
               variant="contained"
@@ -150,8 +129,8 @@ function AuthDialog({
                   className={classes.buttonProgress}
                 />
               ) : (
-                t('login')
-              )}
+                  t('login')
+                )}
             </Button>
           </Grid>
         </Grid>
@@ -165,7 +144,7 @@ function AuthDialog({
 
 const mapStateToProps = (state) => ({
   isFetching: state.account.isFetching,
-  isLoggedIn: !!state.account.token,
+  isLoggedIn: state.account.token,
   user: state.account.user,
 });
 
@@ -173,6 +152,3 @@ export default connect(mapStateToProps, {
   login: loginAction,
   addNotification: addNotificationAction,
 })(AuthDialog);
-
-// todo:
-// به نظر میاد وقتی توی دیالوگ درخواست می‌زنیم، دو تا اکشن درمی‌کنه!
