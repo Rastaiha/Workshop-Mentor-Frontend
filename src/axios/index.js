@@ -2,8 +2,8 @@ import Axios from 'axios';
 
 export const baseURL =
   process.env.NODE_ENV === 'production'
-    ? 'https://zero.rastaiha.ir'
-    : 'http://127.0.0.1:8000';
+    ? 'https://backend.rastaiha.ir'
+    : 'https://backend.rastaiha.ir';
 
 const baseAxios = Axios.create({
   baseURL: baseURL + '/api/',

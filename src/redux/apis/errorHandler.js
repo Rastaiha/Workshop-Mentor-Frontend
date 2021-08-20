@@ -14,7 +14,7 @@ export const errorHandler = (
     });
   }
 
-  if (error.response.data?.code) {
+  if (error.response.data?.code && persianMessages[error.response.data?.code]) {
     return rejectWithValue({
       message: persianMessages[error.response.data?.code]
     });
