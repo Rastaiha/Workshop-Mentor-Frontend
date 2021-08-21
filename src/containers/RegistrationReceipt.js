@@ -3,9 +3,10 @@ import { AddCircle as AddCircleIcon } from '@material-ui/icons';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
+import { useParams } from 'react-router-dom';
 
-import ArticleCard from '../../components/Cards/ArticleCard';
-import CreateArticleDialog from '../../components/Dialog/CreateArticleDialog/CreateArticleDialog';
+import ArticleCard from '../components/Cards/ArticleCard';
+import CreateArticleDialog from '../components/Dialog/CreateArticleDialog/CreateArticleDialog';
 
 const useStyles = makeStyles((theme) => ({
   absolute: {
@@ -17,11 +18,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Index({ articles }) {
+function Index() {
   const classes = useStyles();
   const t = useTranslate();
+  const { eventId, registrationReceiptId } = useParams();
 
-  const [openCreateArticleDialog, setOpenCreateArticleDialog] = useState(false);
+
 
   return (
     <>
@@ -31,20 +33,9 @@ function Index({ articles }) {
         alignItems="center"
         justify="center"
         direction="row">
-        <Grid item container xs={12} justify='center'>
-          <Tooltip
-            arrow
-            title={'افزودن کارگاه'}>
-            <IconButton>
-              <AddCircleIcon fontSize="large" />
-            </IconButton>
-          </Tooltip>
+        <Grid item >
         </Grid>
       </Grid>
-      <CreateArticleDialog
-        open={openCreateArticleDialog}
-        handleClose={() => setOpenCreateArticleDialog(false)}
-      />
     </>
   );
 }

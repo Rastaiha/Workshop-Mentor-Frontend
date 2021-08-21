@@ -19,9 +19,7 @@ import ResponsiveAppBar from '../../components/Appbar/ResponsiveAppBar';
 import {
   getOneEventInfoAction,
 } from '../../redux/slices/event';
-import Articles from './Articles';
 import CreateRegistrationForm from './CreateRegistrationForm';
-import RegistrationForm from './RegistrationForm';
 import RegistrationReceipts from './RegistrationReceipts';
 import Teams from './Teams';
 import Workshops from './Workshops';
@@ -75,8 +73,6 @@ const tabs = [
 ];
 
 const Event = ({
-  workshops,
-  teams,
   getOneEventInfo,
 }) => {
   const t = useTranslate();
@@ -147,8 +143,6 @@ const Event = ({
 };
 
 const mapStateToProps = (state) => ({
-  workshops: state.mentor.workshops,
-  teams: state.mentor.teams,
 });
 
 export default connect(mapStateToProps, {
