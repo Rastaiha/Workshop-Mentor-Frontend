@@ -2,8 +2,8 @@ import { Grid, Tab, Tabs } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { getWorkshopTeamsAction } from '../../../redux/slices/mentor';
-import TeamCard from '../../Cards/TeamCard';
+import TeamCard from '../../components/Cards/TeamCard';
+import { getWorkshopTeamsAction } from '../../redux/slices/mentor';
 
 function Teams({
   workshops = [],

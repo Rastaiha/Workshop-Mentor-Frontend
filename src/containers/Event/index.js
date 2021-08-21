@@ -15,14 +15,16 @@ import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 import { Link, useParams } from 'react-router-dom';
 
-import ResponsiveAppBar from '../components/Appbar/ResponsiveAppBar';
-import Articles from '../components/SpecialComponents/MentorPage/Articles';
-import MentorWorkshops from '../components/SpecialComponents/MentorPage/MentorWorkshops';
-import RegistrationForm from '../components/SpecialComponents/MentorPage/RegistrationForm';
-import Teams from '../components/SpecialComponents/MentorPage/Teams';
+import ResponsiveAppBar from '../../components/Appbar/ResponsiveAppBar';
 import {
-  getEventInfoAction,
-} from '../redux/slices/event';
+  getOneEventInfoAction,
+} from '../../redux/slices/event';
+import Articles from './Articles';
+import CreateRegistrationForm from './CreateRegistrationForm';
+import RegistrationForm from './RegistrationForm';
+import RegistrationReceipts from './RegistrationReceipts';
+import Teams from './Teams';
+import Workshops from './Workshops';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -44,19 +46,19 @@ const useStyles = makeStyles((theme) => ({
 
 const tabs = [
   {
-    label: 'فرم ثبت‌نام',
+    label: 'ایجاد فرم ثبت‌نام',
     icon: '',
-    component: RegistrationForm,
+    component: CreateRegistrationForm,
+  },
+  {
+    label: 'رسیدهای ثبت‌نام',
+    icon: '',
+    component: RegistrationReceipts,
   },
   {
     label: 'کارگاه‌ها',
     icon: ClassIcon,
-    component: MentorWorkshops,
-  },
-  {
-    label: 'مقالات',
-    icon: ClassIcon,
-    component: Articles,
+    component: Workshops,
   },
   {
     label: 'تیم‌ها',
@@ -72,19 +74,19 @@ const tabs = [
   },
 ];
 
-const MentorPage = ({
+const Event = ({
   workshops,
   teams,
-  getEventInfo,
+  getOneEventInfo,
 }) => {
   const t = useTranslate();
   const [tabIndex, setTabIndex] = useState(0);
   const classes = useStyles();
-  const { gameId } = useParams();
+  const { eventId } = useParams();
 
   useEffect(() => {
-    getEventInfo({ gameId });
-  }, [getEventInfo]);
+    getOneEventInfo({ eventId });
+  }, [getOneEventInfo]);
 
   const TabComponent = tabs[tabIndex].component;
 
@@ -150,5 +152,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getEventInfo: getEventInfoAction,
-})(MentorPage);
+  getOneEventInfo: getOneEventInfoAction,
+})(Event);

@@ -41,7 +41,7 @@ const InputFields = ({
 
   if (token) {
     return (
-      <Redirect to='/events/' />
+      <Redirect to='/event/1/' />
     );
   }
 

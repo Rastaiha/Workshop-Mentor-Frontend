@@ -11,62 +11,12 @@ import {
   paymentRequestUrl,
 } from '../constants/urls';
 
-export const getAllEventsInfoAction = createAsyncThunkApi(
-  'events/getAllEventsInfoAction',
-  Apis.GET,
-  getAllEventsInfo,
-);
-
-export const getEventInfoAction = createAsyncThunkApi(
+export const getOneEventInfoAction = createAsyncThunkApi(
   'events/getEventInfoAction',
   Apis.GET,
   getEventInfoUrl,
 );
 
-export const getEventRegistrationInfoAction = createAsyncThunkApi(
-  'events/getEventRegistrationInfo',
-  Apis.POST,
-  getEventRegistrationInfoUrl,
-  {
-    bodyCreator: ({ eventId, memberUuid }) => ({
-      event_id: eventId,
-      member_uuid: memberUuid,
-    }),
-  }
-);
-
-export const paymentRequestAction = createAsyncThunkApi(
-  'events/paymentRequest',
-  Apis.POST,
-  paymentRequestUrl,
-  {
-    bodyCreator: ({ discountCode, participantId }) => ({
-      code: discountCode,
-      participant_id: participantId,
-    }),
-    defaultNotification: {
-      success: 'در حال انتقال به صفحه‌ی پرداخت...',
-    },
-  }
-);
-
-export const applyDiscountAction = createAsyncThunkApi(
-  'events/applyDiscount',
-  Apis.POST,
-  applyDiscountUrl,
-  {
-    bodyCreator: ({ discountCode, participantId }) => ({
-      code: discountCode,
-      participant_id: participantId,
-    }),
-  }
-);
-
-export const getWorkshopsDescriptionAction = createAsyncThunkApi(
-  'events/getWorkshops',
-  Apis.GET,
-  getWorkshopsDescriptionUrl
-);
 
 const initialState = {
   isFetching: false,
@@ -85,11 +35,13 @@ const eventSlice = createSlice({
   name: 'events',
   initialState,
   extraReducers: {
-    [getAllEventsInfoAction.pending.toString()]: isFetching,
-    [getAllEventsInfoAction.rejected.toString()]: isNotFetching,
-    [getAllEventsInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
-      state.events = response;
-    },
+    // [getAllEventsInfoAction.pending.toString()]: isFetching,
+    // [getAllEventsInfoAction.rejected.toString()]: isNotFetching,
+    // [getAllEventsInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+    //   state.events = response;
+    // },
+
+
     // [getEventRegistrationInfoAction.fulfilled.toString()]: (
     //   state,
     //   { payload: { response }, meta: { arg } }

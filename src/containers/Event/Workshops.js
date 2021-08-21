@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import WorkshopCard from '../../Cards/WorkshopCard';
-import CreateWorkshopDialog from '../../Dialog/CreateWorkshopDialog/CreateWorkshopDialog';
+import WorkshopCard from '../../components/Cards/WorkshopCard';
+import CreateWorkshopDialog from '../../components/Dialog/CreateWorkshopDialog/CreateWorkshopDialog';
 
 const useStyles = makeStyles((theme) => ({
   absolute: {

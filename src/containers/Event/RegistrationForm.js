@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import ArticleCard from '../../Cards/ArticleCard';
-import CreateArticleDialog from '../../Dialog/CreateArticleDialog/CreateArticleDialog';
+import ArticleCard from '../../components/Cards/ArticleCard';
+import CreateArticleDialog from '../../components/Dialog/CreateArticleDialog/CreateArticleDialog';
 
 const useStyles = makeStyles((theme) => ({
   absolute: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Articles({ articles }) {
+function RegistrationForm({ articles }) {
   const classes = useStyles();
   const t = useTranslate();
 
@@ -62,4 +62,4 @@ function Articles({ articles }) {
 const mapStateToProps = (state) => ({
   articles: state.mentor.articles,
 });
-export default connect(mapStateToProps)(Articles);
+export default connect(mapStateToProps)(RegistrationForm);
