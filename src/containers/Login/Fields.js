@@ -41,10 +41,9 @@ const InputFields = ({
 
   if (token) {
     return (
-      <Redirect to='/event/1/' />
+      <Redirect to='/event/1/0/' />
     );
   }
-
 
   const isJustDigits = (number) => {
     var regex = new RegExp(`\\d{${number.length}}`);

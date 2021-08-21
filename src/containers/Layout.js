@@ -29,13 +29,4 @@ const Layout = (props) => {
   );
 }
 
-const mapStateToProps = (state) => ({
-  userProfile: state.account.userProfile,
-  userAccount: state.account.userAccount,
-});
-
-
-export default connect(
-  mapStateToProps,
-  {}
-)(Layout);
+export default Layout;

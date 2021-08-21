@@ -4,6 +4,7 @@ import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
   loginUrl,
+  profileCRUDUrl,
 } from '../constants/urls';
 
 const initialState = { token: null, user: {} };
@@ -18,6 +19,12 @@ export const loginAction = createAsyncThunkApi(
       error: 'نام کاربری یا رمز عبور اشتباه است!',
     },
   }
+);
+
+export const getUserProfileAction = createAsyncThunkApi(
+  'users/getUserProfileAction',
+  Apis.GET,
+  profileCRUDUrl,
 );
 
 
@@ -44,6 +51,14 @@ const accountSlice = createSlice({
       state.isFetching = false;
     },
     [loginAction.rejected.toString()]: isNotFetching,
+
+
+    [getUserProfileAction.pending.toString()]: isFetching,
+    [getUserProfileAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.userProfile = response;
+      state.isFetching = false;
+    },
+    [getUserProfileAction.rejected.toString()]: isNotFetching,
   },
 });
 

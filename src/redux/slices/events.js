@@ -48,16 +48,29 @@ export const validateRegistrationReceiptAction = createAsyncThunkApi(
   Apis.POST,
   validateRegistrationReceiptUrl,
   {
+    defaultNotification: {
+      success: 'وضعیت رسید ثبت‌نام با موفقیت ثبت شد.',
+      error: 'مشکلی وجود داشت. چند لحظه‌ی دیگر دوباره تلاش کنید.',
+    },
+  }
+);
+
+export const createDiscountCodeAction = createAsyncThunkApi(
+  'events/createDiscountCodeAction',
+  Apis.POST,
+  validateRegistrationReceiptUrl,
+  {
     bodyCreator: ({ workshopPlayerId }) => ({
       player_workshop: workshopPlayerId,
     }),
     defaultNotification: {
-      success: 'وضعیت ثبت‌نام با موفقیت ثبت شد.',
+      success: 'کد تخفیف',
       error: 'مشکلی وجود دارد. دوباره تلاش کنید.',
     },
   }
 );
 
+// /api/auth / discount_code /
 
 
 

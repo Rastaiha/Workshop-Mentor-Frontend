@@ -49,37 +49,38 @@ function Index({
   }, [allRegistrationReceipts, registrationFormId, getAllRegistrationReceipts])
 
   return (
-    <Grid container spacing={2} justify='center'>
-      <Grid item container xs={12} md={8} direction='column' spacing={2}>
-        <Grid item>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>شناسه</TableCell>
-                  <TableCell>نام</TableCell>
-                  <TableCell>موضوعات اصلی</TableCell>
-                  <TableCell>درجه سختی</TableCell>
+    <Grid container direction='column' spacing={2}>
+      <Grid item>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>شناسه</TableCell>
+                <TableCell>نام</TableCell>
+                <TableCell>پایه</TableCell>
+                <TableCell>وضعیت</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {allRegistrationReceipts?.map((registrationReceipt, index) =>
+                <TableRow key={index}>
+                  <TableCell>{registrationReceipt?.id}</TableCell>
+                  <TableCell >
+                    <a as={Link} href={'/registration_receipt/' + registrationReceipt?.id}>{`${registrationReceipt?.first_name} ${registrationReceipt?.last_name}`}</a>
+                  </TableCell>
+                  <TableCell>
+                    {registrationReceipt?.school_studentship?.grade}
+                  </TableCell>
+                  <TableCell>
+                    {registrationReceipt?.status}
+                  </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {allRegistrationReceipts?.map((registrationReceipt, index) =>
-                  <TableRow key={index}>
-                    <TableCell>{"ssasa"}</TableCell>
-                    <TableCell >
-                      <a as={Link} href={'/registration_receipt/' + registrationReceipt.id}>{"problem.name"}</a>
-                    </TableCell>
-                    <TableCell>
-
-                    </TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Grid>
-        {/* <Grid item>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Grid>
+      {/* <Grid item>
             <Pagination
               count={totalNumberOfPages}
               page={currentPage}
@@ -87,7 +88,6 @@ function Index({
               hidePrevButton hideNextButton
             />
           </Grid> */}
-      </Grid>
     </Grid >
   );
 }

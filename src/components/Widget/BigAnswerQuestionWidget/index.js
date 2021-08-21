@@ -1,5 +1,5 @@
-import { Button, makeStyles, Paper } from '@material-ui/core';
-import React, { useState } from 'react';
+import { Grid, Button, makeStyles, Paper } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
@@ -21,22 +21,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BigAnswerQuestionWidget = ({
-  pushAnswer,
-  id,
-  text = '',
-  answer,
-  last_submit,
-  mode,
-  playerId,
   sendBigAnswer,
+  pushAnswer,
+
+  id,
+  text,
+  mode,
 }) => {
   const t = useTranslate();
   const classes = useStyles();
-  const [value, setValue] = useState(last_submit?.text);
+  const [value, setValue] = useState(text);
   const [isButtonDisabled, setButtonDisable] = useState(false);
 
   const handleTextChange = (text) => {
-    pushAnswer('text', text);
+    if (pushAnswer) {
+      pushAnswer('text', text);
+    }
     setValue(text);
   }
 
@@ -45,52 +45,59 @@ const BigAnswerQuestionWidget = ({
     setTimeout(() => {
       setButtonDisable(false);
     }, 20000)
-    sendBigAnswer({ playerId, problemId: id, answer: value })
+    sendBigAnswer({ problemId: id, answer: value })
   }
 
-
   return (
-    <>
-      <TinyPreview
-        frameProps={{
-          frameBorder: '0',
-          scrolling: 'no',
-          width: '100%',
-        }}
-        content={text}
-      />
-      <label>{t('answer')}</label>
-      {mode === MODES.VIEW ? (
-        <TinyEditorComponent
-          id={`edit-big-answer-${Math.floor(Math.random() * 1000)}`}
-          content={value}
-          onChange={handleTextChange}
+    <Grid container spacing={1}>
+      {/* <Grid item xs={12}>
+        <TinyPreview
+          frameProps={{
+            frameBorder: '0',
+            scrolling: 'no',
+            width: '100%',
+          }}
+          content={text}
         />
-      ) : (
+      </Grid> */}
+      <Grid item xs={12}>
+        <label>{t('answer')}</label>
+      </Grid>
+      <Grid item xs={12}>
+        {mode === MODES.WRITE ?
+          <TinyEditorComponent
+            id={`edit-big-answer-${Math.floor(Math.random() * 1000)}`}
+            content={value}
+            onChange={handleTextChange}
+          />
+          :
           <Paper className={classes.showAnswer}>
             <TinyPreview
               frameProps={{
                 frameBorder: '0',
                 width: '100%',
               }}
-              content={mode === MODES.EDIT ? answer?.text : value}
+              content={value}
             />
           </Paper>
-        )}
+        }
+      </Grid>
 
-      {(mode !== MODES.CORRECTION && !pushAnswer) && (
-        <Button
-          fullWidth
-          variant="contained"
-          color="primary"
-          size="small"
-          className={classes.submit}
-          disabled={mode === MODES.EDIT || isButtonDisabled}
-          onClick={handleButtonClick}>
-          {t('submitAnswer')}
-        </Button>
+      {(mode === MODES.WRITE && !pushAnswer) && (
+        <Grid item xs={12}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            size="small"
+            className={classes.submit}
+            disabled={mode === MODES.EDIT || isButtonDisabled}
+            onClick={handleButtonClick}>
+            {t('submitAnswer')}
+          </Button>
+        </Grid>
       )}
-    </>
+    </Grid>
   );
 };
 
@@ -99,6 +106,9 @@ const mapStateToProps = (state, ownProps) => ({
   pushAnswer: ownProps.pushAnswer, //todo: redundant?!
 });
 
-export default connect(mapStateToProps, {})(
-  BigAnswerQuestionWidget
-);
+export default connect(
+  mapStateToProps,
+  {
+
+  }
+)(BigAnswerQuestionWidget);

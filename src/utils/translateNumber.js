@@ -86,5 +86,5 @@ const faSer = [
 ];
 
 export function faSeri(i) {
-  return faSer[i] || i - 1 + ' ام';
+  return faSer[i - 1] || i - 1 + ' ام';
 }

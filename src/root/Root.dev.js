@@ -14,7 +14,7 @@ const Root = () => {
       <PrivateRoute path="/edit_workshop/:fsmId/" component={EditWorkshop} />
       <PrivateRoute path="/edit_article/:articleId/" component={EditArticle} />
       <PrivateRoute path="/registration_receipt/:registrationReceiptId/" component={RegistrationReceipt} />
-      <PrivateRoute path="/event/:eventId/" component={Event} />
+      <PrivateRoute path="/event/:eventId/:tabNumber?/" component={Event} />
       <Route path="/" component={Login}></Route>
     </Switch>
   );

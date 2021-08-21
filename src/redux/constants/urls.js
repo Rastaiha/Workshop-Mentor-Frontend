@@ -2,15 +2,15 @@
 export const loginUrl = 'auth/accounts/login/';
 export const changePasswordUrl = 'auth/accounts/change_pass/';
 export const verificationCodeUrl = 'auth/accounts/verification_code/';
-export const accountCRUDUrl = ({ id }) => id ? `auth/accounts/${id}/` : 'auth/accounts/';
-export const profileCRUDUrl = ({ id }) => id ? `auth/profile/${id}/` : 'auth/profile/';
+export const accountCRUDUrl = ({ userId }) => userId ? `auth/accounts/${userId}/` : 'auth/accounts/';
+export const profileCRUDUrl = ({ userId }) => userId ? `auth/profile/${userId}/` : 'auth/profile/';
 export const studentshipCRUDUrl = 'auth/studentship/';
 
 // fsm:
 export const eventInfoUrl = ({ eventId = undefined }) => eventId ? `fsm/event/${eventId}/` : 'fsm/event/';
 export const allRegistrationReceiptsUrl = ({ registrationFormId = undefined }) => `fsm/registration/${registrationFormId}/receipts/`;
 export const oneRegistrationReceiptUrl = ({ registrationReceiptId = undefined }) => `fsm/receipts/${registrationReceiptId}/`;
-export const validateRegistrationReceiptUrl = ({ registrationReceiptId = undefined }) => `/api/fsm/receipts/${registrationReceiptId}/validate_receipt/`
+export const validateRegistrationReceiptUrl = ({ registrationReceiptId = undefined }) => `/fsm/receipts/${registrationReceiptId}/validate/`
 
 
 

@@ -6,6 +6,7 @@ import DeleteWidgetDialog from './components/DeleteWidgetDialog';
 import WIDGET_TYPES from './WidgetTypes';
 
 export const MODES = {
+  WRITE: 'WRITE',
   VIEW: 'VIEW',
   EDIT: 'EDIT',
   CORRECTION: 'CORRECTION',
@@ -23,7 +24,7 @@ const ANSWER_TYPE_TO_WIDGET_TYPES = {
 }
 
 
-const Widget = ({ widget, mode = MODES.VIEW, stateId, ...props }) => {
+const Widget = ({ widget, mode = MODES.WRITE, stateId, ...props }) => {
   const [openDeleteWidgetDialog, setOpenDeleteWidgetDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
 

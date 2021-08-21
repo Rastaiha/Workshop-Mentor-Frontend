@@ -13,6 +13,7 @@ import { baseURL } from '../../../axios';
 import { addNotificationAction } from '../../../redux/slices/notifications';
 import UploadFileQuestionEditWidget from './edit';
 export { UploadFileQuestionEditWidget };
+import { MODES } from '..';
 
 const useStyles = makeStyles((theme) => ({
   uploadButton: {
@@ -23,13 +24,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 10,
   },
   lastUploadButton: {
-    fontSize: 10,
     color: '#334499',
     '& .MuiButton-endIcon': {
       marginLeft: 2,
-      '& > *:first-child': {
-        fontSize: 11,
-      },
     },
   },
   divider: {
@@ -42,14 +39,19 @@ const UploadFileQuestionWidget = ({
   addNotification,
 
   id,
-  text = 'محل آپلود فایل',
-  last_submit,
+  text = 'محل آپلود فایل:',
+  answer_file,
   uploadFile,
   isFetching,
+  mode,
+  ...props
 }) => {
   const t = useTranslate();
-  const classes = useStyles({ haveFile: !!last_submit });
-  const [file, setFile] = useState();
+  const classes = useStyles({ haveFile: answer_file });
+  const [file, setFile] = useState({
+    link: 'https://backend.rastaiha.ir' + answer_file, //todo: fix
+    name: 'پاسخ'
+  });
 
   const handleFileChange = async (e) => {
     e.preventDefault();
@@ -75,9 +77,13 @@ const UploadFileQuestionWidget = ({
     }
   };
 
+  console.log(props)
+
   const clearFile = () => {
     setFile();
-    pushAnswer('upload_file_answer', '');
+    if (pushAnswer) {
+      pushAnswer('upload_file_answer', '');
+    }
   }
 
   return (
@@ -87,33 +93,32 @@ const UploadFileQuestionWidget = ({
           <Typography>{text}</Typography>
         </Grid>
         <Grid item container xs={12} sm={6} direction='column' alignItems='center'>
-          <Grid item>
-            <Button
-              component="label"
-              htmlFor={'raised-button-file' + id}
-              disabled={isFetching}
-              variant="contained"
-              color="primary"
-              size="small"
-              startIcon={<CloudUploadIcon />}
-              className={classes.uploadButton}>
-              {t('uploadFile')}
-            </Button>
-            <input
-              accept="application/pdf,image/*"
-              style={{ display: 'none' }}
-              id={'raised-button-file' + id}
-              type="file"
-              onChange={handleFileChange}
-            />
-          </Grid>
+          {mode === MODES.WRITE &&
+            <Grid item>
+              <Button
+                component="label"
+                htmlFor={'raised-button-file' + id}
+                disabled={isFetching}
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<CloudUploadIcon />}
+                className={classes.uploadButton}>
+                {t('uploadFile')}
+              </Button>
+              <input
+                accept="application/pdf,image/*"
+                style={{ display: 'none' }}
+                id={'raised-button-file' + id}
+                type="file"
+                onChange={handleFileChange}
+              />
+            </Grid>
+          }
           {file &&
             <Grid container justify='center' alignItems='center'>
               <Grid item>
-                <Typography
-                  component="small"
-                  variant="body2"
-                  className={classes.small}>
+                <Typography variant='caption'>
                   {'آخرین ارسال:'}
                 </Typography>
               </Grid>
@@ -122,23 +127,24 @@ const UploadFileQuestionWidget = ({
                   size="small"
                   endIcon={<DescriptionOutlinedIcon />}
                   className={classes.lastUploadButton}
-                  href={file.link}
+                  href={file?.link}
                   component="a"
-                  download
                   target="_blank">
-                  {file.name}
+                  {file?.name}
                 </Button>
               </Grid>
-              <Grid item>
-                <IconButton size='small' onClick={clearFile}>
-                  <ClearIcon />
-                </IconButton>
-              </Grid>
+              {mode === MODES.WRITE &&
+                <Grid item>
+                  <IconButton size='small' onClick={clearFile}>
+                    <ClearIcon />
+                  </IconButton>
+                </Grid>
+              }
             </Grid>
           }
         </Grid>
-      </Grid>
-    </Grid>
+      </Grid >
+    </Grid >
   );
 };
 

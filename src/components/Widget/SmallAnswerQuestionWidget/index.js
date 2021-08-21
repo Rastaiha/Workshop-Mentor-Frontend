@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
@@ -39,19 +39,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SmallAnswerQuestionWidget = ({
+  sendSmallAnswer,
   pushAnswer,
+
   id,
+  mode,
   text = '',
   answer,
-  last_submit,
-  mode,
-  playerId,
-  sendSmallAnswer,
+  ...props
 }) => {
   const t = useTranslate();
   const classes = useStyles();
-  const [value, setValue] = useState(last_submit?.text);
+  const [value, setValue] = useState(text);
   const [isButtonDisabled, setButtonDisable] = useState(false);
+
+  useEffect(() => {
+
+  }, [])
+
 
   const handleTextFieldChange = (e) => {
     pushAnswer('text', e.target.value);
@@ -63,62 +68,61 @@ const SmallAnswerQuestionWidget = ({
     setTimeout(() => {
       setButtonDisable(false);
     }, 20000);
-    sendSmallAnswer({ playerId, problemId: id, answer: value });
+    // sendSmallAnswer({ problemId: id, answer: value });
   }
 
   return (
     <>
-      <TinyPreview
+      {/* <TinyPreview
         frameProps={{
           frameBorder: '0',
           scrolling: 'no',
           width: '100%',
         }}
         content={text}
-      />
+      /> */}
       <Grid container alignItems="center" spacing={1}>
-        {mode === MODES.CORRECTION ? (
-          <Grid item xs>
-            <Paper className={classes.showAnswer}>{value}</Paper>
-          </Grid>
-        ) : (
-            <>
-              <Grid item xs>
-                <TextField
+        {mode === MODES.WRITE ? (
+          <>
+            <Grid item xs={12} sm={9} md={10}>
+              <TextField
+                fullWidth
+                variant='outlined'
+                value={value}
+                onChange={handleTextFieldChange}
+                size="small"
+                error={
+                  answer?.text &&
+                  text &&
+                  text !== answer?.text
+                }
+                className={
+                  answer?.text &&
+                  text &&
+                  text === answer?.text &&
+                  classes.success
+                }
+              />
+            </Grid>
+            {!pushAnswer &&
+              <Grid item xs={12} sm={3} md={2}>
+                <Button
                   fullWidth
-                  variant='outlined'
-                  value={value}
-                  onChange={handleTextFieldChange}
+                  variant="contained"
+                  color="primary"
                   size="small"
-                  error={
-                    answer?.text &&
-                    last_submit?.text &&
-                    last_submit?.text !== answer?.text
-                  }
-                  className={
-                    answer?.text &&
-                    last_submit?.text &&
-                    last_submit?.text === answer?.text &&
-                    classes.success
-                  }
-                />
+                  disabled={mode === MODES.EDIT || isButtonDisabled}
+                  onClick={handleButtonClick}>
+                  {t('submit')}
+                </Button>
               </Grid>
-              {!pushAnswer &&
-                <Grid item xs={3} sm={2} md={3}>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    disabled={mode === MODES.EDIT || isButtonDisabled}
-                    onClick={handleButtonClick}>
-                    {t('submit')}
-                  </Button>
-                </Grid>
-              }
-            </>
+            }
+          </>
+        ) : (
+            <Grid item xs={12} component={Paper} className={classes.showAnswer}>
+              {text}
+            </Grid>
           )}
-
         {answer?.text && (
           <Grid item xs={12}>
             <Typography variant="body2">

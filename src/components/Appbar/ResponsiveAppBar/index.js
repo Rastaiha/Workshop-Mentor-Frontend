@@ -57,6 +57,7 @@ function ResponsiveAppBar({
   showBackOnScroll = false,
   hideOnScroll = false,
   width,
+  position,
 }) {
   const classes = useStyles();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -77,6 +78,7 @@ function ResponsiveAppBar({
     <>
       <HideOnScroll disable={!hideOnScroll}>
         <AppBar
+          position={position}
           id="appBar"
           className={clsx(
             classes.appBar,

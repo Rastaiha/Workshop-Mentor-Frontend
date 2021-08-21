@@ -13,6 +13,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
+import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
 import ResponsiveAppBar from '../../components/Appbar/ResponsiveAppBar';
@@ -88,15 +89,24 @@ const Event = ({
   getOneEventInfo,
 }) => {
   const t = useTranslate();
-  const [tabIndex, setTabIndex] = useState(0);
+  const history = useHistory();
+  const { tabNumber, eventId } = useParams();
+  if (!tabNumber) {
+    history.push(`/event/${eventId}/0/`)
+  }
+  const [tabIndex, setTabIndex] = useState(tabNumber || 0);
   const classes = useStyles();
-  const { eventId } = useParams();
 
   useEffect(() => {
     getOneEventInfo({ eventId });
   }, [getOneEventInfo]);
 
   const TabComponent = tabs[tabIndex].component;
+
+  const handleTabChange = (index) => {
+    history.push(`/event/${eventId}/${index}/`)
+    setTabIndex(index);
+  }
 
   return (
     <>
@@ -115,8 +125,8 @@ const Event = ({
                 {tabs.map((tab, index) => (
                   <Button
                     key={index}
-                    onClick={() => setTabIndex(index)}
-                    variant={tabIndex === index && 'contained'}
+                    onClick={() => handleTabChange(index)}
+                    variant={tabIndex == index && 'contained'}
                     startIcon={tab.icon && <tab.icon />}>
                     {tab.label}
                   </Button>
