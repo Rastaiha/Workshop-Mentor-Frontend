@@ -7,8 +7,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
+// import { sendSmallAnswerAction } from '../../../redux/slices/currentState';
 import TinyPreview from '../../tiny_editor/react_tiny/Preview';
 import { MODES } from '..';
 import SmallAnswerQuestionEditWidget from './edit';
@@ -37,14 +39,32 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SmallAnswerQuestionWidget = ({
+  pushAnswer,
+  id,
   text = '',
   answer,
   last_submit,
   mode,
+  playerId,
+  sendSmallAnswer,
 }) => {
   const t = useTranslate();
   const classes = useStyles();
   const [value, setValue] = useState(last_submit?.text);
+  const [isButtonDisabled, setButtonDisable] = useState(false);
+
+  const handleTextFieldChange = (e) => {
+    pushAnswer('text', e.target.value);
+    setValue(value);
+  }
+
+  const handleButtonClick = () => {
+    setButtonDisable(true);
+    setTimeout(() => {
+      setButtonDisable(false);
+    }, 20000);
+    sendSmallAnswer({ playerId, problemId: id, answer: value });
+  }
 
   return (
     <>
@@ -62,40 +82,42 @@ const SmallAnswerQuestionWidget = ({
             <Paper className={classes.showAnswer}>{value}</Paper>
           </Grid>
         ) : (
-          <>
-            <Grid item xs>
-              <TextField
-                fullWidth
-                variant={'outlined'}
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                size="small"
-                error={
-                  answer?.text &&
-                  last_submit?.text &&
-                  last_submit?.text !== answer?.text
-                }
-                className={
-                  answer?.text &&
-                  last_submit?.text &&
-                  last_submit?.text === answer?.text &&
-                  classes.success
-                }
-              />
-            </Grid>
-
-            <Grid item xs={3} sm={2} md={3}>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                size="small"
-                disabled={mode === MODES.EDIT}>
-                {t('submit')}
-              </Button>
-            </Grid>
-          </>
-        )}
+            <>
+              <Grid item xs>
+                <TextField
+                  fullWidth
+                  variant='outlined'
+                  value={value}
+                  onChange={handleTextFieldChange}
+                  size="small"
+                  error={
+                    answer?.text &&
+                    last_submit?.text &&
+                    last_submit?.text !== answer?.text
+                  }
+                  className={
+                    answer?.text &&
+                    last_submit?.text &&
+                    last_submit?.text === answer?.text &&
+                    classes.success
+                  }
+                />
+              </Grid>
+              {!pushAnswer &&
+                <Grid item xs={3} sm={2} md={3}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    disabled={mode === MODES.EDIT || isButtonDisabled}
+                    onClick={handleButtonClick}>
+                    {t('submit')}
+                  </Button>
+                </Grid>
+              }
+            </>
+          )}
 
         {answer?.text && (
           <Grid item xs={12}>
@@ -109,4 +131,10 @@ const SmallAnswerQuestionWidget = ({
   );
 };
 
-export default SmallAnswerQuestionWidget;
+const mapStateToProps = (state, ownProps) => ({
+  playerId: state.currentState.player?.id,
+  pushAnswer: ownProps.pushAnswer, //todo: redundant?!
+});
+
+export default connect(mapStateToProps, {
+})(SmallAnswerQuestionWidget);

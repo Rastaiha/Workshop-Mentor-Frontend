@@ -1,7 +1,9 @@
 import { Button, makeStyles, Paper } from '@material-ui/core';
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
+// import { sendBigAnswerAction } from '../../../redux/slices/currentState';
 import TinyPreview from '../../tiny_editor/react_tiny/Preview';
 import TinyEditorComponent from '../../tiny_editor/react_tiny/TinyEditorComponent';
 import { MODES } from '..';
@@ -18,10 +20,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BigAnswerQuestionWidget = ({ text = '', answer, last_submit, mode }) => {
+const BigAnswerQuestionWidget = ({
+  pushAnswer,
+  id,
+  text = '',
+  answer,
+  last_submit,
+  mode,
+  playerId,
+  sendBigAnswer,
+}) => {
   const t = useTranslate();
   const classes = useStyles();
   const [value, setValue] = useState(last_submit?.text);
+  const [isButtonDisabled, setButtonDisable] = useState(false);
+
+  const handleTextChange = (text) => {
+    pushAnswer('text', text);
+    setValue(text);
+  }
+
+  const handleButtonClick = () => {
+    setButtonDisable(true);
+    setTimeout(() => {
+      setButtonDisable(false);
+    }, 20000)
+    sendBigAnswer({ playerId, problemId: id, answer: value })
+  }
+
 
   return (
     <>
@@ -38,28 +64,29 @@ const BigAnswerQuestionWidget = ({ text = '', answer, last_submit, mode }) => {
         <TinyEditorComponent
           id={`edit-big-answer-${Math.floor(Math.random() * 1000)}`}
           content={value}
-          onChange={setValue}
+          onChange={handleTextChange}
         />
       ) : (
-        <Paper className={classes.showAnswer}>
-          <TinyPreview
-            frameProps={{
-              frameBorder: '0',
-              width: '100%',
-            }}
-            content={mode === MODES.EDIT ? answer.text : value}
-          />
-        </Paper>
-      )}
+          <Paper className={classes.showAnswer}>
+            <TinyPreview
+              frameProps={{
+                frameBorder: '0',
+                width: '100%',
+              }}
+              content={mode === MODES.EDIT ? answer?.text : value}
+            />
+          </Paper>
+        )}
 
-      {mode !== MODES.CORRECTION && (
+      {(mode !== MODES.CORRECTION && !pushAnswer) && (
         <Button
           fullWidth
           variant="contained"
           color="primary"
           size="small"
           className={classes.submit}
-          disabled={mode === MODES.EDIT}>
+          disabled={mode === MODES.EDIT || isButtonDisabled}
+          onClick={handleButtonClick}>
           {t('submitAnswer')}
         </Button>
       )}
@@ -67,4 +94,11 @@ const BigAnswerQuestionWidget = ({ text = '', answer, last_submit, mode }) => {
   );
 };
 
-export default BigAnswerQuestionWidget;
+const mapStateToProps = (state, ownProps) => ({
+  playerId: state.currentState.player?.id,
+  pushAnswer: ownProps.pushAnswer, //todo: redundant?!
+});
+
+export default connect(mapStateToProps, {})(
+  BigAnswerQuestionWidget
+);

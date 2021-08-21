@@ -1,7 +1,9 @@
 import { Button, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
+import { connect } from 'react-redux';
 
+// import { sendMultiChoiceAnswerAction } from '../../../redux/slices/currentState';
 import TinyPreview from '../../tiny_editor/react_tiny/Preview';
 import { MODES } from '..';
 import MultiChoiceQuestionEditWidget from './edit';
@@ -30,11 +32,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MultiChoiceQuestionWidget = ({
+  id,
   text,
   choices,
   answer,
   last_submit,
   mode,
+  playerId,
+  sendMultiChoiceAnswer,
 }) => {
   const classes = useStyles();
   return (
@@ -58,7 +63,10 @@ const MultiChoiceQuestionWidget = ({
               classes.choice,
               +index === +last_submit?.text && classes.selected,
               +index === +answer?.text && classes.answer
-            )}>
+            )}
+            onClick={() =>
+              sendMultiChoiceAnswer({ playerId, problemId: id, answer: index })
+            }>
             {choice.text}
           </Button>
         ))}
@@ -66,4 +74,9 @@ const MultiChoiceQuestionWidget = ({
   );
 };
 
-export default MultiChoiceQuestionWidget;
+const mapStateToProps = (state) => ({
+  playerId: state.currentState.player?.id,
+});
+
+export default connect(mapStateToProps, {
+})(MultiChoiceQuestionWidget);
