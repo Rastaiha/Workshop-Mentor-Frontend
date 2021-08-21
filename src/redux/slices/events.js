@@ -4,13 +4,8 @@ import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
   allRegistrationReceiptsUrl,
-  applyDiscountUrl,
   eventInfoUrl,
-  getAllEventsInfo,
-  getEventRegistrationInfoUrl,
-  getWorkshopsDescriptionUrl,
   oneRegistrationReceiptUrl,
-  paymentRequestUrl,
   validateRegistrationReceiptUrl,
 } from '../constants/urls';
 
@@ -50,28 +45,9 @@ export const validateRegistrationReceiptAction = createAsyncThunkApi(
   {
     defaultNotification: {
       success: 'وضعیت رسید ثبت‌نام با موفقیت ثبت شد.',
-      error: 'مشکلی وجود داشت. چند لحظه‌ی دیگر دوباره تلاش کنید.',
     },
   }
 );
-
-export const createDiscountCodeAction = createAsyncThunkApi(
-  'events/createDiscountCodeAction',
-  Apis.POST,
-  validateRegistrationReceiptUrl,
-  {
-    bodyCreator: ({ workshopPlayerId }) => ({
-      player_workshop: workshopPlayerId,
-    }),
-    defaultNotification: {
-      success: 'کد تخفیف',
-      error: 'مشکلی وجود دارد. دوباره تلاش کنید.',
-    },
-  }
-);
-
-// /api/auth / discount_code /
-
 
 
 const initialState = {
@@ -111,38 +87,6 @@ const eventSlice = createSlice({
       state.registrationReceipt = response;
     },
     [getOneRegistrationReceiptAction.rejected.toString()]: isNotFetching,
-
-
-    // [getEventRegistrationInfoAction.fulfilled.toString()]: (
-    //   state,
-    //   { payload: { response }, meta: { arg } }
-    // ) => {
-    //   if (!state.registeredEvents) {
-    //     state.registeredEvents = {};
-    //   }
-    //   state.registeredEvents[arg.eventId] = {
-    //     ...state.registeredEvents[arg.eventId],
-    //     participantId: response.me,
-    //     event: response.event,
-    //     team: response.team,
-    //   };
-    // },
-    // [paymentRequestAction.pending.toString()]: isFetching,
-    // [paymentRequestAction.fulfilled.toString()]: isNotFetching,
-    // [paymentRequestAction.rejected.toString()]: isNotFetching,
-    // [getWorkshopsDescriptionAction.pending.toString()]: (state) => {
-    //   state.getWorkshopsLoading = true;
-    // },
-    // [getWorkshopsDescriptionAction.rejected.toString()]: (state) => {
-    //   state.getWorkshopsLoading = false;
-    // },
-    // [getWorkshopsDescriptionAction.fulfilled.toString()]: (
-    //   state,
-    //   { payload: { response } }
-    // ) => {
-    //   state.workshops = response;
-    //   state.getWorkshopsLoading = false;
-    // },
   },
 });
 

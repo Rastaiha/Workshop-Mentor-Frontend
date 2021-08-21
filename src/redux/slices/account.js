@@ -5,12 +5,13 @@ import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
   loginUrl,
   profileCRUDUrl,
+  discountCRUDUrl,
 } from '../constants/urls';
 
 const initialState = { token: null, user: {} };
 
 export const loginAction = createAsyncThunkApi(
-  'users/loginAction',
+  'account/loginAction',
   Apis.POST,
   loginUrl,
   {
@@ -22,9 +23,21 @@ export const loginAction = createAsyncThunkApi(
 );
 
 export const getUserProfileAction = createAsyncThunkApi(
-  'users/getUserProfileAction',
+  'account/getUserProfileAction',
   Apis.GET,
   profileCRUDUrl,
+);
+
+
+export const createDiscountCodeAction = createAsyncThunkApi(
+  'account/createDiscountCodeAction',
+  Apis.POST,
+  discountCRUDUrl,
+  {
+    defaultNotification: {
+      success: 'کد تخفیف با موفقیت ایجاد شد.',
+    },
+  }
 );
 
 
@@ -59,6 +72,14 @@ const accountSlice = createSlice({
       state.isFetching = false;
     },
     [getUserProfileAction.rejected.toString()]: isNotFetching,
+
+
+    [createDiscountCodeAction.pending.toString()]: isFetching,
+    [createDiscountCodeAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.newDiscountCode = response;
+      state.isFetching = false;
+    },
+    [createDiscountCodeAction.rejected.toString()]: isNotFetching,
   },
 });
 

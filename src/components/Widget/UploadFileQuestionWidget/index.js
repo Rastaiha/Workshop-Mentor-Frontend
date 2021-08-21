@@ -49,7 +49,7 @@ const UploadFileQuestionWidget = ({
   const t = useTranslate();
   const classes = useStyles({ haveFile: answer_file });
   const [file, setFile] = useState({
-    link: 'https://backend.rastaiha.ir' + answer_file, //todo: fix
+    link: answer_file,
     name: 'پاسخ'
   });
 

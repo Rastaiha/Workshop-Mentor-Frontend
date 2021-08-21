@@ -1,6 +1,6 @@
 import './Theme/Styles/App.css';
 
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline, LinearProgress } from '@material-ui/core';
 import { StylesProvider } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { SnackbarProvider } from 'notistack';
@@ -25,7 +25,7 @@ const Mentor = () => (
   </SnackbarProvider>
 );
 
-const App = ({ dir, redirectTo, forceRedirect, initRedirect }) => {
+const App = ({ dir, redirectTo, forceRedirect, initRedirect, loading }) => {
   const history = useHistory();
   useEffect(() => {
     if (redirectTo !== null) {
@@ -45,6 +45,22 @@ const App = ({ dir, redirectTo, forceRedirect, initRedirect }) => {
     document.body.dir = dir;
   }, [dir]);
 
+  const Loading = () => {
+    if (loading) {
+      return (
+        <div style={{ width: '100%', position: 'fixed', top: '0px', zIndex: '1000' }}>
+          <LinearProgress />
+        </div>
+      )
+    } else {
+      return (
+        <>
+        </>
+      )
+    }
+  }
+
+
   return (
     <IntlProvider translations={translations}>
       {dir === 'rtl' ? (
@@ -56,12 +72,12 @@ const App = ({ dir, redirectTo, forceRedirect, initRedirect }) => {
           </ThemeProvider>
         </>
       ) : (
-        <>
-          <ThemeProvider theme={MuiTheme}>
-            <Mentor />
-          </ThemeProvider>
-        </>
-      )}
+          <>
+            <ThemeProvider theme={MuiTheme}>
+              <Mentor />
+            </ThemeProvider>
+          </>
+        )}
     </IntlProvider>
   );
 };
@@ -70,6 +86,7 @@ const mapStateToProps = (state) => ({
   dir: state.Intl.locale === 'fa' ? 'rtl' : 'ltr',
   redirectTo: state.redirect.redirectTo,
   forceRedirect: state.redirect.force,
+  Loading: state.account.isFetching || state.events.isFetching,
 });
 
 export default connect(mapStateToProps, { initRedirect: initRedirectAction })(

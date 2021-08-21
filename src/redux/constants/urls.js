@@ -1,10 +1,13 @@
-// accounts:
+// auth:
 export const loginUrl = 'auth/accounts/login/';
 export const changePasswordUrl = 'auth/accounts/change_pass/';
 export const verificationCodeUrl = 'auth/accounts/verification_code/';
 export const accountCRUDUrl = ({ userId }) => userId ? `auth/accounts/${userId}/` : 'auth/accounts/';
 export const profileCRUDUrl = ({ userId }) => userId ? `auth/profile/${userId}/` : 'auth/profile/';
 export const studentshipCRUDUrl = 'auth/studentship/';
+export const discountCRUDUrl = ({ discountCodeId }) => discountCodeId ? `auth/discount_code/${discountCodeId}/` : 'auth/discount_code/';
+
+
 
 // fsm:
 export const eventInfoUrl = ({ eventId = undefined }) => eventId ? `fsm/event/${eventId}/` : 'fsm/event/';

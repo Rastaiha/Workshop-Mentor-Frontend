@@ -1,20 +1,15 @@
 import {
   Grid,
-  IconButton,
   Link,
   makeStyles,
-  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip,
-  Typography,
 } from '@material-ui/core';
-import { AddCircle as AddCircleIcon } from '@material-ui/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
@@ -37,10 +32,6 @@ function Index({
   allRegistrationReceipts,
   registrationFormId,
 }) {
-  const classes = useStyles();
-  const t = useTranslate();
-
-  console.log(allRegistrationReceipts)
 
   useEffect(() => {
     if (allRegistrationReceipts?.length == 0 && registrationFormId) {

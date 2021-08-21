@@ -1,14 +1,21 @@
-import { Grid, IconButton, makeStyles, Tooltip } from '@material-ui/core';
+import {
+  Grid,
+  IconButton,
+  makeStyles,
+  TextField,
+  Tooltip,
+  Typography,
+  Button,
+} from '@material-ui/core';
 import { AddCircle as AddCircleIcon } from '@material-ui/icons';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import ArticleCard from '../../components/Cards/ArticleCard';
 import CreateArticleDialog from '../../components/Dialog/CreateArticleDialog/CreateArticleDialog';
 import {
-
-} from '../../redux/slices/events';
+  createDiscountCodeAction
+} from '../../redux/slices/account';
 
 const useStyles = makeStyles((theme) => ({
   absolute: {
@@ -19,39 +26,61 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Index({
+  createDiscountCode,
+
   event,
+  userAccount,
+  newDiscountCode,
 }) {
   const classes = useStyles();
   const t = useTranslate();
+  const [value, setValue] = useState();
 
-  const [openCreateArticleDialog, setOpenCreateArticleDialog] = useState(false);
+  console.log(event)
+  console.log(userAccount)
+
+  const handleButtonClick = () => {
+    createDiscountCode({ value, merchandise: event?.merchandise?.id, user: userAccount.id });
+  }
 
   return (
     <>
-      <Grid
-        container item
-        spacing={2}
-        alignItems="center"
-        justify="center"
-        direction="row">
-        <Grid item container xs={12} justify='center'>
-          <Tooltip
-            arrow
-            title={'افزودن ویجت'}>
-            <IconButton>
-              <AddCircleIcon fontSize="large" />
-            </IconButton>
-          </Tooltip>
+      <Grid container spacing={2} alignItems="center" justify="center">
+        <Grid item xs={12} sm={6} >
+          <TextField
+            size='small' fullWidth
+            variant='outlined'
+            label='درصد تخفیف'
+            inputProps={{ className: 'ltr-input' }}
+            value={value} onChange={(e) => setValue(e.target.value)} />
         </Grid>
+        <Grid item xs={12} sm={6} >
+          <Button
+            fullWidth variant='contained'
+            color='primary'
+            onClick={handleButtonClick}>{'ایجاد'}</Button>
+        </Grid>
+        {newDiscountCode &&
+          <Grid item xs={12} sm={6}>
+            <Typography fullWidth variant='h2' align='center'>
+              {newDiscountCode?.code}
+            </Typography>
+          </Grid>
+        }
       </Grid>
-      <CreateArticleDialog
-        open={openCreateArticleDialog}
-        handleClose={() => setOpenCreateArticleDialog(false)}
-      />
     </>
   );
 }
+
 const mapStateToProps = (state) => ({
   event: state.events.event,
+  userAccount: state.account.userAccount,
+  newDiscountCode: state.account.newDiscountCode,
 });
-export default connect(mapStateToProps)(Index);
+
+export default connect(
+  mapStateToProps,
+  {
+    createDiscountCode: createDiscountCodeAction,
+  }
+)(Index);
