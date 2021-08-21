@@ -3,24 +3,49 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
+  allRegistrationReceiptsUrl,
   applyDiscountUrl,
+  eventInfoUrl,
   getAllEventsInfo,
-  getEventInfoUrl,
   getEventRegistrationInfoUrl,
   getWorkshopsDescriptionUrl,
+  oneRegistrationReceiptUrl,
   paymentRequestUrl,
 } from '../constants/urls';
 
 export const getOneEventInfoAction = createAsyncThunkApi(
   'events/getEventInfoAction',
   Apis.GET,
-  getEventInfoUrl,
+  eventInfoUrl,
 );
 
+export const editOneEventInfoAction = createAsyncThunkApi(
+  'events/editOneEventInfoAction',
+  Apis.PATCH,
+  eventInfoUrl,
+  {
+    bodyCreator: ({ workshopPlayerId }) => ({
+      player_workshop: workshopPlayerId,
+    }),
+  }
+);
+
+export const getAllRegistrationReceiptsAction = createAsyncThunkApi(
+  'events/getAllRegistrationReceiptsAction',
+  Apis.GET,
+  allRegistrationReceiptsUrl,
+);
+
+export const getOneRegistrationReceiptsAction = createAsyncThunkApi(
+  'events/getOneRegistrationReceiptsAction',
+  Apis.GET,
+  oneRegistrationReceiptUrl,
+);
 
 const initialState = {
   isFetching: false,
-  events: [],
+  allRegistrationReceipts: [],
+  allEvents: [],
 };
 
 const isFetching = (state) => {
@@ -35,11 +60,25 @@ const eventSlice = createSlice({
   name: 'events',
   initialState,
   extraReducers: {
-    // [getAllEventsInfoAction.pending.toString()]: isFetching,
-    // [getAllEventsInfoAction.rejected.toString()]: isNotFetching,
-    // [getAllEventsInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
-    //   state.events = response;
-    // },
+    [getOneEventInfoAction.pending.toString()]: isFetching,
+    [getOneEventInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.event = response;
+    },
+    [getOneEventInfoAction.rejected.toString()]: isNotFetching,
+
+
+    [getAllRegistrationReceiptsAction.pending.toString()]: isFetching,
+    [getAllRegistrationReceiptsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.allRegistrationReceipts = response;
+    },
+    [getAllRegistrationReceiptsAction.rejected.toString()]: isNotFetching,
+
+
+    [getOneRegistrationReceiptsAction.pending.toString()]: isFetching,
+    [getOneRegistrationReceiptsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.registrationReceipt = response;
+    },
+    [getOneRegistrationReceiptsAction.rejected.toString()]: isNotFetching,
 
 
     // [getEventRegistrationInfoAction.fulfilled.toString()]: (
@@ -75,4 +114,4 @@ const eventSlice = createSlice({
   },
 });
 
-export const { reducer: eventReducer } = eventSlice;
+export const { reducer: eventsReducer } = eventSlice;

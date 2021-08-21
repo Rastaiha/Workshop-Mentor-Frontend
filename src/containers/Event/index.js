@@ -18,8 +18,10 @@ import { Link, useParams } from 'react-router-dom';
 import ResponsiveAppBar from '../../components/Appbar/ResponsiveAppBar';
 import {
   getOneEventInfoAction,
-} from '../../redux/slices/event';
+} from '../../redux/slices/events';
 import CreateRegistrationForm from './CreateRegistrationForm';
+import DiscountCode from './DiscountCode';
+import Info from './Info';
 import RegistrationReceipts from './RegistrationReceipts';
 import Teams from './Teams';
 import Workshops from './Workshops';
@@ -46,7 +48,7 @@ const tabs = [
   {
     label: 'اطلاعات کلی',
     icon: '',
-    component: CreateRegistrationForm,
+    component: Info,
   },
   {
     label: 'ایجاد فرم ثبت‌نام',
@@ -57,6 +59,11 @@ const tabs = [
     label: 'رسیدهای ثبت‌نام',
     icon: '',
     component: RegistrationReceipts,
+  },
+  {
+    label: 'کد تخفیف',
+    icon: '',
+    component: DiscountCode,
   },
   {
     label: 'کارگاه‌ها',

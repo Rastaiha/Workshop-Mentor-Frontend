@@ -1,11 +1,27 @@
-import { Grid, IconButton, makeStyles, Tooltip } from '@material-ui/core';
+import {
+  Grid,
+  IconButton,
+  Link,
+  makeStyles,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
 import { AddCircle as AddCircleIcon } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import ArticleCard from '../../components/Cards/ArticleCard';
 import CreateArticleDialog from '../../components/Dialog/CreateArticleDialog/CreateArticleDialog';
+import {
+  getAllRegistrationReceiptsAction,
+} from '../../redux/slices/events';
 
 const useStyles = makeStyles((theme) => ({
   absolute: {
@@ -17,31 +33,76 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Index({ articles }) {
+function Index({
+  getAllRegistrationReceipts,
+  allRegistrationReceipts,
+  registrationFormId,
+}) {
   const classes = useStyles();
   const t = useTranslate();
+
+  console.log(allRegistrationReceipts)
+
+  useEffect(() => {
+    if (allRegistrationReceipts?.length == 0 && registrationFormId) {
+      getAllRegistrationReceipts({ registrationFormId })
+    }
+  }, [allRegistrationReceipts, registrationFormId, getAllRegistrationReceipts])
 
   const [openCreateArticleDialog, setOpenCreateArticleDialog] = useState(false);
 
   return (
-    <>
-      <Grid
-        container item
-        spacing={2}
-        alignItems="center"
-        justify="center"
-        direction="row">
-        <Grid item >
+    <Grid container spacing={2} justify='center'>
+      <Grid item container xs={12} md={8} direction='column' spacing={2}>
+        <Grid item>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>شناسه</TableCell>
+                  <TableCell>نام</TableCell>
+                  <TableCell>موضوعات اصلی</TableCell>
+                  <TableCell>درجه سختی</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {allRegistrationReceipts?.map((registrationReceipt, index) =>
+                  <TableRow key={index}>
+                    <TableCell>{"ssasa"}</TableCell>
+                    <TableCell >
+                      <a as={Link} href={'/registration_receipt/' + registrationReceipt.id}>{"problem.name"}</a>
+                    </TableCell>
+                    <TableCell>
+
+                    </TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Grid>
+        {/* <Grid item>
+            <Pagination
+              count={totalNumberOfPages}
+              page={currentPage}
+              onChange={handlePaginationChange}
+              hidePrevButton hideNextButton
+            />
+          </Grid> */}
       </Grid>
-      <CreateArticleDialog
-        open={openCreateArticleDialog}
-        handleClose={() => setOpenCreateArticleDialog(false)}
-      />
-    </>
+    </Grid >
   );
 }
 const mapStateToProps = (state) => ({
   articles: state.mentor.articles,
+  registrationFormId: state.events.event?.registration_form,
+  allRegistrationReceipts: state.events.allRegistrationReceipts || [],
 });
-export default connect(mapStateToProps)(Index);
+
+export default connect(
+  mapStateToProps,
+  {
+    getAllRegistrationReceipts: getAllRegistrationReceiptsAction,
+  }
+)(Index);

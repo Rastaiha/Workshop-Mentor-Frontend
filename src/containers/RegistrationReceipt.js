@@ -1,12 +1,13 @@
 import { Grid, IconButton, makeStyles, Tooltip } from '@material-ui/core';
 import { AddCircle as AddCircleIcon } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 import { useParams } from 'react-router-dom';
 
-import ArticleCard from '../components/Cards/ArticleCard';
-import CreateArticleDialog from '../components/Dialog/CreateArticleDialog/CreateArticleDialog';
+import {
+  getOneRegistrationReceiptsAction,
+} from '../redux/slices/events'
 
 const useStyles = makeStyles((theme) => ({
   absolute: {
@@ -18,12 +19,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Index() {
+function Index({
+  getOneRegistrationReceipts,
+  registrationReceipt,
+}) {
   const classes = useStyles();
   const t = useTranslate();
-  const { eventId, registrationReceiptId } = useParams();
+  const { registrationReceiptId } = useParams();
 
-
+  useEffect(() => {
+    getOneRegistrationReceipts({ registrationReceiptId })
+  }, [getOneRegistrationReceipts])
 
   return (
     <>
@@ -40,6 +46,11 @@ function Index() {
   );
 }
 const mapStateToProps = (state) => ({
-  articles: state.mentor.articles,
+  registrationReceipt: state.events.registrationReceipt,
 });
-export default connect(mapStateToProps)(Index);
+export default connect(
+  mapStateToProps,
+  {
+    getOneRegistrationReceipts: getOneRegistrationReceiptsAction,
+  }
+)(Index);

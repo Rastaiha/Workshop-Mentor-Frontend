@@ -1,3 +1,4 @@
+// accounts:
 export const loginUrl = 'auth/accounts/login/';
 export const changePasswordUrl = 'auth/accounts/change_pass/';
 export const verificationCodeUrl = 'auth/accounts/verification_code/';
@@ -5,9 +6,15 @@ export const accountCRUDUrl = ({ id }) => id ? `auth/accounts/${id}/` : 'auth/ac
 export const profileCRUDUrl = ({ id }) => id ? `auth/profile/${id}/` : 'auth/profile/';
 export const studentshipCRUDUrl = 'auth/studentship/';
 
-export const getAllEventsInfo = 'fsm/event/';
-// todo:
-export const getEventInfoUrl = ({ id = undefined }) => id ? `fsm/event/${id}/` : 'fsm/event/';
+// fsm:
+export const eventInfoUrl = ({ eventId = undefined }) => eventId ? `fsm/event/${eventId}/` : 'fsm/event/';
+export const allRegistrationReceiptsUrl = ({ registrationFormId = undefined }) => `fsm/registration/${registrationFormId}/get_receipts/`;
+export const oneRegistrationReceiptUrl = ({ registrationReceiptId = undefined }) => `fsm/receipts/${registrationReceiptId}/`;
+
+
+
+
+
 
 export const workshopsUrl = 'fsm/fsm/';
 
