@@ -16,10 +16,10 @@ const persistedState = localStorage.getItem('rastaState')
 
 removeOldJsonData(108000000, persistedState?.mentor?.teams);
 
-persistedState.mentor = {
-  ...mentorInitialState,
-  ...persistedState.mentor,
-};
+// persistedState.mentor = {
+//   ...mentorInitialState,
+//   ...persistedState.mentor,
+// };
 
 const reduxStore = createStore(persistedState);
 
@@ -32,10 +32,6 @@ reduxStore.subscribe(() => {
         userAccount: state.account.userAccount,
         token: state.account.token,
       },
-      mentor: {
-        teams: state.mentor.teams,
-      },
-      events: state.events,
       Intl: state.Intl,
     })
   );
