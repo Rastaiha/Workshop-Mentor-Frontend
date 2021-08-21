@@ -11,6 +11,7 @@ import {
   getWorkshopsDescriptionUrl,
   oneRegistrationReceiptUrl,
   paymentRequestUrl,
+  validateRegistrationReceiptUrl,
 } from '../constants/urls';
 
 export const getOneEventInfoAction = createAsyncThunkApi(
@@ -36,11 +37,29 @@ export const getAllRegistrationReceiptsAction = createAsyncThunkApi(
   allRegistrationReceiptsUrl,
 );
 
-export const getOneRegistrationReceiptsAction = createAsyncThunkApi(
-  'events/getOneRegistrationReceiptsAction',
+export const getOneRegistrationReceiptAction = createAsyncThunkApi(
+  'events/getOneRegistrationReceiptAction',
   Apis.GET,
   oneRegistrationReceiptUrl,
 );
+
+export const validateRegistrationReceiptAction = createAsyncThunkApi(
+  'events/validateRegistrationReceiptAction',
+  Apis.POST,
+  validateRegistrationReceiptUrl,
+  {
+    bodyCreator: ({ workshopPlayerId }) => ({
+      player_workshop: workshopPlayerId,
+    }),
+    defaultNotification: {
+      success: 'وضعیت ثبت‌نام با موفقیت ثبت شد.',
+      error: 'مشکلی وجود دارد. دوباره تلاش کنید.',
+    },
+  }
+);
+
+
+
 
 const initialState = {
   isFetching: false,
@@ -74,11 +93,11 @@ const eventSlice = createSlice({
     [getAllRegistrationReceiptsAction.rejected.toString()]: isNotFetching,
 
 
-    [getOneRegistrationReceiptsAction.pending.toString()]: isFetching,
-    [getOneRegistrationReceiptsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+    [getOneRegistrationReceiptAction.pending.toString()]: isFetching,
+    [getOneRegistrationReceiptAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.registrationReceipt = response;
     },
-    [getOneRegistrationReceiptsAction.rejected.toString()]: isNotFetching,
+    [getOneRegistrationReceiptAction.rejected.toString()]: isNotFetching,
 
 
     // [getEventRegistrationInfoAction.fulfilled.toString()]: (

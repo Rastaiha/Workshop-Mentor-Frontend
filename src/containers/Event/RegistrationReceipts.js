@@ -18,7 +18,6 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import CreateArticleDialog from '../../components/Dialog/CreateArticleDialog/CreateArticleDialog';
 import {
   getAllRegistrationReceiptsAction,
 } from '../../redux/slices/events';
@@ -48,8 +47,6 @@ function Index({
       getAllRegistrationReceipts({ registrationFormId })
     }
   }, [allRegistrationReceipts, registrationFormId, getAllRegistrationReceipts])
-
-  const [openCreateArticleDialog, setOpenCreateArticleDialog] = useState(false);
 
   return (
     <Grid container spacing={2} justify='center'>

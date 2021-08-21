@@ -8,10 +8,9 @@ export const studentshipCRUDUrl = 'auth/studentship/';
 
 // fsm:
 export const eventInfoUrl = ({ eventId = undefined }) => eventId ? `fsm/event/${eventId}/` : 'fsm/event/';
-export const allRegistrationReceiptsUrl = ({ registrationFormId = undefined }) => `fsm/registration/${registrationFormId}/get_receipts/`;
+export const allRegistrationReceiptsUrl = ({ registrationFormId = undefined }) => `fsm/registration/${registrationFormId}/receipts/`;
 export const oneRegistrationReceiptUrl = ({ registrationReceiptId = undefined }) => `fsm/receipts/${registrationReceiptId}/`;
-
-
+export const validateRegistrationReceiptUrl = ({ registrationReceiptId = undefined }) => `/api/fsm/receipts/${registrationReceiptId}/validate_receipt/`
 
 
 

@@ -6,8 +6,10 @@ import { useTranslate } from 'react-redux-multilingual/lib/context';
 import { useParams } from 'react-router-dom';
 
 import {
-  getOneRegistrationReceiptsAction,
+  getOneRegistrationReceiptAction,
+  validateRegistrationReceiptAction,
 } from '../redux/slices/events'
+import Layout from './Layout';
 
 const useStyles = makeStyles((theme) => ({
   absolute: {
@@ -20,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Index({
-  getOneRegistrationReceipts,
+  getOneRegistrationReceipt,
+  validateRegistrationReceipt,
   registrationReceipt,
 }) {
   const classes = useStyles();
@@ -28,11 +31,16 @@ function Index({
   const { registrationReceiptId } = useParams();
 
   useEffect(() => {
-    getOneRegistrationReceipts({ registrationReceiptId })
-  }, [getOneRegistrationReceipts])
+    getOneRegistrationReceipt({ registrationReceiptId })
+  }, [getOneRegistrationReceipt])
+
+
+  const handleButtonClick = () => {
+    validateRegistrationReceipt({ registrationReceiptId, });
+  }
 
   return (
-    <>
+    <Layout>
       <Grid
         container item
         spacing={2}
@@ -40,9 +48,10 @@ function Index({
         justify="center"
         direction="row">
         <Grid item >
+          salam
         </Grid>
       </Grid>
-    </>
+    </Layout>
   );
 }
 const mapStateToProps = (state) => ({
@@ -51,6 +60,7 @@ const mapStateToProps = (state) => ({
 export default connect(
   mapStateToProps,
   {
-    getOneRegistrationReceipts: getOneRegistrationReceiptsAction,
+    getOneRegistrationReceipt: getOneRegistrationReceiptAction,
+    validateRegistrationReceipt: validateRegistrationReceiptAction
   }
 )(Index);

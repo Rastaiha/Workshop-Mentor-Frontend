@@ -23,8 +23,6 @@ const useStyles = makeStyles((theme) => ({
     right: theme.spacing(2),
     zIndex: 5,
   },
-  cardHolder: {
-  },
 }));
 
 function Index({

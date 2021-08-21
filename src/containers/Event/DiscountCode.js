@@ -6,6 +6,9 @@ import { useTranslate } from 'react-redux-multilingual/lib/context';
 
 import ArticleCard from '../../components/Cards/ArticleCard';
 import CreateArticleDialog from '../../components/Dialog/CreateArticleDialog/CreateArticleDialog';
+import {
+
+} from '../../redux/slices/events';
 
 const useStyles = makeStyles((theme) => ({
   absolute: {
@@ -13,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
     right: theme.spacing(2),
     zIndex: 5,
   },
-  cardHolder: {
-  },
 }));
 
-function Index({ articles }) {
+function Index({
+  event,
+}) {
   const classes = useStyles();
   const t = useTranslate();
 
@@ -49,6 +52,6 @@ function Index({ articles }) {
   );
 }
 const mapStateToProps = (state) => ({
-  articles: state.mentor.articles,
+  event: state.events.event,
 });
 export default connect(mapStateToProps)(Index);
