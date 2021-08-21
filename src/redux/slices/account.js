@@ -44,8 +44,6 @@ const accountSlice = createSlice({
       state.isFetching = false;
     },
     [loginAction.rejected.toString()]: isNotFetching,
-
-
   },
 });
 

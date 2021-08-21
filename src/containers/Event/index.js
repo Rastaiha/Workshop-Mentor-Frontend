@@ -44,6 +44,11 @@ const useStyles = makeStyles((theme) => ({
 
 const tabs = [
   {
+    label: 'اطلاعات کلی',
+    icon: '',
+    component: CreateRegistrationForm,
+  },
+  {
     label: 'ایجاد فرم ثبت‌نام',
     icon: '',
     component: CreateRegistrationForm,
