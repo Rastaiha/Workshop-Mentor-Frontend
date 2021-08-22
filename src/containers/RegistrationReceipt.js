@@ -23,6 +23,7 @@ import { useParams } from 'react-router-dom';
 
 import Widget, { MODES } from '../components/Widget';
 import {
+  getUserAccountAction,
   getUserProfileAction,
 } from '../redux/slices/account'
 import {
@@ -50,8 +51,10 @@ const useStyles = makeStyles((theme) => ({
 function Index({
   getOneRegistrationReceipt,
   validateRegistrationReceipt,
-  getUserProfile,
+  getUserStudentship,
   addNotification,
+  getUserAccount,
+  getUserProfile,
 
   registrationReceipt,
   userAccount,
@@ -67,8 +70,16 @@ function Index({
   }, [getOneRegistrationReceipt])
 
   useEffect(() => {
-    getUserProfile({ userId: userAccount?.id })
-  }, [userAccount?.id])
+    if (registrationReceipt?.user) {
+      getUserProfile({ userId: registrationReceipt?.user })
+    }
+  }, [registrationReceipt])
+
+  // useEffect(() => {
+  //   if (registrationReceipt?.user) {
+  //     getUserStudentship({ userId: registrationReceipt?.user })
+  //   }
+  // }, [registrationReceipt?.user])
 
   const handleButtonClick = () => {
     if (!status) {
@@ -165,6 +176,7 @@ export default connect(
   {
     getOneRegistrationReceipt: getOneRegistrationReceiptAction,
     validateRegistrationReceipt: validateRegistrationReceiptAction,
+    getUserAccount: getUserAccountAction,
     getUserProfile: getUserProfileAction,
     addNotification: addNotificationAction,
   }

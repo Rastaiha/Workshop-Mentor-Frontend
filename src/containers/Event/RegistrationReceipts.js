@@ -11,21 +11,17 @@ import {
 } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useTranslate } from 'react-redux-multilingual/lib/context';
 
 import {
   getAllRegistrationReceiptsAction,
 } from '../../redux/slices/events';
+import { faSeri, toPersianNumber } from '../../utils/translateNumber';
 
-const useStyles = makeStyles((theme) => ({
-  absolute: {
-    position: 'absolute',
-    right: theme.spacing(2),
-    zIndex: 5,
-  },
-  cardHolder: {
-  },
-}));
+const STATUS = {
+  Waiting: 'منتظر',
+  Accepted: 'پذیرفته‌شده',
+  Rejected: 'پذیرفته‌‌نشده',
+}
 
 function Index({
   getAllRegistrationReceipts,
@@ -46,24 +42,26 @@ function Index({
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>شناسه</TableCell>
-                <TableCell>نام</TableCell>
-                <TableCell>پایه</TableCell>
-                <TableCell>وضعیت</TableCell>
+                <TableCell align='center'>شناسه</TableCell>
+                <TableCell align='center'>نام</TableCell>
+                <TableCell align='center'>پایه</TableCell>
+                <TableCell align='center'>وضعیت</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {allRegistrationReceipts?.map((registrationReceipt, index) =>
                 <TableRow key={index}>
-                  <TableCell>{registrationReceipt?.id}</TableCell>
-                  <TableCell >
+                  <TableCell align='center'>
+                    {toPersianNumber(registrationReceipt?.id)}
+                  </TableCell>
+                  <TableCell align='center'>
                     <a as={Link} href={'/registration_receipt/' + registrationReceipt?.id}>{`${registrationReceipt?.first_name} ${registrationReceipt?.last_name}`}</a>
                   </TableCell>
-                  <TableCell>
-                    {registrationReceipt?.school_studentship?.grade}
+                  <TableCell align='center'>
+                    {faSeri(registrationReceipt?.school_studentship?.grade)}
                   </TableCell>
-                  <TableCell>
-                    {registrationReceipt?.status}
+                  <TableCell align='center'>
+                    {STATUS[registrationReceipt?.status]}
                   </TableCell>
                 </TableRow>
               )}

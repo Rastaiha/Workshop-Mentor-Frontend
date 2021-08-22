@@ -1,21 +1,29 @@
 import {
+  Button,
   Grid,
   IconButton,
   makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
-  Tooltip,
-  Typography,
-  Button,
 } from '@material-ui/core';
-import { AddCircle as AddCircleIcon } from '@material-ui/icons';
-import React, { useState } from 'react';
+import ClearIcon from '@material-ui/icons/Clear';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import CreateArticleDialog from '../../components/Dialog/CreateArticleDialog/CreateArticleDialog';
 import {
-  createDiscountCodeAction
+  createDiscountCodeAction,
+  deleteDiscountCodeAction,
+  getAllMerchandiseDiscountCodesAction,
 } from '../../redux/slices/account';
+import {
+  addNotificationAction,
+} from '../../redux/slices/notifications';
+import { toEnglishNumber, toPersianNumber } from '../../utils/translateNumber';
 
 const useStyles = makeStyles((theme) => ({
   absolute: {
@@ -26,21 +34,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Index({
+  addNotification,
   createDiscountCode,
+  deleteDiscountCode,
+  getAllMerchandiseDiscountCodes,
 
   event,
   userAccount,
-  newDiscountCode,
+  discountCodes,
 }) {
-  const classes = useStyles();
-  const t = useTranslate();
   const [value, setValue] = useState();
 
-  console.log(event)
-  console.log(userAccount)
+  useEffect(() => {
+    if (event?.merchandise?.id) {
+      getAllMerchandiseDiscountCodes({ merchandiseId: event?.merchandise?.id });
+    }
+  }, [getAllMerchandiseDiscountCodes, event?.merchandise?.id])
 
-  const handleButtonClick = () => {
-    createDiscountCode({ value, merchandise: event?.merchandise?.id, user: userAccount.id });
+  const handleCreateDiscountCode = () => {
+    if (value > 100 || value < 0 || value.toString().includes('.')) {
+      addNotification({
+        message: 'لطفاً عددی طبیعی بین ۰ تا ۱۰۰ وارد کنید.',
+        type: 'error',
+      });
+      return;
+    }
+    createDiscountCode({ value: (value / 100), merchandise: event?.merchandise?.id, user: userAccount.id });
+  }
+
+  const handleDeleteDiscountCode = (discountCodeId) => {
+    deleteDiscountCode({ discountCodeId })
   }
 
   return (
@@ -52,21 +75,57 @@ function Index({
             variant='outlined'
             label='درصد تخفیف'
             inputProps={{ className: 'ltr-input' }}
-            value={value} onChange={(e) => setValue(e.target.value)} />
+            value={value} onChange={(e) => setValue(toEnglishNumber(e.target.value))} />
         </Grid>
         <Grid item xs={12} sm={6} >
           <Button
             fullWidth variant='contained'
             color='primary'
-            onClick={handleButtonClick}>{'ایجاد'}</Button>
+            onClick={handleCreateDiscountCode}>{'ایجاد'}</Button>
         </Grid>
-        {newDiscountCode &&
-          <Grid item xs={12} sm={6}>
-            <Typography fullWidth variant='h2' align='center'>
-              {newDiscountCode?.code}
-            </Typography>
-          </Grid>
-        }
+        <Grid item xs={12}>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell align='center'>شناسه</TableCell>
+                  <TableCell align='center'>کد</TableCell>
+                  <TableCell align='center'>درصد تخفیف</TableCell>
+                  <TableCell align='center'>دفعات باقی‌مانده</TableCell>
+                  <TableCell align='center'>تاریخ انقضا</TableCell>
+                  <TableCell align='center'>حذف</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {discountCodes?.map((discountCode, index) =>
+                  <TableRow key={index}>
+                    <TableCell align='center'>
+                      {toPersianNumber(discountCode?.id)}
+                    </TableCell>
+                    <TableCell align='center'>
+                      {discountCode?.code}
+                    </TableCell>
+                    <TableCell align='center'>
+                      {toPersianNumber(discountCode?.value)}
+                    </TableCell>
+                    <TableCell align='center'>
+                      {toPersianNumber(discountCode?.remaining)}
+                    </TableCell>
+                    <TableCell align='center'>
+                      {discountCode?.expiration_date || 'ندارد'}
+                    </TableCell>
+                    <TableCell align='center'>
+                      <IconButton size='small'
+                        onClick={() => { handleDeleteDiscountCode(discountCode?.id) }}>
+                        <ClearIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
       </Grid>
     </>
   );
@@ -76,11 +135,15 @@ const mapStateToProps = (state) => ({
   event: state.events.event,
   userAccount: state.account.userAccount,
   newDiscountCode: state.account.newDiscountCode,
+  discountCodes: state.account.discountCodes,
 });
 
 export default connect(
   mapStateToProps,
   {
+    addNotification: addNotificationAction,
     createDiscountCode: createDiscountCodeAction,
+    deleteDiscountCode: deleteDiscountCodeAction,
+    getAllMerchandiseDiscountCodes: getAllMerchandiseDiscountCodesAction,
   }
 )(Index);

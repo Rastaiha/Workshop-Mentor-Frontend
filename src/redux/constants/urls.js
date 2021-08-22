@@ -4,9 +4,9 @@ export const changePasswordUrl = 'auth/accounts/change_pass/';
 export const verificationCodeUrl = 'auth/accounts/verification_code/';
 export const accountCRUDUrl = ({ userId }) => userId ? `auth/accounts/${userId}/` : 'auth/accounts/';
 export const profileCRUDUrl = ({ userId }) => userId ? `auth/profile/${userId}/` : 'auth/profile/';
-export const studentshipCRUDUrl = 'auth/studentship/';
+export const studentshipCRUDUrl = ({ userId }) => userId ? `auth/studentship/${userId}/` : 'auth/studentship/';
 export const discountCRUDUrl = ({ discountCodeId }) => discountCodeId ? `auth/discount_code/${discountCodeId}/` : 'auth/discount_code/';
-
+export const merchandiseDiscountCodeUrl = ({ merchandiseId }) => `/auth/merchandise/${merchandiseId}/discount_codes/`;
 
 
 // fsm:
