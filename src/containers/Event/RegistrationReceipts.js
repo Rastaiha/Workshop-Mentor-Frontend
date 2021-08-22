@@ -1,4 +1,5 @@
 import {
+  Button,
   Grid,
   Link,
   makeStyles,
@@ -35,6 +36,9 @@ function Index({
     }
   }, [allRegistrationReceipts, registrationFormId, getAllRegistrationReceipts])
 
+
+  console.log(allRegistrationReceipts)
+
   return (
     <Grid container direction='column' spacing={2}>
       <Grid item>
@@ -55,7 +59,11 @@ function Index({
                     {toPersianNumber(registrationReceipt?.id)}
                   </TableCell>
                   <TableCell align='center'>
-                    <a as={Link} href={'/registration_receipt/' + registrationReceipt?.id}>{`${registrationReceipt?.first_name} ${registrationReceipt?.last_name}`}</a>
+                    <Button
+                      href={'/registration_receipt/' + registrationReceipt?.id}
+                      component="a" target="_blank">
+                      {(registrationReceipt?.first_name && registrationReceipt?.last_name) ? `${registrationReceipt?.first_name} ${registrationReceipt?.last_name}` : 'بی‌نام'}
+                    </Button>
                   </TableCell>
                   <TableCell align='center'>
                     {faSeri(registrationReceipt?.school_studentship?.grade)}

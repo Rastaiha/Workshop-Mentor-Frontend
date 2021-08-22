@@ -107,32 +107,34 @@ function Index({
         <Grid item xs={12} sm={4}>
           <Grid container spacing={2} direction='column' component={Paper}>
             <Grid item>
-              <Typography align='center' variant='h2'>{`${userProfile?.first_name} ${userProfile?.last_name}`}</Typography>
+              <Typography align='center' variant='h2'>
+                {(userProfile?.first_name && userProfile?.last_name) ? `${userProfile?.first_name} ${userProfile?.last_name}` : 'بی‌نام'}
+              </Typography>
             </Grid>
             <Divider />
             <Grid item container>
               <Grid item xs={6}>
-                <Typography align='center'>{`پایه‌ی: ${faSeri(userProfile?.school_studentship?.grade)}`}</Typography>
+                <Typography align='center'>{`پایه‌ی: ${userProfile?.school_studentship?.grade ? faSeri(userProfile?.school_studentship?.grade) : '؟'}`}</Typography>
               </Grid>
               <Grid item xs={6}>
-                <Typography align='center'>{`جنسیت: ${userProfile?.gender == 'Male' ? 'پسر' : 'دختر'}`}</Typography>
+                <Typography align='center'>{`جنسیت: ${userProfile?.gender == 'Male' ? 'پسر' : (userProfile?.gender == 'Female' ? 'دختر' : '؟')}`}</Typography>
               </Grid>
             </Grid>
             <Grid item container>
               <Grid item xs={6}>
-                <Typography align='center'>{`استان: ${Iran.Provinces.filter(province => province.id == userProfile?.province)[0]?.title}`}</Typography>
+                <Typography align='center'>{`استان: ${Iran.Provinces.filter(province => province.id == userProfile?.province)[0]?.title || '؟'}`}</Typography>
               </Grid>
               <Grid item xs={6}>
-                <Typography align='center'>{`شهر: ${Iran.Cities.filter(city => city.id == userProfile?.city)[0]?.title}`}</Typography>
+                <Typography align='center'>{`شهر: ${Iran.Cities.filter(city => city.id == userProfile?.city)[0]?.title || '؟'}`}</Typography>
               </Grid>
             </Grid>
-            <Grid item>
+            <Grid item container justify='center'>
               <Button
                 fullWidth variant='outlined'
                 className={classes.lastUploadButton}
+                disabled={!userProfile?.school_studentship?.document}
                 href={userProfile?.school_studentship?.document}
-                component="a"
-                target="_blank">
+                component="a" target="_blank">
                 {'مشاهده‌ی مدرک تحصیلی'}
               </Button>
             </Grid>

@@ -25,7 +25,7 @@ const Mentor = () => (
   </SnackbarProvider>
 );
 
-const App = ({ dir, redirectTo, forceRedirect, initRedirect, loading }) => {
+const App = ({ dir, redirectTo, forceRedirect, initRedirect, isFetching }) => {
   const history = useHistory();
   useEffect(() => {
     if (redirectTo !== null) {
@@ -45,8 +45,11 @@ const App = ({ dir, redirectTo, forceRedirect, initRedirect, loading }) => {
     document.body.dir = dir;
   }, [dir]);
 
+
+
   const Loading = () => {
-    if (loading) {
+    if (isFetching) {
+      console.log("@@@@@@@@@@@@@@@")
       return (
         <div style={{ width: '100%', position: 'fixed', top: '0px', zIndex: '1000' }}>
           <LinearProgress />
@@ -63,6 +66,7 @@ const App = ({ dir, redirectTo, forceRedirect, initRedirect, loading }) => {
 
   return (
     <IntlProvider translations={translations}>
+      <Loading />
       {dir === 'rtl' ? (
         <>
           <ThemeProvider theme={RTLMuiTheme}>
@@ -86,7 +90,7 @@ const mapStateToProps = (state) => ({
   dir: state.Intl.locale === 'fa' ? 'rtl' : 'ltr',
   redirectTo: state.redirect.redirectTo,
   forceRedirect: state.redirect.force,
-  Loading: state.account.isFetching || state.events.isFetching,
+  isFetching: state.account.isFetching || state.events.isFetching,
 });
 
 export default connect(mapStateToProps, { initRedirect: initRedirectAction })(
