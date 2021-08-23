@@ -91,9 +91,9 @@ const Event = ({
   const t = useTranslate();
   const history = useHistory();
   const { tabNumber, eventId } = useParams();
-  // if (!tabNumber) {
-  //   history.push(`/event/${eventId}/0/`)
-  // }
+  if (!tabNumber) {
+    history.push(`/event/${eventId}/0/`)
+  }
   const [tabIndex, setTabIndex] = useState(tabNumber || 0);
   const classes = useStyles();
 

@@ -137,9 +137,6 @@ const accountSlice = createSlice({
     [deleteDiscountCodeAction.rejected.toString()]: isNotFetching,
 
 
-
-
-
     [getAllMerchandiseDiscountCodesAction.pending.toString()]: isFetching,
     [getAllMerchandiseDiscountCodesAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.discountCodes = response;
