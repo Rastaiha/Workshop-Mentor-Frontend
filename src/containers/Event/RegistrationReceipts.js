@@ -50,7 +50,7 @@ function Index({
               </TableRow>
             </TableHead>
             <TableBody>
-              {allRegistrationReceipts?.slice().sort((a, b) => { return a.id > b.id ? 1 : -1 }).map((registrationReceipt, index) =>
+              {allRegistrationReceipts?.slice().sort((a, b) => { return a.id > b.id ? -1 : 1 }).map((registrationReceipt, index) =>
                 <TableRow key={index}>
                   <TableCell align='center'>
                     {toPersianNumber(registrationReceipt?.id)}
