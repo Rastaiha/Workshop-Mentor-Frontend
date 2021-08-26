@@ -44,6 +44,7 @@ function Index({
   discountCodes,
 }) {
   const [value, setValue] = useState();
+  const [username, setUsername] = useState();
 
   useEffect(() => {
     if (event?.merchandise?.id) {
@@ -59,7 +60,7 @@ function Index({
       });
       return;
     }
-    createDiscountCode({ value: (value / 100), merchandise: event?.merchandise?.id, user: userAccount.id });
+    createDiscountCode({ value: (value / 100), merchandise: event?.merchandise?.id, username });
   }
 
   const handleDeleteDiscountCode = (discountCodeId) => {
@@ -69,7 +70,15 @@ function Index({
   return (
     <>
       <Grid container spacing={2} alignItems="center" justify="center">
-        <Grid item xs={12} sm={6} >
+        <Grid item xs={12} sm={4} >
+          <TextField
+            size='small' fullWidth
+            variant='outlined'
+            label='شماره تلفن'
+            inputProps={{ className: 'ltr-input' }}
+            value={username} onChange={(e) => setUsername(toEnglishNumber(e.target.value))} />
+        </Grid>
+        <Grid item xs={12} sm={4} >
           <TextField
             size='small' fullWidth
             variant='outlined'
@@ -77,7 +86,7 @@ function Index({
             inputProps={{ className: 'ltr-input' }}
             value={value} onChange={(e) => setValue(toEnglishNumber(e.target.value))} />
         </Grid>
-        <Grid item xs={12} sm={6} >
+        <Grid item xs={12} sm={4} >
           <Button
             fullWidth variant='contained'
             color='primary'
