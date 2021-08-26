@@ -53,6 +53,13 @@ function Index({
   }, [getAllMerchandiseDiscountCodes, event?.merchandise?.id])
 
   const handleCreateDiscountCode = () => {
+    if (!username) {
+      addNotification({
+        message: 'شماره تلفن کاربر مورد نظر را وارد کنید..',
+        type: 'error',
+      });
+      return;
+    }
     if (value > 100 || value < 0 || value.toString().includes('.')) {
       addNotification({
         message: 'لطفاً عددی طبیعی بین ۰ تا ۱۰۰ وارد کنید.',
@@ -66,6 +73,8 @@ function Index({
   const handleDeleteDiscountCode = (discountCodeId) => {
     deleteDiscountCode({ discountCodeId })
   }
+
+  console.log(discountCodes)
 
   return (
     <>
@@ -97,11 +106,11 @@ function Index({
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell align='center'>شناسه</TableCell>
-                  <TableCell align='center'>کد</TableCell>
+                  <TableCell align='center'>صاحب</TableCell>
+                  <TableCell align='center'>شماره</TableCell>
+                  <TableCell align='center'>کد تخفیف</TableCell>
                   <TableCell align='center'>درصد تخفیف</TableCell>
                   <TableCell align='center'>دفعات باقی‌مانده</TableCell>
-                  <TableCell align='center'>تاریخ انقضا</TableCell>
                   <TableCell align='center'>حذف</TableCell>
                 </TableRow>
               </TableHead>
@@ -109,7 +118,10 @@ function Index({
                 {discountCodes?.map((discountCode, index) =>
                   <TableRow key={index}>
                     <TableCell align='center'>
-                      {toPersianNumber(discountCode?.id)}
+                      {`${discountCode?.first_name} ${discountCode.last_name}`}
+                    </TableCell>
+                    <TableCell align='center'>
+                      {discountCode?.phone_number}
                     </TableCell>
                     <TableCell align='center'>
                       {discountCode?.code}
@@ -119,9 +131,6 @@ function Index({
                     </TableCell>
                     <TableCell align='center'>
                       {toPersianNumber(discountCode?.remaining)}
-                    </TableCell>
-                    <TableCell align='center'>
-                      {discountCode?.expiration_date || 'ندارد'}
                     </TableCell>
                     <TableCell align='center'>
                       <IconButton size='small'
