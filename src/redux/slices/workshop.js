@@ -6,6 +6,8 @@ import {
   addMentorToWorkshopUrl,
   getAllWorkshopStatesInfoUrl,
   stateCRUDUrl,
+  edgeUrl,
+  getAllWorkshopEdges,
   workshopCRUDUrl,
 } from '../constants/urls';
 import {
@@ -68,6 +70,48 @@ export const removeStateAction = createAsyncThunkApi(
   stateCRUDUrl,
 );
 
+export const getAllWorkshopEdgesAction = createAsyncThunkApi(
+  'events/getAllWorkshopEdgesAction',
+  Apis.GET,
+  getAllWorkshopEdges,
+);
+
+
+export const addEdgeAction = createAsyncThunkApi(
+  'events/addEdgeAction',
+  Apis.POST,
+  edgeUrl,
+  {
+    defaultNotification: {
+      success: 'یال با موفقیت اضافه شد.',
+    },
+  }
+);
+
+
+export const updateEdgeAction = createAsyncThunkApi(
+  'events/updateEdgeAction',
+  Apis.PATCH,
+  edgeUrl,
+  {
+    defaultNotification: {
+      success: 'یال با موفقیت به‌روز شد.',
+    },
+  }
+);
+
+export const removeEdgeAction = createAsyncThunkApi(
+  'events/removeEdgeAction',
+  Apis.DELETE,
+  edgeUrl,
+  {
+    defaultNotification: {
+      success: 'یال با موفقیت حذف شد.',
+    },
+  }
+);
+
+
 
 
 
@@ -75,6 +119,7 @@ export const removeStateAction = createAsyncThunkApi(
 const initialState = {
   isFetching: false,
   allStates: [],
+  allWorkshopEdges: [],
 };
 
 const isFetching = (state) => {
@@ -165,6 +210,51 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [updateWidgetAction.rejected.toString()]: isNotFetching,
+
+
+    [getAllWorkshopEdgesAction.pending.toString()]: isFetching,
+    [getAllWorkshopEdgesAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.allWorkshopEdges = response;
+      state.isFetching = false;
+    },
+    [getAllWorkshopEdgesAction.rejected.toString()]: isNotFetching,
+
+
+    [updateEdgeAction.pending.toString()]: isFetching,
+    [updateEdgeAction.fulfilled.toString()]: (state, action) => {
+      const newAllWorkshopEdges = [...state.allWorkshopEdges];
+      for (let i = 0; i < newAllWorkshopEdges.length; i++) {
+        if (newAllWorkshopEdges[i].id === action.meta.arg.edgeId) {
+          newAllWorkshopEdges[i] = action.payload.response;
+        }
+      }
+      state.allWorkshopEdges = newAllWorkshopEdges;
+      state.isFetching = false;
+    },
+    [updateEdgeAction.rejected.toString()]: isNotFetching,
+
+
+    [addEdgeAction.pending.toString()]: isFetching,
+    [addEdgeAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.allWorkshopEdges = [response, ...state.allWorkshopEdges];
+      state.isFetching = false;
+    },
+    [addEdgeAction.rejected.toString()]: isNotFetching,
+
+
+    [removeEdgeAction.pending.toString()]: isFetching,
+    [removeEdgeAction.fulfilled.toString()]: (state, action) => {
+      const newAllWorkshopEdges = [...state.allWorkshopEdges];
+      for (let i = 0; i < newAllWorkshopEdges.length; i++) {
+        if (newAllWorkshopEdges[i].id === action.meta.arg.edgeId) {
+          newAllWorkshopEdges.splice(i, 1);
+        }
+      }
+      state.allWorkshopEdges = newAllWorkshopEdges;
+      state.isFetching = false;
+    },
+    [removeEdgeAction.rejected.toString()]: isNotFetching,
+
 
   },
 });

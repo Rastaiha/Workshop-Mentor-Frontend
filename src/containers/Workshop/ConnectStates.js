@@ -1,8 +1,14 @@
 import {
   Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
   Grid,
   IconButton,
+  InputLabel,
   makeStyles,
+  MenuItem,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -14,15 +20,18 @@ import {
 import ClearIcon from '@material-ui/icons/Clear';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router';
 
-import {
-  createDiscountCodeAction,
-  deleteDiscountCodeAction,
-  getAllMerchandiseDiscountCodesAction,
-} from '../../redux/slices/account';
 import {
   addNotificationAction,
 } from '../../redux/slices/notifications';
+import {
+  addEdgeAction,
+  getAllWorkshopEdgesAction,
+  getAllWorkshopStatesInfoAction,
+  removeEdgeAction,
+  updateEdgeAction,
+} from '../../redux/slices/workshop';
 import { toEnglishNumber, toPersianNumber } from '../../utils/translateNumber';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,104 +44,160 @@ const useStyles = makeStyles((theme) => ({
 
 function Index({
   addNotification,
-  createDiscountCode,
-  deleteDiscountCode,
-  getAllMerchandiseDiscountCodes,
+  getAllWorkshopEdges,
+  getAllWorkshopStatesInfo,
+  addEdge,
+  updateEdge,
+  removeEdge,
 
-  event,
-  userAccount,
-  discountCodes,
+  allWorkshopEdges,
+  allStates,
 }) {
-  const [value, setValue] = useState();
-  const [username, setUsername] = useState();
+  const [stateName, setStateName] = useState();
+  const [newEdge, setNewEdge] = useState({
+    tail: '',
+    head: '',
+    is_hidden: false,
+  });
+  const { fsmId } = useParams()
 
   useEffect(() => {
-    if (event?.merchandise?.id) {
-      getAllMerchandiseDiscountCodes({ merchandiseId: event?.merchandise?.id });
-    }
-  }, [getAllMerchandiseDiscountCodes, event?.merchandise?.id])
+    getAllWorkshopEdges({ fsmId });
+    getAllWorkshopStatesInfo({ fsmId });
+  }, [])
 
-  const handleCreateDiscountCode = () => {
-    if (!username) {
-      addNotification({
-        message: 'شماره تلفن کاربر مورد نظر را وارد کنید..',
-        type: 'error',
-      });
-      return;
-    }
-    if (value > 100 || value < 0 || value.toString().includes('.')) {
-      addNotification({
-        message: 'لطفاً عددی طبیعی بین ۰ تا ۱۰۰ وارد کنید.',
-        type: 'error',
-      });
-      return;
-    }
-    createDiscountCode({ value: (value / 100), merchandise: event?.merchandise?.id, username });
+  const doRemoveEdge = (edge) => {
+    removeEdge({ tail: edge.tail, head: edge.head })
   }
 
-  const handleDeleteDiscountCode = (discountCodeId) => {
-    deleteDiscountCode({ discountCodeId })
+  const doAddEdge = (tail, head) => {
+
   }
+
+  const doSearch = () => {
+
+  }
+
 
   return (
     <>
       <Grid container spacing={1} alignItems="center" justify="center">
-        <Grid item xs={12} sm={4} >
+        <Grid item xs={12} sm={8} >
           <TextField
             size='small' fullWidth
             variant='outlined'
-            label='شماره تلفن'
+            label='جستجو بین گام‌ها'
             inputProps={{ className: 'ltr-input' }}
-            value={username} onChange={(e) => setUsername(toEnglishNumber(e.target.value))} />
-        </Grid>
-        <Grid item xs={12} sm={4} >
-          <TextField
-            size='small' fullWidth
-            variant='outlined'
-            label='درصد تخفیف'
-            inputProps={{ className: 'ltr-input' }}
-            value={value} onChange={(e) => setValue(toEnglishNumber(e.target.value))} />
+            value={stateName} onChange={(e) => setStateName(e.target.value)} />
         </Grid>
         <Grid item xs={12} sm={4} >
           <Button
             fullWidth variant='contained'
             color='primary'
-            onClick={handleCreateDiscountCode}>{'ایجاد'}</Button>
+            onClick={doSearch}>
+            {'جست‌وجو'}
+          </Button>
         </Grid>
         <Grid item xs={12}>
           <TableContainer>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell align='center'>صاحب</TableCell>
-                  <TableCell align='center'>شماره</TableCell>
-                  <TableCell align='center'>کد تخفیف</TableCell>
-                  <TableCell align='center'>درصد تخفیف</TableCell>
-                  <TableCell align='center'>دفعات باقی‌مانده</TableCell>
-                  <TableCell align='center'>حذف</TableCell>
+                  <TableCell align='center'>شروع</TableCell>
+                  <TableCell align='center'>پایان</TableCell>
+                  <TableCell align='center'>قابل مشاهده</TableCell>
+                  <TableCell align='center'>عملیات</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {discountCodes?.map((discountCode, index) =>
+                <TableRow>
+                  <TableCell align='center'>
+                    <FormControl fullWidth size='small' variant="outlined">
+                      <InputLabel>شروع</InputLabel>
+                      <Select
+                        value={newEdge.tail}
+                        onChange={(e) => {
+                          setNewEdge({
+                            ...newEdge,
+                            tail: e.target.value,
+                          })
+                        }}
+                        label='شروع'
+                      >
+                        {allStates?.map((state) => (
+                          <MenuItem key={state.id} value={state.id}>{state.name}</MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl >
+                  </TableCell>
+                  <TableCell align='center'>
+                    <FormControl fullWidth size='small' variant="outlined">
+                      <InputLabel>پایان</InputLabel>
+                      <Select
+                        value={newEdge.head}
+                        onChange={(e) => {
+                          setNewEdge({
+                            ...newEdge,
+                            head: e.target.value,
+                          })
+                        }}
+                        label='پایان'
+                      >
+                        {allStates?.map((state) => (
+                          <MenuItem key={state.id} value={state.id}>{state.name}</MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl >
+                  </TableCell>
+                  <TableCell align='center'>
+                    <Checkbox
+                      checked={newEdge.is_hidden}
+                      onChange={() => {
+                        setNewEdge({
+                          ...newEdge,
+                          is_hidden: !newEdge.is_hidden,
+                        })
+                      }}
+                      color="primary"
+                    />
+                  </TableCell>
+                  <TableCell align='center'>
+                    <Button
+                      onClick={() => {
+                        addEdge(newEdge)
+                      }}
+                      variant='contained' color='primary'>
+                      {'ایجاد'}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+                {allWorkshopEdges?.map((edge, index) =>
                   <TableRow key={index}>
                     <TableCell align='center'>
-                      {`${discountCode?.first_name} ${discountCode.last_name}`}
+                      {edge.tail?.name}
                     </TableCell>
                     <TableCell align='center'>
-                      {discountCode?.phone_number}
+                      {edge.head?.name}
                     </TableCell>
                     <TableCell align='center'>
-                      {discountCode?.code}
-                    </TableCell>
-                    <TableCell align='center'>
-                      {toPersianNumber(discountCode?.value)}
-                    </TableCell>
-                    <TableCell align='center'>
-                      {toPersianNumber(discountCode?.remaining)}
+                      <Checkbox
+                        checked={edge.is_hidden}
+                        onChange={() => {
+                          updateEdge({
+                            edgeId: edge.id,
+                            is_hidden: !edge.is_hidden,
+                            head: edge.head?.id,
+                            tail: edge.tail?.id,
+                          }) // todo: fix 
+                        }}
+                        color="primary"
+                      />
                     </TableCell>
                     <TableCell align='center'>
                       <IconButton size='small'
-                        onClick={() => { handleDeleteDiscountCode(discountCode?.id) }}>
+                        onClick={() => {
+                          removeEdge({ edgeId: edge.id })
+                        }}>
                         <ClearIcon />
                       </IconButton>
                     </TableCell>
@@ -148,10 +213,17 @@ function Index({
 }
 
 const mapStateToProps = (state) => ({
+  allWorkshopEdges: state.workshop.allWorkshopEdges,
+  allStates: state.workshop.allStates,
 });
 
 export default connect(
   mapStateToProps,
   {
+    addEdge: addEdgeAction,
+    getAllWorkshopEdges: getAllWorkshopEdgesAction,
+    getAllWorkshopStatesInfo: getAllWorkshopStatesInfoAction,
+    removeEdge: removeEdgeAction,
+    updateEdge: updateEdgeAction,
   }
 )(Index);
