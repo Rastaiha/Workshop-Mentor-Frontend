@@ -11,24 +11,36 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createUploadFileWidgetAction } from '../../../redux/slices/widget';
+import {
+  createUploadFileWidgetAction,
+  updateUploadFileWidgetAction,
+} from '../../../redux/slices/widget';
 
 function UploadFileQuestionEditWidget({
-  open,
-  handleClose,
-  initQuestion = '',
-  stateId,
-  id,
+  updateUploadFileWidget,
   createUploadFileWidget,
+  handleClose,
+
+  open,
+  text: oldText,
+  stateId,
+  id: widgetId,
 }) {
   const t = useTranslate();
-  const [question, setQuestion] = useState(initQuestion);
+  const [text, setText] = useState(oldText);
 
   const handleClick = () => {
-    if (id) {
-      // TODO: edit mode
+    if (widgetId) {
+      updateUploadFileWidget({
+        paper: stateId,
+        text,
+        widgetId,
+      })
     } else {
-      createUploadFileWidget({ paper: stateId, text: question });
+      createUploadFileWidget({
+        paper: stateId,
+        text: text
+      });
     }
     handleClose();
   };
@@ -44,9 +56,9 @@ function UploadFileQuestionEditWidget({
           autoFocus
           fullWidth
           label="متن درخواست"
-          value={question}
+          value={text}
           placeholder="مثال: لطفا فایل جواب را ارسال کنید."
-          onChange={(e) => setQuestion(e.target.value)}
+          onChange={(e) => setText(e.target.value)}
         />
       </DialogContent>
       <DialogActions>
@@ -60,4 +72,5 @@ function UploadFileQuestionEditWidget({
 
 export default connect(null, {
   createUploadFileWidget: createUploadFileWidgetAction,
+  updateUploadFileWidget: updateUploadFileWidgetAction,
 })(UploadFileQuestionEditWidget);

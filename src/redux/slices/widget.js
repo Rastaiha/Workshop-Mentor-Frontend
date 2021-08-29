@@ -9,10 +9,10 @@ import {
   getUnreadNotificationsUrl,
   helpUrl,
   markSubmissionUrl,
-  statesUrl,
+  statesCRUDUrl,
   visitWorkshopPlayerUrl,
-  widgetUrl,
-  workshopsUrl,
+  widgetCRUDUrl,
+  workshopCRUDUrl,
   workshopTeamsUrl,
 } from '../constants/urls';
 
@@ -32,18 +32,6 @@ export const getUnreadNotificationsAction = createAsyncThunkApi(
   'workshops/getNotifications',
   Apis.GET,
   getUnreadNotificationsUrl
-);
-
-export const getWorkshopsAction = createAsyncThunkApi(
-  'workshops/getAll',
-  Apis.GET,
-  workshopsUrl
-);
-
-export const getWorkshopAction = createAsyncThunkApi(
-  'workshops/getOne',
-  Apis.GET,
-  ({ fsmId }) => workshopsUrl + fsmId + '/'
 );
 
 export const getProblemsAction = createAsyncThunkApi(
@@ -81,39 +69,35 @@ export const markSubmissionAction = createAsyncThunkApi(
   }
 );
 
-export const getArticlesAction = createAsyncThunkApi(
-  'articles/getAll',
-  Apis.GET,
-  articlesUrl
-);
-
-export const getArticleAction = createAsyncThunkApi(
-  'articles/getOne',
-  Apis.GET,
-  ({ articleId }) => articlesUrl + articleId + '/'
-);
-
-export const createArticleAction = createAsyncThunkApi(
-  'articles/create',
-  Apis.POST,
-  articlesUrl
-);
 
 export const getStateAction = createAsyncThunkApi(
   'states/getOne',
   Apis.GET,
-  ({ stateId }) => statesUrl + stateId + '/'
+  statesCRUDUrl,
 );
 
+export const updateWidgetAction = createAsyncThunkApi(
+  'states/updateWidgetAction',
+  Apis.PATCH,
+  widgetCRUDUrl,
+  {
+    bodyCreator: (widget) => ({ ...widget }),
+    defaultNotification: {
+      success: 'ویجت با موفقیت به‌روز شد.',
+      error: 'مشکلی وجود داشت. دوباره تلاش کنید.'
+    },
+  }
+);
 
 export const createWidgetAction = createAsyncThunkApi(
   'states/widget/create',
   Apis.POST,
-  widgetUrl,
+  widgetCRUDUrl,
   {
     bodyCreator: (widget) => ({ ...widget }),
     defaultNotification: {
       success: 'ویجت با موفقیت اضافه شد.',
+      error: 'مشکلی وجود داشت. دوباره تلاش کنید.'
     },
   }
 );
@@ -121,21 +105,29 @@ export const createWidgetAction = createAsyncThunkApi(
 export const deleteWidgetAction = createAsyncThunkApi(
   'states/widgets/delete',
   Apis.DELETE,
-  widgetUrl,
+  widgetCRUDUrl,
   {
     bodyCreator: (widget) => ({ ...widget }),
     defaultNotification: {
       success: 'ویجت با موفقیت حذف شد.',
+      error: 'مشکلی وجود داشت. دوباره تلاش کنید.'
     },
   }
 );
-
 
 export const createVideoWidgetAction = ({ paper, link }) =>
   createWidgetAction({
     paper,
     widget_type: 'Video',
     link,
+  });
+
+export const updateVideoWidgetAction = ({ paper, link, widgetId }) =>
+  updateWidgetAction({
+    paper,
+    widget_type: 'Video',
+    link,
+    widgetId,
   });
 
 export const createMiniGameWidgetAction = ({ paper, link }) =>
@@ -145,6 +137,14 @@ export const createMiniGameWidgetAction = ({ paper, link }) =>
     link,
   });
 
+export const updateMiniGameWidgetAction = ({ paper, link, widgetId }) =>
+  updateWidgetAction({
+    paper,
+    widget_type: 'Game',
+    link,
+    widgetId,
+  });
+
 export const createImageWidgetAction = ({ paper, link }) =>
   createWidgetAction({
     paper,
@@ -152,38 +152,12 @@ export const createImageWidgetAction = ({ paper, link }) =>
     link,
   });
 
-export const createSmallAnswerQuestionWidgetAction = ({
-  paper,
-  text,
-  answer,
-}) =>
-  createWidgetAction({
+export const updateImageWidgetAction = ({ paper, link, widgetId }) =>
+  updateWidgetAction({
     paper,
-    widget_type: 'ProblemSmallAnswer',
-    text,
-    answer: { text: answer },
-  });
-
-export const createBigAnswerQuestionWidgetAction = ({ paper, text, answer }) =>
-  createWidgetAction({
-    paper,
-    widget_type: 'ProblemBigAnswer',
-    text,
-    answer: { text: answer },
-  });
-
-export const createMultiChoicesQuestionWidgetAction = ({
-  paper,
-  text,
-  answer,
-  choices,
-}) =>
-  createWidgetAction({
-    paper,
-    widget_type: 'ProblemMultiChoice',
-    text,
-    answer: { text: answer },
-    choices,
+    widget_type: 'Image',
+    link,
+    widgetId,
   });
 
 export const createTextWidgetAction = ({ paper, text }) =>
@@ -193,23 +167,95 @@ export const createTextWidgetAction = ({ paper, text }) =>
     text,
   });
 
+export const updateTextWidgetAction = ({ paper, text, widgetId }) =>
+  updateWidgetAction({
+    paper,
+    widget_type: 'Description',
+    text,
+    widgetId,
+  });
+
 export const createUploadFileWidgetAction = ({ paper, text }) =>
   createWidgetAction({
     paper,
-    widget_type: 'ProblemUploadFileAnswer',
+    widget_type: 'UploadFileProblem',
     text,
+  });
+
+export const updateUploadFileWidgetAction = ({ paper, text, widgetId }) =>
+  updateWidgetAction({
+    paper,
+    widget_type: 'UploadFileProblem',
+    text,
+    widgetId,
+  });
+
+export const createSmallAnswerQuestionWidgetAction = ({ paper, text, solution }) =>
+  createWidgetAction({
+    paper,
+    widget_type: 'SmallAnswerProblem',
+    text,
+    solution: {
+      text: solution,
+      answer_type: 'SmallAnswer',
+    },
+  });
+
+export const updateSmallAnswerQuestionWidgetAction = ({ paper, text, widgetId }) =>
+  updateWidgetAction({
+    paper,
+    widget_type: 'SmallAnswerProblem',
+    text,
+    widgetId,
+  });
+
+export const createBigAnswerQuestionWidgetAction = ({ paper, text, solution }) =>
+  createWidgetAction({
+    paper,
+    widget_type: 'BigAnswerProblem',
+    text,
+    solution: {
+      text: solution,
+      answer_type: 'BigAnswer',
+    },
+  });
+
+export const updateBigAnswerQuestionWidgetAction = ({ paper, text, widgetId }) =>
+  updateWidgetAction({
+    paper,
+    widget_type: 'BigAnswerProblem',
+    text,
+    widgetId,
+  });
+
+export const createMultiChoicesQuestionWidgetAction = ({ paper, text, solution, choices }) =>
+  createWidgetAction({
+    paper,
+    widget_type: 'MultiChoiceProblem',
+    text,
+    solution,
+    choices,
+  });
+
+export const updateMultiChoicesQuestionWidgetAction = ({ paper, text, choices, widgetId }) =>
+  updateWidgetAction({
+    paper,
+    widget_type: 'MultiChoiceProblem',
+    text,
+    choices,
+    widgetId,
   });
 
 export const deleteStateAction = createAsyncThunkApi(
   'states/delete',
   Apis.DELETE,
-  ({ stateId }) => statesUrl + stateId + '/'
+  statesCRUDUrl,
 );
 
 export const getWidgetAction = createAsyncThunkApi(
   'states/widgets/getOne',
   Apis.GET,
-  ({ widgetId }) => widgetUrl + widgetId + '/'
+  widgetCRUDUrl,
 );
 
 export const getWorkshopTeamsAction = createAsyncThunkApi(
@@ -254,91 +300,42 @@ const mentorSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [getWorkshopsAction.pending.toString()]: (state) => {
-      state.getWorkshopsLoading = true;
-    },
-    [getWorkshopsAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
-      state.workshops = response;
-      state.getWorkshopsLoading = false;
-    },
-    [getWorkshopsAction.rejected.toString()]: (state) => {
-      state.getWorkshopsLoading = false;
-    },
-    [getWorkshopAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
-      state.workshops = state.workshops.filter(
-        (workshop) => +workshop.id !== +response.id
-      );
-      state.workshops.push(response);
-    },
-    [getArticlesAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
-      state.articles = response;
-    },
-    [getArticleAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
-      state.articles = state.articles.filter(
-        (article) => +article.id !== +response.id
-      );
-      state.articles.push(response);
-    },
 
-    [getWorkshopTeamsAction.fulfilled.toString()]: (
-      state,
-      { payload: { response }, meta: { arg } }
-    ) => {
+    [getWorkshopTeamsAction.fulfilled.toString()]: (state, { payload: { response }, meta: { arg } }) => {
       state.teams = {
         ...state.teams,
         [arg.fsmId]: { teams: response, lastUpdate: Date.now() },
       };
     },
-    [getUnreadNotificationsAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
+
+    [getUnreadNotificationsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.notifications = response.unread_list.map(
         (unread) => +unread.actor_object_id
       );
     },
-    [visitWorkshopPlayerAction.fulfilled.toString()]: (
-      state,
-      { meta: { arg } }
-    ) => {
+
+    [visitWorkshopPlayerAction.fulfilled.toString()]: (state, { meta: { arg } }) => {
       state.notifications = state.notifications.filter(
         (notification) => notification !== arg.workshopPlayerId
       );
     },
 
-    [getProblemsAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
+    [getProblemsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.problems = response;
     },
 
     [getSubmissionsAction.pending.toString()]: (state) => {
       state.submissionsIsLoading = true;
     },
+
     [getSubmissionsAction.rejected.toString()]: (state) => {
       state.submissionsIsLoading = false;
     },
-    [getSubmissionsAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
+
+    [getSubmissionsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.submissions = response;
       state.submissionsIsLoading = false;
     },
-
 
   },
 });

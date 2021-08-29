@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function EditWidgets({ widgets = [], id, name }) {
+function EditWidgets({ widgets = [], id: stateId, name }) {
   const classes = useStyles();
   const t = useTranslate();
   const [openCreateWidgetDialog, setOpenCreateWidgetDialog] = useState(false);
@@ -31,7 +31,7 @@ function EditWidgets({ widgets = [], id, name }) {
   return (
     <>
       <Grid container spacing={2} className={classes.workshopContent} justify="center">
-        {name &&
+        {stateId &&
           <Grid item xs={12}>
             <Typography align="center" component="h2" variant="h3" gutterBottom>
               {name}
@@ -43,7 +43,7 @@ function EditWidgets({ widgets = [], id, name }) {
             <Grid item xs={12} key={widget.index}>
               <Paper className={classes.paper}>
                 <Widget
-                  stateId={id}
+                  stateId={stateId}
                   widget={widget}
                   mode={MODES.EDIT}
                 />
@@ -56,7 +56,7 @@ function EditWidgets({ widgets = [], id, name }) {
             <Grid key={widget.id} item xs={12}>
               <Paper className={classes.paper}>
                 <Widget
-                  stateId={id}
+                  stateId={stateId}
                   widget={widget}
                   mode={MODES.EDIT}
                 />
@@ -69,7 +69,7 @@ function EditWidgets({ widgets = [], id, name }) {
             <Typography align="center">{t('thereIsNoItem')}</Typography>
           </Grid>
         }
-        {id &&
+        {stateId &&
           <Grid item xs={12} md={6} container justify="center">
             <Button
               color="primary" variant="contained"
@@ -81,7 +81,7 @@ function EditWidgets({ widgets = [], id, name }) {
         }
       </Grid>
       <CreateWidgetDialog
-        stateId={id}
+        stateId={stateId}
         open={openCreateWidgetDialog}
         handleClose={() => setOpenCreateWidgetDialog(false)}
       />

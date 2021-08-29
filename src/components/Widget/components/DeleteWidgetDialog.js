@@ -10,7 +10,13 @@ import { useTranslate } from 'react-redux-multilingual/lib/context';
 
 import { deleteWidgetAction } from '../../../redux/slices/widget';
 
-function DeleteWidgetDialog({ open, handleClose, deleteWidget, id }) {
+function DeleteWidgetDialog({
+  handleClose,
+  deleteWidget,
+
+  open,
+  widgetId
+}) {
   const t = useTranslate();
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -20,16 +26,16 @@ function DeleteWidgetDialog({ open, handleClose, deleteWidget, id }) {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary" variant="outlined">
-          لغو
+          {'لغو'}
         </Button>
         <Button
           onClick={() => {
-            deleteWidget({ widgetId: id });
+            deleteWidget({ widgetId });
             handleClose();
           }}
           color="primary"
           variant="contained">
-          حذف
+          {'حذف'}
         </Button>
       </DialogActions>
     </Dialog>

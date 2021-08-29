@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { createArticleAction } from './widget';
+import { createArticleAction } from '../../redux/slices/acticle';
 
 const initialState = { redirectTo: null, force: false };
 

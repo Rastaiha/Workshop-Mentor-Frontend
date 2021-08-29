@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 const UploadFileQuestionWidget = ({
   pushAnswer,
   addNotification,
-
   id,
   text = 'محل آپلود فایل:',
   answer_file,
@@ -77,8 +76,6 @@ const UploadFileQuestionWidget = ({
     }
   };
 
-  console.log(props)
-
   const clearFile = () => {
     setFile();
     if (pushAnswer) {
@@ -115,7 +112,7 @@ const UploadFileQuestionWidget = ({
               />
             </Grid>
           }
-          {file &&
+          {file.link &&
             <Grid container justify='center' alignItems='center'>
               <Grid item>
                 <Typography variant='caption'>

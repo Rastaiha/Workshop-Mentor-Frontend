@@ -28,16 +28,10 @@ const Widget = ({ widget, mode = MODES.WRITE, stateId, ...props }) => {
   const [openDeleteWidgetDialog, setOpenDeleteWidgetDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
 
-  console.log(widget)
-
-  console.log(ANSWER_TYPE_TO_WIDGET_TYPES[widget.answer_type])
-
   const { WidgetComponent, WidgetEditDialog } = WIDGET_TYPES[
     widget.widget_type || ANSWER_TYPE_TO_WIDGET_TYPES[widget.answer_type]
   ];
 
-
-  console.log(widget, props)
 
   return (
     <div>
@@ -53,12 +47,13 @@ const Widget = ({ widget, mode = MODES.WRITE, stateId, ...props }) => {
             <Divider />
           </Box>
           <WidgetEditDialog
-            widgetId={widget.id}
+            {...widget}
+            stateId={stateId}
             open={openEditDialog}
             handleClose={() => setOpenEditDialog(false)}
           />
           <DeleteWidgetDialog
-            id={widget.id}
+            widgetId={widget.id}
             open={openDeleteWidgetDialog}
             handleClose={() => setOpenDeleteWidgetDialog(false)}
           />

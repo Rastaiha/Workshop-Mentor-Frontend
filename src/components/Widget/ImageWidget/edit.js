@@ -12,25 +12,35 @@ import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
 import {
-  createImageWidgetAction
+  createImageWidgetAction,
+  updateImageWidgetAction,
 } from '../../../redux/slices/widget';
 
 function ImageEditWidget({
-  open,
-  handleClose,
-  initLink = '',
-  stateId,
-  id,
   createImageWidget,
+  updateImageWidget,
+  handleClose,
+
+  stateId,
+  open,
+  link: oldLink,
+  id: widgetId,
 }) {
-  const [link, setLink] = useState(initLink);
+  const [link, setLink] = useState(oldLink);
   const t = useTranslate();
 
   const handleClick = () => {
-    if (id) {
-      // TODO: edit mode
+    if (widgetId) {
+      updateImageWidget({
+        paper: stateId,
+        link,
+        widgetId,
+      })
     } else {
-      createImageWidget({ paper: stateId, link });
+      createImageWidget({
+        paper: stateId,
+        link
+      });
     }
     handleClose();
   };
@@ -62,6 +72,7 @@ function ImageEditWidget({
 export default connect(
   null,
   {
-    createImageWidget: createImageWidgetAction
+    createImageWidget: createImageWidgetAction,
+    updateImageWidget: updateImageWidgetAction,
   }
 )(ImageEditWidget);

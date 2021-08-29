@@ -2,13 +2,17 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
-import { createWidgetAction, deleteWidgetAction } from './widget';
 import {
   addMentorToWorkshopUrl,
+  getAllWorkshopStatesInfoUrl,
   stateCRUDUrl,
   workshopCRUDUrl,
-  getAllWorkshopStatesInfoUrl,
 } from '../constants/urls';
+import {
+  createWidgetAction,
+  deleteWidgetAction,
+  updateWidgetAction,
+} from './widget';
 
 
 export const getOneWorkshopsInfoAction = createAsyncThunkApi(
@@ -147,6 +151,20 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [deleteWidgetAction.rejected.toString()]: isNotFetching,
+
+
+    [updateWidgetAction.pending.toString()]: isFetching,
+    [updateWidgetAction.fulfilled.toString()]: (state, action) => {
+      const newCurrentState = [...state.currentState.widgets]
+      for (let i = 0; i < newCurrentState.length; i++) {
+        if (newCurrentState[i].id === action.meta.arg.widgetId) {
+          newCurrentState[i] = action.payload.response;
+        }
+      }
+      state.currentState.widgets = newCurrentState;
+      state.isFetching = false;
+    },
+    [updateWidgetAction.rejected.toString()]: isNotFetching,
 
   },
 });

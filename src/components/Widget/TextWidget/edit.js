@@ -10,25 +10,38 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createTextWidgetAction } from '../../../redux/slices/widget';
+import {
+  createTextWidgetAction,
+  updateTextWidgetAction,
+} from '../../../redux/slices/widget';
 import TinyEditorComponent from '../../tiny_editor/react_tiny/TinyEditorComponent';
 
 function TextEditWidget({
+  updateTextWidget,
+  createTextWidget,
+
   open,
   handleClose,
-  initText,
+  text: oldText,
   stateId,
-  id,
-  createTextWidget,
+  id: widgetId,
 }) {
   const t = useTranslate();
-  const [text, setText] = useState(initText);
+  const [text, setText] = useState(oldText);
+
 
   const handleClick = () => {
-    if (id) {
-      // TODO: edit mode
+    if (widgetId) {
+      updateTextWidget({
+        paper: stateId,
+        text,
+        widgetId,
+      })
     } else {
-      createTextWidget({ paper: stateId, text });
+      createTextWidget({
+        paper: stateId,
+        text
+      });
     }
     handleClose();
   };
@@ -57,6 +70,10 @@ function TextEditWidget({
   );
 }
 
-export default connect(null, { createTextWidget: createTextWidgetAction })(
-  TextEditWidget
-);
+export default connect(
+  null,
+  {
+    createTextWidget: createTextWidgetAction,
+    updateTextWidget: updateTextWidgetAction,
+  }
+)(TextEditWidget);

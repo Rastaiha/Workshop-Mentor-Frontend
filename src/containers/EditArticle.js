@@ -4,8 +4,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 
+import { getArticleAction } from '../redux/slices/acticle';
 import EditWidgets from '../components/SpecialComponents/EditArticlePage/EditWidgets';
-import { getArticleAction } from '../redux/slices/widget';
 
 const useStyles = makeStyles((theme) => ({
   tabbar: {

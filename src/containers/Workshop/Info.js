@@ -5,14 +5,9 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import { AddCircle as AddCircleIcon } from '@material-ui/icons';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
-import { useParams } from 'react-router';
-
-import ArticleCard from '../../components/Cards/ArticleCard';
-import CreateArticleDialog from '../../components/Dialog/CreateArticleDialog/CreateArticleDialog';
 
 const useStyles = makeStyles((theme) => ({
   absolute: {

@@ -12,17 +12,19 @@ export const merchandiseDiscountCodeUrl = ({ merchandiseId }) => `/auth/merchand
 export const getTeamsUrl = '/fsm/team/'; //todo: get team per registration form
 
 // event:
-export const workshopCRUDUrl = ({ fsmId }) => fsmId ? `/fsm/fsm/${fsmId}/` : '/fsm/fsm/';
 export const addMentorToWorkshopUrl = ({ fsmId }) => `/fsm/fsm/${fsmId}/add_mentor/`;
 
 // workshop:
+export const workshopCRUDUrl = ({ fsmId }) => fsmId ? `/fsm/fsm/${fsmId}/` : '/fsm/fsm/';
 export const getAllWorkshopStatesInfoUrl = ({ fsmId }) => `/fsm/fsm/${fsmId}/get_states/`;
+
 
 // state:
 export const stateCRUDUrl = ({ stateId }) => stateId ? `/fsm/state/${stateId}/` : '/fsm/state/';
 
 // widget:
-export const widgetUrl = ({ widgetId }) => widgetId ? `fsm/widget/${widgetId}/` : 'fsm/widget/';
+export const widgetCRUDUrl = ({ widgetId }) => widgetId ? `fsm/widget/${widgetId}/` : 'fsm/widget/';
+export const statesCRUDUrl = ({ stateId }) => stateId ? `fsm/state/${stateId}/` : 'fsm/state/';
 
 
 
@@ -35,13 +37,11 @@ export const validateRegistrationReceiptUrl = ({ registrationReceiptId }) => `/f
 
 
 
-export const workshopsUrl = 'fsm/fsm/';
 
 export const getUnreadNotificationsUrl = 'notifications/api/unread_list/';
 
 export const articlesUrl = 'fsm/article/';
 
-export const statesUrl = 'fsm/state/';
 
 export const helpUrl = 'fsm/help/';
 

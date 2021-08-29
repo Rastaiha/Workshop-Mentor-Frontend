@@ -4,11 +4,13 @@ import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import { getScoresUrl, mentorGetCurrentStateUrl } from '../constants/urls';
 import {
+  getArticleAction,
+  getArticlesAction,
+} from './acticle';
+import {
   createHelpAction,
   createWidgetAction,
   deleteWidgetAction,
-  getArticleAction,
-  getArticlesAction,
   getStateAction,
 } from './widget';
 

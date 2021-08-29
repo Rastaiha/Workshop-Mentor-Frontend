@@ -12,7 +12,10 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createMiniGameWidgetAction } from '../../../redux/slices/widget';
+import {
+  createMiniGameWidgetAction,
+  updateMiniGameWidgetAction,
+} from '../../../redux/slices/widget';
 
 
 // todo: get minigames list from backend
@@ -79,19 +82,28 @@ export const MINI_GAMES = [
 function MiniGameEditWidget({
   open,
   handleClose,
-  initLink = '',
-  stateId,
-  id,
+  updateMiniGameWidget,
   createMiniGameWidget,
+
+  stateId,
+  link: oldLink,
+  id: widgetId,
 }) {
-  const [link, setLink] = useState(initLink);
+  const [link, setLink] = useState(oldLink);
   const t = useTranslate();
 
   const handleClick = () => {
-    if (id) {
-      // TODO: edit mode
+    if (widgetId) {
+      updateMiniGameWidget({
+        paper: stateId,
+        link,
+        widgetId,
+      })
     } else {
-      createMiniGameWidget({ paper: stateId, link });
+      createMiniGameWidget({
+        paper: stateId,
+        link
+      });
     }
     handleClose();
   };
@@ -127,4 +139,5 @@ function MiniGameEditWidget({
 
 export default connect(null, {
   createMiniGameWidget: createMiniGameWidgetAction,
+  updateMiniGameWidget: updateMiniGameWidgetAction,
 })(MiniGameEditWidget);

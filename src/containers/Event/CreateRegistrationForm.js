@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
 import ArticleCard from '../../components/Cards/ArticleCard';
-import CreateArticleDialog from '../../components/Dialog/CreateArticleDialog/CreateArticleDialog';
+import CreateArticleDialog from '../../components/Dialog/CreateArticleDialog';
 
 const useStyles = makeStyles((theme) => ({
   absolute: {

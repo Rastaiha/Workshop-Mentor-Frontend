@@ -73,16 +73,16 @@ const SmallAnswerQuestionWidget = ({
 
   return (
     <>
-      {/* <TinyPreview
+      <TinyPreview
         frameProps={{
           frameBorder: '0',
           scrolling: 'no',
           width: '100%',
         }}
         content={text}
-      /> */}
+      />
       <Grid container alignItems="center" spacing={1}>
-        {mode === MODES.WRITE ? (
+        {mode === MODES.WRITE &&
           <>
             <Grid item xs={12} sm={9} md={10}>
               <TextField
@@ -118,11 +118,7 @@ const SmallAnswerQuestionWidget = ({
               </Grid>
             }
           </>
-        ) : (
-            <Grid item xs={12} component={Paper} className={classes.showAnswer}>
-              {text}
-            </Grid>
-          )}
+        }
         {answer?.text && (
           <Grid item xs={12}>
             <Typography variant="body2">

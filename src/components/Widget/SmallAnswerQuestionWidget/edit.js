@@ -5,36 +5,47 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grid,
   TextField,
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createSmallAnswerQuestionWidgetAction } from '../../../redux/slices/widget';
+import {
+  createSmallAnswerQuestionWidgetAction,
+  updateSmallAnswerQuestionWidgetAction,
+} from '../../../redux/slices/widget';
 import TinyEditorComponent from '../../tiny_editor/react_tiny/TinyEditorComponent';
 
 function SmallAnswerQuestionEditWidget({
-  open,
-  handleClose,
-  initQuestion = '',
-  initAnswer = '',
-  stateId,
-  id,
   createSmallAnswerQuestionWidget,
+  updateSmallAnswerQuestionWidget,
+  handleClose,
+
+  open,
+  text: oldText,
+  solution: oldSolution,
+  stateId,
+  id: widgetId,
 }) {
   const t = useTranslate();
-  const [question, setQuestion] = useState(initQuestion);
-  const [answer, setAnswer] = useState(initAnswer);
+  const [text, setText] = useState(oldText);
+  const [solution, setSolution] = useState(oldSolution?.text);
 
-  const handleClick = () => {
-    if (id) {
-      // TODO: edit mode
+
+  const handleSubmit = () => {
+    if (widgetId) {
+      updateSmallAnswerQuestionWidget({
+        widgetId,
+        paper: stateId,
+        text: text,
+      })
     } else {
       createSmallAnswerQuestionWidget({
         paper: stateId,
-        text: question,
-        answer,
+        text: text,
+        solution,
       });
     }
     handleClose();
@@ -50,22 +61,31 @@ function SmallAnswerQuestionEditWidget({
       disableEnforceFocus>
       <DialogTitle>{t('shortAnswerQuestion')}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{t('writeQuestionAndAnswer')}</DialogContentText>
-        <label>{t('question')}</label>
-        <TinyEditorComponent
-          id={`edit-text-${Math.floor(Math.random() * 1000)}`}
-          content={question}
-          onChange={(val) => setQuestion(val)}
-        />
-        <TextField
-          fullWidth
-          label={t('answer')}
-          value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
-        />
+        <DialogContentText>
+          {t('writeQuestionAndAnswer')}
+        </DialogContentText>
+        <Grid container direction='column' spacing={1}>
+          <label>{t('question')}</label>
+          <Grid item>
+            <TinyEditorComponent
+              id={`edit-text-${Math.floor(Math.random() * 1000)}`}
+              content={text}
+              onChange={(text) => setText(text)}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              variant='outlined'
+              fullWidth
+              label={t('answer')}
+              value={solution}
+              onChange={(e) => setSolution(e.target.value)}
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClick} color="primary" variant="contained">
+        <Button onClick={handleSubmit} color="primary" variant="contained">
           {t('submit')}
         </Button>
       </DialogActions>
@@ -75,4 +95,5 @@ function SmallAnswerQuestionEditWidget({
 
 export default connect(null, {
   createSmallAnswerQuestionWidget: createSmallAnswerQuestionWidgetAction,
+  updateSmallAnswerQuestionWidget: updateSmallAnswerQuestionWidgetAction,
 })(SmallAnswerQuestionEditWidget);

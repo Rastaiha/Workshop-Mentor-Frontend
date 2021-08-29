@@ -10,30 +10,43 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createBigAnswerQuestionWidgetAction } from '../../../redux/slices/widget';
+import {
+  createBigAnswerQuestionWidgetAction,
+  updateBigAnswerQuestionWidgetAction,
+} from '../../../redux/slices/widget';
 import TinyEditorComponent from '../../tiny_editor/react_tiny/TinyEditorComponent';
 
 function BigAnswerQuestionEditWidget({
-  open,
   handleClose,
-  initQuestion = '',
-  initAnswer = '',
-  stateId,
-  id,
   createBigAnswerQuestionWidget,
+  updateBigAnswerQuestionWidgetAction,
+
+  open,
+  text: oldText,
+  solution: oldSolution,
+  stateId,
+  id: widgetId,
 }) {
   const t = useTranslate();
-  const [question, setQuestion] = useState(initQuestion);
-  const [answer, setAnswer] = useState(initAnswer);
+  const [text, setText] = useState(oldText);
+  const [solution, setSolution] = useState(oldSolution?.text);
+
+
+  console.log(stateId)
+  console.log(widgetId)
 
   const handleClick = () => {
-    if (id) {
-      // TODO: edit mode
+    if (widgetId) {
+      updateBigAnswerQuestionWidgetAction({
+        widgetId,
+        paper: stateId,
+        text: text,
+      })
     } else {
       createBigAnswerQuestionWidget({
-        state: stateId,
-        text: question,
-        answer,
+        paper: stateId,
+        text: text,
+        solution,
       });
     }
     handleClose();
@@ -54,15 +67,15 @@ function BigAnswerQuestionEditWidget({
         <label>{t('question')}</label>
         <TinyEditorComponent
           id={`edit-question-${Math.floor(Math.random() * 1000)}`}
-          content={question}
-          onChange={(val) => setQuestion(val)}
+          content={text}
+          onChange={(val) => setText(val)}
         />
         <br />
         <label>{t('answer')}</label>
         <TinyEditorComponent
           id={`edit-answer-${Math.floor(Math.random() * 1000)}`}
-          content={answer}
-          onChange={(val) => setAnswer(val)}
+          content={solution}
+          onChange={(val) => setSolution(val)}
         />
       </DialogContent>
       <DialogActions>
@@ -76,4 +89,5 @@ function BigAnswerQuestionEditWidget({
 
 export default connect(null, {
   createBigAnswerQuestionWidget: createBigAnswerQuestionWidgetAction,
+  updateBigAnswerQuestionWidget: updateBigAnswerQuestionWidgetAction,
 })(BigAnswerQuestionEditWidget);

@@ -19,27 +19,27 @@ const WIDGET_TYPES = {
   SmallAnswerProblem: {
     WidgetComponent: SmallAnswerQuestionWidget,
     WidgetEditDialog: SmallAnswerQuestionEditWidget,
-    label: 'کوتاه پاسخ',
+    label: 'سوال کوتاه پاسخ',
     backendType: 'SmallAnswerProblem',
   },
   BigAnswerProblem: {
     WidgetComponent: BigAnswerQuestionWidget,
     WidgetEditDialog: BigAnswerQuestionEditWidget,
-    label: 'بلند پاسخ',
+    label: 'سوال بلند پاسخ',
     backendType: 'BigAnswerProblem',
   },
   // MultiChoiceProblem: {
   //   WidgetComponent: MultiChoiceQuestionWidget,
   //   WidgetEditDialog: MultiChoiceQuestionEditWidget,
-  //   label: 'چند گزینه‌ای',
+  //   label: 'سوال چند گزینه‌ای',
   //   backendType: 'MultiChoiceProblem',
   // },
-  // UploadFileProblem: {
-  //   WidgetComponent: UploadFileQuestionWidget,
-  //   WidgetEditDialog: UploadFileQuestionEditWidget,
-  //   label: 'فایل',
-  //   backendType: 'UploadFileProblem',
-  // },
+  UploadFileProblem: {
+    WidgetComponent: UploadFileQuestionWidget,
+    WidgetEditDialog: UploadFileQuestionEditWidget,
+    label: 'سوال ارسال فایل',
+    backendType: 'UploadFileProblem',
+  },
   Description: {
     WidgetComponent: TextWidget,
     WidgetEditDialog: TextEditWidget,

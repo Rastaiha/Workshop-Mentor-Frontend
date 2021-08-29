@@ -11,23 +11,32 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createVideoWidgetAction } from '../../../redux/slices/widget';
+import {
+  createVideoWidgetAction,
+  updateVideoWidgetAction,
+} from '../../../redux/slices/widget';
 
 
 function VideoEditWidget({
-  open,
-  handleClose,
-  initLink = '',
-  stateId,
-  id,
+  updateVideoWidget,
   createVideoWidget,
+
+  stateId,
+  open,
+  link: oldLink,
+  handleClose,
+  id: widgetId,
 }) {
   const t = useTranslate();
-  const [link, setLink] = useState(initLink);
+  const [link, setLink] = useState(oldLink);
 
   const handleClick = () => {
-    if (id) {
-      // TODO: edit mode
+    if (widgetId) {
+      updateVideoWidget({
+        paper: stateId,
+        link,
+        widgetId,
+      })
     } else {
       createVideoWidget({ paper: stateId, link });
     }
@@ -58,4 +67,10 @@ function VideoEditWidget({
   );
 }
 
-export default connect(null, { createVideoWidget: createVideoWidgetAction })(VideoEditWidget);
+export default connect(
+  null,
+  {
+    createVideoWidget: createVideoWidgetAction,
+    updateVideoWidget: updateVideoWidgetAction,
+  }
+)(VideoEditWidget);
