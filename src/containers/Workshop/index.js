@@ -16,18 +16,12 @@ import { useTranslate } from 'react-redux-multilingual/lib/context';
 import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
-import ResponsiveAppBar from '../../components/Appbar/ResponsiveAppBar';
 import {
   getOneEventInfoAction,
 } from '../../redux/slices/events';
-import CreateRegistrationForm from './CreateRegistrationForm';
-import DiscountCode from './DiscountCode';
 import Info from './Info';
-import RegistrationReceipts from './RegistrationReceipts';
-import Teams from './Teams';
-import Workshops from './Workshops';
-
 import Layout from './Layout';
+import Teams from './Teams';
 
 const useStyles = makeStyles((theme) => ({
   rightBox: {
@@ -40,26 +34,6 @@ const tabs = [
     label: 'اطلاعات کلی',
     icon: '',
     component: Info,
-  },
-  {
-    label: 'ایجاد فرم ثبت‌نام',
-    icon: '',
-    component: CreateRegistrationForm,
-  },
-  {
-    label: 'رسیدهای ثبت‌نام',
-    icon: '',
-    component: RegistrationReceipts,
-  },
-  {
-    label: 'کد تخفیف',
-    icon: '',
-    component: DiscountCode,
-  },
-  {
-    label: 'کارگاه‌ها',
-    icon: ClassIcon,
-    component: Workshops,
   },
   {
     label: 'تیم‌ها',
@@ -75,39 +49,29 @@ const tabs = [
   },
 ];
 
-const Event = ({
-  getOneEventInfo,
-}) => {
+const Event = () => {
   const t = useTranslate();
   const history = useHistory();
-  const { tabNumber, eventId } = useParams();
+  const { tabNumber, eventId, fsmId } = useParams();
+
   if (!tabNumber) {
-    history.push(`/event/${eventId}/0/`)
+    history.push(`/event/${eventId}/workshop/${fsmId}/0/`)
   }
+
   const [tabIndex, setTabIndex] = useState(tabNumber || 0);
   const classes = useStyles();
-
-  useEffect(() => {
-    getOneEventInfo({ eventId });
-  }, [getOneEventInfo]);
 
   const TabComponent = tabs[tabIndex].component;
 
   const handleTabChange = (index) => {
-    history.push(`/event/${eventId}/${index}/`)
+    history.push(`/event/${eventId}/workshop/${fsmId}/${index}/`)
     setTabIndex(index);
   }
 
   return (
     <Layout>
       <Grid container spacing={2} direction="row" justify="center">
-        <Grid
-          container
-          item
-          sm={3}
-          xs={12}
-          direction="column"
-          justify="space-between">
+        <Grid container item sm={3} xs={12} direction="column" justify="space-between">
           <Grid item>
             <ButtonGroup orientation="vertical" color="primary" fullWidth>
               {tabs.map((tab, index) => (

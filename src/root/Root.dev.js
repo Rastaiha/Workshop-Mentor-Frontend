@@ -6,6 +6,7 @@ import EditWorkshop from '../containers/EditWorkshop';
 import Event from '../containers/Event';
 import Login from '../containers/Login';
 import RegistrationReceipt from '../containers/RegistrationReceipt';
+import Workshop from '../containers/Workshop';
 import PrivateRoute from './PrivateRoute';
 
 const Root = () => {
@@ -14,6 +15,8 @@ const Root = () => {
       <PrivateRoute path="/edit_workshop/:fsmId/" component={EditWorkshop} />
       <PrivateRoute path="/edit_article/:articleId/" component={EditArticle} />
       <PrivateRoute path="/registration_receipt/:registrationReceiptId/" component={RegistrationReceipt} />
+
+      <PrivateRoute path="/event/:eventId/workshop/:fsmId/:tabNumber?/" component={Workshop} />
       <PrivateRoute path="/event/:eventId/:tabNumber?/" component={Event} />
       <Route path="/" component={Login}></Route>
     </Switch>

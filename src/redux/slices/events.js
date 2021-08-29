@@ -3,13 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
+  addMentorToWorkshopUrl,
   allRegistrationReceiptsUrl,
   eventInfoUrl,
   getTeamsUrl,
   oneRegistrationReceiptUrl,
   validateRegistrationReceiptUrl,
   workshopCRUDUrl,
-  addMentorToWorkshopUrl,
 } from '../constants/urls';
 
 export const getOneEventInfoAction = createAsyncThunkApi(
@@ -65,8 +65,8 @@ export const createWorkshopAction = createAsyncThunkApi(
   workshopCRUDUrl,
 );
 
-export const getWorkshopsInfoAction = createAsyncThunkApi(
-  'events/getWorkshopsInfoAction',
+export const getAllWorkshopsInfoAction = createAsyncThunkApi(
+  'events/getAllWorkshopsInfoAction',
   Apis.GET,
   workshopCRUDUrl,
 );
@@ -75,6 +75,11 @@ export const addMentorToWorkshopAction = createAsyncThunkApi(
   'events/addMentorToWorkshopAction',
   Apis.POST,
   addMentorToWorkshopUrl,
+  {
+    defaultNotification: {
+      success: 'همیار با موفقیت اضافه شد.',
+    },
+  }
 );
 
 
@@ -88,6 +93,7 @@ const initialState = {
   allRegistrationReceipts: [],
   allEvents: [],
   allEventTeams: [],
+  allWorkshops: [],
 };
 
 const isFetching = (state) => {
@@ -133,6 +139,21 @@ const eventSlice = createSlice({
     },
     [getEventTeamsAction.rejected.toString()]: isNotFetching,
 
+
+    [getAllWorkshopsInfoAction.pending.toString()]: isFetching,
+    [getAllWorkshopsInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.allWorkshops = response;
+      state.isFetching = false;
+    },
+    [getAllWorkshopsInfoAction.rejected.toString()]: isNotFetching,
+
+
+    [createWorkshopAction.pending.toString()]: isFetching,
+    [createWorkshopAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.allWorkshops = [response, ...state.allWorkshops];
+      state.isFetching = false;
+    },
+    [createWorkshopAction.rejected.toString()]: isNotFetching,
   },
 });
 

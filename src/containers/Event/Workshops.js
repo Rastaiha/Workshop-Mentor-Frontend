@@ -18,7 +18,7 @@ import { useTranslate } from 'react-redux-multilingual/lib/context';
 import WorkshopCard from '../../components/Cards/WorkshopCard';
 import CreateWorkshopDialog from '../../components/Dialog/CreateWorkshopDialog';
 import {
-  getWorkshopsInfoAction,
+  getAllWorkshopsInfoAction,
   addMentorToWorkshopAction,
 } from '../../redux/slices/events';
 import { toEnglishNumber } from '../../utils/translateNumber';
@@ -27,18 +27,19 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+
 function Index({
   getWorkshopsInfo,
   addMentorToWorkshop,
 
-  workshops,
+  allWorkshops,
 }) {
   const classes = useStyles();
   const t = useTranslate();
   const [openCreateWorkshopDialog, setOpenCreateWorkshopDialog] = useState(false);
   const [properties, setProperties] = useState({
     username: '',
-    fsmId: 3,
+    fsmId: '',
   });
 
   React.useEffect(() => {
@@ -48,13 +49,15 @@ function Index({
   const putData = (e) => {
     setProperties({
       ...properties,
-      [e.target.name]: e.target.value,
+      [e.target.name]: toEnglishNumber(e.target.value),
     })
   }
 
   const addMentor = () => {
     addMentorToWorkshop(properties);
   }
+
+  console.log(allWorkshops)
 
   return (
     <>
@@ -76,11 +79,9 @@ function Index({
               onChange={putData}
               name='fsmId'
               label='کارگاه'>
-              {workshops?.map((workshop) => {
-                return (
-                  <MenuItem key={workshop.id} value={'Individual'}>{'فردی'}</MenuItem>
-                )
-              })}
+              {allWorkshops?.map((workshop) => (
+                <MenuItem key={workshop.id} value={workshop.id}>{workshop.name}</MenuItem>
+              ))}
             </Select>
           </FormControl >
         </Grid>
@@ -93,10 +94,12 @@ function Index({
             {'افزودن همیار'}
           </Button>
         </Grid>
-        <Grid item container xs={12} justify='center'>
-          {workshops?.maps((workshop) => {
-            <WorkshopCard {...workshop} />
-          })}
+        <Grid item container xs={12} justify='flex-start'>
+          {allWorkshops?.map((workshop) => (
+            <Grid item xs={12} sm={6} md={4} key={workshop.id} >
+              <WorkshopCard {...workshop} />
+            </Grid>
+          ))}
         </Grid>
 
         <Grid item container xs={12} justify='center'>
@@ -115,13 +118,13 @@ function Index({
   );
 }
 const mapStateToProps = (state) => ({
-  workshops: state.events.workshops,
+  allWorkshops: state.events.allWorkshops || [],
 });
 
 export default connect(
   mapStateToProps,
   {
-    getWorkshopsInfo: getWorkshopsInfoAction,
+    getWorkshopsInfo: getAllWorkshopsInfoAction,
     addMentorToWorkshop: addMentorToWorkshopAction,
   }
 )(Index);

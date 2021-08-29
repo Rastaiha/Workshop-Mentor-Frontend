@@ -14,7 +14,7 @@ import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import React from 'react';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -30,22 +30,28 @@ const useStyles = makeStyles({
 
 const WorkshopCard = ({
   id,
-  name = '',
-  description = '',
+  name,
+  cover_page,
+  description,
   teamsNumber = 0,
   mentorsNumber = 0,
 }) => {
   const classes = useStyles();
   const t = useTranslate();
+  const { eventId } = useParams();
+
+  console.log(description)
 
   return (
     <Card className={classes.root}>
       <CardActionArea disabled>
-        <CardMedia
-          className={classes.media}
-          image={process.env.PUBLIC_URL + '/ai.jpg'}
-          title={name}
-        />
+        {cover_page &&
+          <CardMedia
+            className={classes.media}
+            image={cover_page}
+            title={name}
+          />
+        }
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {name}
@@ -54,7 +60,7 @@ const WorkshopCard = ({
             {description}
           </Typography>
         </CardContent>
-        <Grid container direction="row" justify="center">
+        {/* <Grid container direction="row" justify="center">
           <Grid container item xs={6} justify="center">
             <Chip
               variant="outlined"
@@ -69,24 +75,13 @@ const WorkshopCard = ({
               label={`${teamsNumber} ${t('team')}`}
             />
           </Grid>
-        </Grid>
+        </Grid> */}
       </CardActionArea>
       <CardActions>
         <Button
-          variant="contained"
-          fullWidth
-          color="primary"
-          component={Link}
-          to={`/correction/${id}`}>
-          تصحیح
-        </Button>
-        <Button
-          variant="outlined"
-          fullWidth
-          color="primary"
-          component={Link}
-          to={`/edit_workshop/${id}`}>
-          {t('watch')}
+          variant="contained" fullWidth color="primary"
+          component={Link} to={`/event/${eventId}/workshop/${id}`}>
+          {'ورود'}
         </Button>
       </CardActions>
     </Card>
