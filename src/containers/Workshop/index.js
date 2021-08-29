@@ -19,6 +19,7 @@ import { Link, useParams } from 'react-router-dom';
 import {
   getOneEventInfoAction,
 } from '../../redux/slices/events';
+import ConnectStates from './ConnectStates';
 import Design from './Design';
 import Info from './Info';
 import Layout from './Layout';
@@ -40,6 +41,11 @@ const tabs = [
     label: 'طراحی',
     icon: '',
     component: Design,
+  },
+  {
+    label: 'یال‌ها',
+    icon: '',
+    component: ConnectStates,
   },
   // {
   //   label: 'تیم‌ها',

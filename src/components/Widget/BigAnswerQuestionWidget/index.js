@@ -50,13 +50,16 @@ const BigAnswerQuestionWidget = ({
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
-        <TinyEditorComponent
-          id={`edit-big-answer-${Math.floor(Math.random() * 1000)}`}
+        <TinyPreview
+          frameProps={{
+            frameBorder: '0',
+            scrolling: 'no',
+            width: '100%',
+          }}
           content={value}
-          onChange={handleTextChange}
         />
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Button
           fullWidth
           variant="contained"
@@ -66,7 +69,7 @@ const BigAnswerQuestionWidget = ({
           onClick={handleButtonClick}>
           {t('submitAnswer')}
         </Button>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };

@@ -191,15 +191,21 @@ export const updateUploadFileWidgetAction = ({ paper, text, widgetId }) =>
   });
 
 export const createSmallAnswerQuestionWidgetAction = ({ paper, text, solution }) =>
-  createWidgetAction({
-    paper,
-    widget_type: 'SmallAnswerProblem',
-    text,
-    solution: {
-      text: solution,
-      answer_type: 'SmallAnswer',
-    },
-  });
+  solution
+    ? createWidgetAction({
+      paper,
+      widget_type: 'SmallAnswerProblem',
+      text,
+      solution: {
+        text: solution,
+        answer_type: 'SmallAnswer',
+      },
+    })
+    : createWidgetAction({
+      paper,
+      widget_type: 'SmallAnswerProblem',
+      text,
+    })
 
 export const updateSmallAnswerQuestionWidgetAction = ({ paper, text, widgetId }) =>
   updateWidgetAction({
@@ -210,15 +216,21 @@ export const updateSmallAnswerQuestionWidgetAction = ({ paper, text, widgetId })
   });
 
 export const createBigAnswerQuestionWidgetAction = ({ paper, text, solution }) =>
-  createWidgetAction({
-    paper,
-    widget_type: 'BigAnswerProblem',
-    text,
-    solution: {
-      text: solution,
-      answer_type: 'BigAnswer',
-    },
-  });
+  solution
+    ? createWidgetAction({
+      paper,
+      widget_type: 'BigAnswerProblem',
+      text,
+      solution: {
+        text: solution,
+        answer_type: 'BigAnswer',
+      },
+    })
+    : createWidgetAction({
+      paper,
+      widget_type: 'BigAnswerProblem',
+      text,
+    })
 
 export const updateBigAnswerQuestionWidgetAction = ({ paper, text, widgetId }) =>
   updateWidgetAction({
@@ -229,13 +241,20 @@ export const updateBigAnswerQuestionWidgetAction = ({ paper, text, widgetId }) =
   });
 
 export const createMultiChoicesQuestionWidgetAction = ({ paper, text, solution, choices }) =>
-  createWidgetAction({
-    paper,
-    widget_type: 'MultiChoiceProblem',
-    text,
-    solution,
-    choices,
-  });
+  solution
+    ? createWidgetAction({
+      paper,
+      widget_type: 'MultiChoiceProblem',
+      text,
+      solution,
+      choices,
+    })
+    : createWidgetAction({
+      paper,
+      widget_type: 'MultiChoiceProblem',
+      text,
+      choices,
+    })
 
 export const updateMultiChoicesQuestionWidgetAction = ({ paper, text, choices, widgetId }) =>
   updateWidgetAction({

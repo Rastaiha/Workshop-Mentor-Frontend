@@ -21,6 +21,8 @@ export const getAllWorkshopStatesInfoUrl = ({ fsmId }) => `/fsm/fsm/${fsmId}/get
 
 // state:
 export const stateCRUDUrl = ({ stateId }) => stateId ? `/fsm/state/${stateId}/` : '/fsm/state/';
+export const edgeUrl = ({ stateId }) => `/fsm/edge/${stateId}/`;
+
 
 // widget:
 export const widgetCRUDUrl = ({ widgetId }) => widgetId ? `fsm/widget/${widgetId}/` : 'fsm/widget/';
