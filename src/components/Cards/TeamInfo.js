@@ -28,7 +28,7 @@ const TeamInfo = ({ name, members, playerId }) => {
     <Card className={classes.root}>
       <CardActionArea disabled>
         <CardContent>
-          {playerId && <NotificationsActive />}
+          {playerId && <NotificationsActive color="primary" />}
           <Typography gutterBottom variant="h3" align="center">
             {name}
           </Typography>
@@ -49,20 +49,25 @@ const TeamInfo = ({ name, members, playerId }) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Grid container direction="column" spacing={2}>
+        <Grid container direction="column" spacing={1}>
           <Grid item>
             <ButtonGroup disabled variant="outlined" color="primary" fullWidth>
               <Button>{'ویرایش'}</Button>
               <Button>{'حذف'}</Button>
             </ButtonGroup>
           </Grid>
-          {playerId && (
-            <Grid item>
-              <Button variant="outlined" color="primary" fullWidth>
+
+          <Grid item>
+            {playerId ? (
+              <Button variant="contained" color="primary" fullWidth>
                 پاسخ به درخواست
               </Button>
-            </Grid>
-          )}
+            ) : (
+              <Button variant="outlined" color="primary" fullWidth>
+                مشاهده
+              </Button>
+            )}
+          </Grid>
         </Grid>
       </CardActions>
     </Card>

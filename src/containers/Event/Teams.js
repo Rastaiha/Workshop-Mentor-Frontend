@@ -1,5 +1,5 @@
-import { Grid } from '@material-ui/core';
-import React, { useEffect } from 'react';
+import { Grid, Tab, Tabs } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import TeamInfoCard from '../../components/Cards/TeamInfo';
@@ -12,11 +12,14 @@ import {
 
 function Teams({
   requestTeams,
+  allWorkshops,
   allEventTeams,
   getRequestMentor,
   createRequestMentor,
   removeRequestMentor,
 }) {
+  const [workshopNumber, setWorkshopNumber] = useState(0);
+
   useEffect(async () => {
     getRequestMentor();
     const subscription = await getRequestSubscription();
@@ -40,26 +43,49 @@ function Teams({
     };
   }, []);
 
-  const reqTeams = allEventTeams.filter((team) => requestTeams[team.id]);
-  const nonReqTeams = allEventTeams.filter((team) => !requestTeams[team.id]);
+  const reqTeams = allEventTeams.filter(
+    (team) => requestTeams[team.id + '.' + allWorkshops[workshopNumber].id]
+  );
+  const nonReqTeams = allEventTeams.filter(
+    (team) => !requestTeams[team.id + '.' + allWorkshops[workshopNumber].id]
+  );
 
   return (
-    <Grid container spacing={2} alignItems="center" justify="center">
-      {reqTeams?.map((team) => (
-        <Grid item xs={12} sm={6} md={4} key={team.id}>
-          <TeamInfoCard {...team} playerId={requestTeams[team.id]} />
-        </Grid>
-      ))}
-      {nonReqTeams?.map((team) => (
-        <Grid item xs={12} sm={6} md={4} key={team.id}>
-          <TeamInfoCard {...team} />
-        </Grid>
-      ))}
-    </Grid>
+    <>
+      <Tabs
+        value={workshopNumber}
+        indicatorColor="secondary"
+        textColor="secondary"
+        onChange={(e, value) => setWorkshopNumber(value)}
+        variant="scrollable"
+        scrollButtons="auto">
+        {allWorkshops.map((workshop) => (
+          <Tab key={workshop.id} label={workshop.name} />
+        ))}
+      </Tabs>
+      <Grid container spacing={2} alignItems="center" justify="center">
+        {reqTeams?.map((team) => (
+          <Grid item xs={12} sm={6} md={4} key={team.id}>
+            <TeamInfoCard
+              {...team}
+              playerId={
+                requestTeams[team.id + '.' + allWorkshops[workshopNumber].id]
+              }
+            />
+          </Grid>
+        ))}
+        {nonReqTeams?.map((team) => (
+          <Grid item xs={12} sm={6} md={4} key={team.id}>
+            <TeamInfoCard {...team} />
+          </Grid>
+        ))}
+      </Grid>
+    </>
   );
 }
 
 const mapStateToProps = (state) => ({
+  allWorkshops: state.events.allWorkshops || [],
   allEventTeams: state.events.allEventTeams || [],
   requestTeams: state.events.requestTeams || {},
 });
