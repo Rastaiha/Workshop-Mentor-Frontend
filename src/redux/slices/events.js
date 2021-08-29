@@ -8,6 +8,8 @@ import {
   getTeamsUrl,
   oneRegistrationReceiptUrl,
   validateRegistrationReceiptUrl,
+  workshopCRUDUrl,
+  addMentorToWorkshopUrl,
 } from '../constants/urls';
 
 export const getOneEventInfoAction = createAsyncThunkApi(
@@ -56,6 +58,26 @@ export const getEventTeamsAction = createAsyncThunkApi(
   Apis.GET,
   getTeamsUrl,
 );
+
+export const createWorkshopAction = createAsyncThunkApi(
+  'events/createWorkshopAction',
+  Apis.POST,
+  workshopCRUDUrl,
+);
+
+export const getWorkshopsInfoAction = createAsyncThunkApi(
+  'events/getWorkshopsInfoAction',
+  Apis.GET,
+  workshopCRUDUrl,
+);
+
+export const addMentorToWorkshopAction = createAsyncThunkApi(
+  'events/addMentorToWorkshopAction',
+  Apis.POST,
+  addMentorToWorkshopUrl,
+);
+
+
 
 
 

@@ -74,11 +74,9 @@ function Index({
     deleteDiscountCode({ discountCodeId })
   }
 
-  console.log(discountCodes)
-
   return (
     <>
-      <Grid container spacing={2} alignItems="center" justify="center">
+      <Grid container spacing={1} alignItems="center" justify="center">
         <Grid item xs={12} sm={4} >
           <TextField
             size='small' fullWidth

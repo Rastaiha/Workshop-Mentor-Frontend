@@ -11,6 +11,7 @@ export const createAsyncThunkApi = (typePrefix, api, url, options) =>
 
       console.log(body)
 
+      console.log(stringUrl)
       const response = await api(stringUrl, body);
 
       if (options?.onSuccessAction) {

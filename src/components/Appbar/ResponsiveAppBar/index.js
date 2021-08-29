@@ -56,7 +56,7 @@ function ResponsiveAppBar({
   mode = 'LANDING',
   showBackOnScroll = false,
   hideOnScroll = false,
-  position = 'relative',
+  position = 'fixed',
   width,
 }) {
   const classes = useStyles();
