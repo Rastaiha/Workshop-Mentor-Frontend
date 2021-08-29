@@ -20,12 +20,21 @@ function Teams({
   useEffect(async () => {
     getRequestMentor();
     const subscription = await getRequestSubscription();
-    subscription.on('create', (requestMentor) =>
-      createRequestMentor(requestMentor.get('playerId'))
-    );
-    subscription.on('delete', (requestMentor) =>
-      removeRequestMentor(requestMentor.get('playerId'))
-    );
+    subscription.on('create', (requestMentor) => {
+      const playerId = requestMentor.get('playerId');
+      const teamId = requestMentor.get('teamId');
+      const fsmId = requestMentor.get('fsmId');
+      createRequestMentor({ playerId, teamId, fsmId });
+    });
+    subscription.on('delete', (requestMentor) => {
+      const teamId = requestMentor.get('teamId');
+      const fsmId = requestMentor.get('fsmId');
+      removeRequestMentor({
+        teamId,
+        fsmId,
+      });
+    });
+
     return () => {
       subscription.unsubscribe();
     };
@@ -51,6 +60,7 @@ function Teams({
 }
 
 const mapStateToProps = (state) => ({
+  allEventTeams: state.events.allEventTeams || [],
   requestTeams: state.events.requestTeams || {},
 });
 
