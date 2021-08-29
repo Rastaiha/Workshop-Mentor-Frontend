@@ -2,19 +2,16 @@ import {
   Grid,
   makeStyles,
   Paper,
-  Tooltip,
-  IconButton,
 } from '@material-ui/core';
-import Container from '@material-ui/core/Container';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 
-import { AddCircle } from '@material-ui/icons';
 import EditState from '../../components/SpecialComponents/EditWorkshopPage/EditState';
 import StatesTabbar from '../../components/SpecialComponents/EditWorkshopPage/StatesTabbar';
-import { getStateAction, getWorkshopAction } from '../../redux/slices/mentor';
+import { getStateAction, getWorkshopAction } from '../../redux/slices/widget';
 import {
+  getAllWorkshopStatesInfoAction,
   getOneStateAction,
 } from '../../redux/slices/workshop';
 
@@ -22,16 +19,7 @@ const useStyles = makeStyles((theme) => ({
   tabbar: {
     overflow: 'hidden',
   },
-  body: {
-    background: '#fff',
-    paddingTop: theme.spacing(1),
-    height: '100vh',
-  },
 
-  mainPaper: {
-    padding: theme.spacing(1),
-    background: '#F7F9FC',
-  },
   workshopTabsPaper: {
     padding: theme.spacing(1),
     background: '#F7F9FC',
@@ -40,19 +28,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditWorkshop = ({
+  getAllWorkshopStatesInfo,
   getOneState,
 
-
-  workshop,
   currentState,
-  getState,
-  getWorkshop,
-  fsmId,
-  needUpdateState,
+  allStates,
 }) => {
   const [tab, setTab] = React.useState(0);
+  const { fsmId } = useParams();
 
-  const history = useHistory();
+  useEffect(() => {
+    getAllWorkshopStatesInfo({ fsmId });
+  }, [])
+
+  useEffect(() => {
+    if (allStates[tab]) {
+      getOneState({ stateId: allStates[tab].id });
+    }
+  }, [allStates, tab])
 
   // useEffect(() => {
   //   getOneState({});
@@ -86,34 +79,21 @@ const EditWorkshop = ({
           <Paper className={classes.workshopTabsPaper}></Paper>
         </Grid> */}
       <Grid item xs={12}>
-        <Paper className={classes.mainPaper}>
-          {workshop && (
-            <>
-              <Paper className={classes.tabbar}>
-                <StatesTabbar
-                  value={tab}
-                  setValue={setTab}
-                  tabs={workshop.states.map((state) => state.name)}
-                  fsmId={workshop.id}
-                />
-              </Paper>
-              <EditState state={currentState} />
-            </>
-          )}
+        <Paper className={classes.tabbar}>
+          <StatesTabbar
+            value={tab}
+            setValue={setTab}
+            tabs={allStates.map((state) => state.name)}
+          />
         </Paper>
-      </Grid>
-      <Grid item container xs={12} justify='center'>
-        <Tooltip arrow title={'افزودن استیت'}>
-          <IconButton onClick={() => { }}>
-            <AddCircle fontSize="large" />
-          </IconButton>
-        </Tooltip>
+        <EditState state={currentState} />
       </Grid>
     </Grid>
   );
 };
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
+  allStates: state.workshop.allStates,
   currentState: state.workshop.currentState,
 
   // workshop: state.mentor.workshops.find(
@@ -126,6 +106,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 export default connect(mapStateToProps, {
   getOneState: getOneStateAction,
+  getAllWorkshopStatesInfo: getAllWorkshopStatesInfoAction,
 
   getWorkshop: getWorkshopAction,
   getState: getStateAction,

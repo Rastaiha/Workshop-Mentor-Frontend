@@ -3,10 +3,10 @@ import { combineReducers } from 'redux';
 import { accountReducer } from './account';
 import { currentStateReducer } from './currentState';
 import { eventsReducer } from './events'
-import { mentorReducer } from './mentor';
 import { notificationReducer } from './notifications';
 import { redirectReducer } from './redirect';
 import { translatorReducer } from './translator';
+import { widgetReducer } from './widget';
 import { workshopReducer } from './workshop'
 
 const allReducers = combineReducers({
@@ -15,7 +15,7 @@ const allReducers = combineReducers({
   events: eventsReducer,
   workshop: workshopReducer,
   notifications: notificationReducer,
-  mentor: mentorReducer,
+  widget: widgetReducer,
   redirect: redirectReducer,
   Intl: translatorReducer,
 });

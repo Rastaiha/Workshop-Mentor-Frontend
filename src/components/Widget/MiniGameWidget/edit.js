@@ -12,7 +12,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createMiniGameWidgetAction } from '../../../redux/slices/mentor';
+import { createMiniGameWidgetAction } from '../../../redux/slices/widget';
 
 
 // todo: get minigames list from backend
@@ -91,7 +91,7 @@ function MiniGameEditWidget({
     if (id) {
       // TODO: edit mode
     } else {
-      createMiniGameWidget({ state: stateId, link });
+      createMiniGameWidget({ paper: stateId, link });
     }
     handleClose();
   };

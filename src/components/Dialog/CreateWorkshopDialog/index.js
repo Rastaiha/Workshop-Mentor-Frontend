@@ -101,7 +101,10 @@ function CreateWorkshopDialog({
         <Button
           variant="contained"
           color="primary"
-          onClick={() => createWorkshop(properties)}>
+          onClick={() => {
+            createWorkshop(properties);
+            handleClose();
+          }}>
           {t('create')}
         </Button>
       </DialogActions>

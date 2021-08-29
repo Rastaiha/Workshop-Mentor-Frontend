@@ -11,7 +11,9 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createImageWidgetAction } from '../../../redux/slices/mentor';
+import {
+  createImageWidgetAction
+} from '../../../redux/slices/widget';
 
 function ImageEditWidget({
   open,
@@ -28,7 +30,7 @@ function ImageEditWidget({
     if (id) {
       // TODO: edit mode
     } else {
-      createImageWidget({ state: stateId, link });
+      createImageWidget({ paper: stateId, link });
     }
     handleClose();
   };
@@ -57,6 +59,9 @@ function ImageEditWidget({
   );
 }
 
-export default connect(null, { createImageWidget: createImageWidgetAction })(
-  ImageEditWidget
-);
+export default connect(
+  null,
+  {
+    createImageWidget: createImageWidgetAction
+  }
+)(ImageEditWidget);

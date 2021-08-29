@@ -7,11 +7,19 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
+import { useParams } from 'react-router';
 
-import { createStateAction } from '../../../../redux/slices/mentor';
+import {
+  addStateAction,
+} from '../../../../redux/slices/workshop';
 
-function CreateStateDialog({ open, handleClose, createState, fsmId }) {
+function CreateStateDialog({
+  addState,
+  open,
+  handleClose,
+}) {
   const [name, setName] = useState('');
+  const { fsmId } = useParams();
   const t = useTranslate();
 
   return (
@@ -29,7 +37,7 @@ function CreateStateDialog({ open, handleClose, createState, fsmId }) {
         <Button
           color="primary"
           variant="contained"
-          onClick={() => createState({ name, fsmId }).then(handleClose)}>
+          onClick={() => addState({ name, fsm: fsmId }).then(handleClose)}>
           {t('create')}
         </Button>
       </DialogActions>
@@ -37,6 +45,9 @@ function CreateStateDialog({ open, handleClose, createState, fsmId }) {
   );
 }
 
-export default connect(null, { createState: createStateAction })(
-  CreateStateDialog
-);
+export default connect(
+  null,
+  {
+    addState: addStateAction,
+  }
+)(CreateStateDialog);

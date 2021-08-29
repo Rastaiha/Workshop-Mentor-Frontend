@@ -46,23 +46,6 @@ export const getWorkshopAction = createAsyncThunkApi(
   ({ fsmId }) => workshopsUrl + fsmId + '/'
 );
 
-export const createWorkshopAction = createAsyncThunkApi(
-  'workshops/create',
-  Apis.POST,
-  workshopsUrl,
-  {
-    bodyCreator: ({
-      name,
-      playerType = 'team',
-      mentorType = 'withMentor',
-    }) => ({
-      name,
-      fsm_p_type: playerType,
-      fsm_learning_type: mentorType,
-    }),
-  }
-);
-
 export const getProblemsAction = createAsyncThunkApi(
   'workshops/getProblems',
   Apis.GET,
@@ -122,112 +105,105 @@ export const getStateAction = createAsyncThunkApi(
   ({ stateId }) => statesUrl + stateId + '/'
 );
 
-export const createStateAction = createAsyncThunkApi(
-  'states/create',
-  Apis.POST,
-  statesUrl,
-  {
-    bodyCreator: ({ name, fsmId }) => ({ name, fsm: fsmId }),
-  }
-);
-
-export const deleteStateAction = createAsyncThunkApi(
-  'states/delete',
-  Apis.DELETE,
-  ({ stateId }) => statesUrl + stateId + '/'
-);
-
-export const createHelpAction = createAsyncThunkApi(
-  'states/helps/create',
-  Apis.POST,
-  helpUrl,
-  {
-    bodyCreator: ({ stateId }) => ({ state: stateId, name: 'help' }),
-  }
-);
 
 export const createWidgetAction = createAsyncThunkApi(
   'states/widget/create',
   Apis.POST,
   widgetUrl,
   {
-    bodyCreator: (widget) => ({ priority: 0, ...widget }),
+    bodyCreator: (widget) => ({ ...widget }),
+    defaultNotification: {
+      success: 'ویجت با موفقیت اضافه شد.',
+    },
   }
 );
 
-export const createVideoWidgetAction = ({ state, link }) =>
+export const deleteWidgetAction = createAsyncThunkApi(
+  'states/widgets/delete',
+  Apis.DELETE,
+  widgetUrl,
+  {
+    bodyCreator: (widget) => ({ ...widget }),
+    defaultNotification: {
+      success: 'ویجت با موفقیت حذف شد.',
+    },
+  }
+);
+
+
+export const createVideoWidgetAction = ({ paper, link }) =>
   createWidgetAction({
-    state,
+    paper,
     widget_type: 'Video',
     link,
   });
 
-export const createMiniGameWidgetAction = ({ state, link }) =>
+export const createMiniGameWidgetAction = ({ paper, link }) =>
   createWidgetAction({
-    state,
+    paper,
     widget_type: 'Game',
     link,
   });
 
-export const createImageWidgetAction = ({ state, link }) =>
+export const createImageWidgetAction = ({ paper, link }) =>
   createWidgetAction({
-    state,
+    paper,
     widget_type: 'Image',
     link,
   });
 
 export const createSmallAnswerQuestionWidgetAction = ({
-  state,
+  paper,
   text,
   answer,
 }) =>
   createWidgetAction({
-    state,
+    paper,
     widget_type: 'ProblemSmallAnswer',
     text,
     answer: { text: answer },
   });
 
-export const createBigAnswerQuestionWidgetAction = ({ state, text, answer }) =>
+export const createBigAnswerQuestionWidgetAction = ({ paper, text, answer }) =>
   createWidgetAction({
-    state,
+    paper,
     widget_type: 'ProblemBigAnswer',
     text,
     answer: { text: answer },
   });
 
 export const createMultiChoicesQuestionWidgetAction = ({
-  state,
+  paper,
   text,
   answer,
   choices,
 }) =>
   createWidgetAction({
-    state,
+    paper,
     widget_type: 'ProblemMultiChoice',
     text,
     answer: { text: answer },
     choices,
   });
 
-export const createTextWidgetAction = ({ state, text }) =>
+export const createTextWidgetAction = ({ paper, text }) =>
   createWidgetAction({
-    state,
+    paper,
     widget_type: 'Description',
     text,
   });
 
-export const createUploadFileWidgetAction = ({ state, text }) =>
+export const createUploadFileWidgetAction = ({ paper, text }) =>
   createWidgetAction({
-    state,
+    paper,
     widget_type: 'ProblemUploadFileAnswer',
     text,
   });
 
-export const deleteWidgetAction = createAsyncThunkApi(
-  'states/widgets/delete',
+export const deleteStateAction = createAsyncThunkApi(
+  'states/delete',
   Apis.DELETE,
-  ({ widgetId }) => widgetUrl + widgetId + '/'
+  ({ stateId }) => statesUrl + stateId + '/'
 );
 
 export const getWidgetAction = createAsyncThunkApi(
@@ -255,6 +231,23 @@ export const visitWorkshopPlayerAction = createAsyncThunkApi(
     }),
   }
 );
+
+export const createHelpAction = createAsyncThunkApi(
+  'states/helps/create',
+  Apis.POST,
+  helpUrl,
+  {
+    bodyCreator: ({ stateId }) => ({ state: stateId, name: 'help' }),
+  }
+);
+
+const isFetching = (state) => {
+  state.isFetching = true;
+};
+
+const isNotFetching = (state) => {
+  state.isFetching = false;
+};
 
 const mentorSlice = createSlice({
   name: 'mentor',
@@ -298,16 +291,7 @@ const mentorSlice = createSlice({
       );
       state.articles.push(response);
     },
-    [createStateAction.fulfilled.toString()]: (
-      state,
-      { payload: { response }, meta: { arg } }
-    ) => {
-      state.workshops = state.workshops.map((workshop) =>
-        +workshop.id === +arg.fsmId
-          ? { ...workshop, states: [...workshop.states, response] }
-          : workshop
-      );
-    },
+
     [getWorkshopTeamsAction.fulfilled.toString()]: (
       state,
       { payload: { response }, meta: { arg } }
@@ -354,7 +338,9 @@ const mentorSlice = createSlice({
       state.submissions = response;
       state.submissionsIsLoading = false;
     },
+
+
   },
 });
 
-export const { reducer: mentorReducer } = mentorSlice;
+export const { reducer: widgetReducer } = mentorSlice;

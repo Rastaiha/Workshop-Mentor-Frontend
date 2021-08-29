@@ -1,6 +1,5 @@
 import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import { Add as AddIcon } from '@material-ui/icons';
-import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
@@ -15,99 +14,72 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     overflow: 'hidden',
   },
-  mainItem: {
-    margin: theme.spacing(1, 0),
-  },
-  item: {
-    padding: theme.spacing(1),
-    margin: theme.spacing(1, 0),
-    background: '#fafafa',
-  },
-  actionPaper: {
-    padding: theme.spacing(2, 1),
-  },
 }));
 
-function EditWidgets({ widgets, stateId, stateName }) {
+function EditWidgets({ widgets = [], id, name }) {
   const classes = useStyles();
   const t = useTranslate();
-  const questions = widgets.filter((widget) =>
+  const [openCreateWidgetDialog, setOpenCreateWidgetDialog] = useState(false);
+
+
+  console.log(widgets)
+  const questions = widgets?.filter((widget) =>
     widget.widget_type.includes('Problem')
   );
-  const notQuestions = widgets.filter(
+  const notQuestions = widgets?.filter(
     (widget) => !widget.widget_type.includes('Problem')
   );
-  const [openCreateWidgetDialog, setOpenCreateWidgetDialog] = useState(false);
+
   return (
     <>
-      <Grid
-        container
-        spacing={2}
-        className={classes.workshopContent}
-        justify="center">
-        {notQuestions.length + questions.length === 0 ? (
-          <Grid item xs={12} md={5}>
-            <Typography align="center">{t('thereIsNoItem')}</Typography>
-          </Grid>
-        ) : (
-          <>
-            {notQuestions.length > 0 && (
-              <Grid item xs={12} md={7} lg={7}>
-                <Paper className={classes.paper}>
-                  {notQuestions.map((widget) => (
-                    <div className={classes.mainItem} key={widget.id}>
-                      <Widget
-                        stateId={stateId}
-                        widget={widget}
-                        mode={MODES.EDIT}
-                      />
-                    </div>
-                  ))}
-                </Paper>
-              </Grid>
-            )}
-            <Grid
-              item
-              xs={12}
-              md={notQuestions.length > 0 ? 4 : 6}
-              lg={notQuestions.length > 0 ? 4 : 7}>
-              <Paper className={clsx(classes.paper, classes.actionPaper)}>
-                <Typography
-                  align="center"
-                  component="h2"
-                  variant="h3"
-                  gutterBottom>
-                  {stateName}
-                </Typography>
-                {questions.map((widget) => (
-                  <Paper className={classes.item} key={widget.id}>
-                    <Widget
-                      stateId={stateId}
-                      widget={widget}
-                      mode={MODES.EDIT}
-                    />
-                  </Paper>
-                ))}
+      <Grid container spacing={2} className={classes.workshopContent} justify="center">
+        <Grid item xs={12}>
+          <Typography align="center" component="h2" variant="h3" gutterBottom>
+            {name}
+          </Typography>
+        </Grid>
+        {
+          questions.map((widget) => (
+            <Grid item xs={12} key={widget.index}>
+              <Paper className={classes.paper}>
+                <Widget
+                  stateId={id}
+                  widget={widget}
+                  mode={MODES.EDIT}
+                />
               </Paper>
             </Grid>
-          </>
-        )}
-        <Grid item xs={12} container justify="center">
-          <Grid item xs={12} md={5}>
-            <Button
-              color="primary"
-              variant="contained"
-              fullWidth
-              onClick={() => setOpenCreateWidgetDialog(true)}
-              startIcon={<AddIcon />}>
-              {t('createWidget')}
-            </Button>
+          ))
+        }
+        {
+          notQuestions.map((widget) => (
+            <Grid key={widget.id} item xs={12}>
+              <Paper className={classes.paper}>
+                <Widget
+                  stateId={id}
+                  widget={widget}
+                  mode={MODES.EDIT}
+                />
+              </Paper>
+            </Grid>
+          ))
+        }
+        {widgets?.length === 0 &&
+          <Grid item xs={12}>
+            <Typography align="center">{t('thereIsNoItem')}</Typography>
           </Grid>
+        }
+        <Grid item xs={12} md={6} container justify="center">
+          <Button
+            color="primary" variant="contained"
+            fullWidth startIcon={<AddIcon />}
+            onClick={() => setOpenCreateWidgetDialog(true)}>
+            {t('createWidget')}
+          </Button>
         </Grid>
       </Grid>
-
       <CreateWidgetDialog
-        stateId={stateId}
+        stateId={id}
         open={openCreateWidgetDialog}
         handleClose={() => setOpenCreateWidgetDialog(false)}
       />

@@ -8,7 +8,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { deleteWidgetAction } from '../../../redux/slices/mentor';
+import { deleteWidgetAction } from '../../../redux/slices/widget';
 
 function DeleteWidgetDialog({ open, handleClose, deleteWidget, id }) {
   const t = useTranslate();
@@ -24,7 +24,7 @@ function DeleteWidgetDialog({ open, handleClose, deleteWidget, id }) {
         </Button>
         <Button
           onClick={() => {
-            deleteWidget({ id });
+            deleteWidget({ widgetId: id });
             handleClose();
           }}
           color="primary"

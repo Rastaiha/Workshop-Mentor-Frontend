@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import TeamCard from '../../components/Cards/TeamCard';
-import { getWorkshopTeamsAction } from '../../redux/slices/mentor';
+import { getWorkshopTeamsAction } from '../../redux/slices/widget';
 
 function Teams({
   workshops = [],

@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createTextWidgetAction } from '../../../redux/slices/mentor';
+import { createTextWidgetAction } from '../../../redux/slices/widget';
 import TinyEditorComponent from '../../tiny_editor/react_tiny/TinyEditorComponent';
 
 function TextEditWidget({
@@ -28,7 +28,7 @@ function TextEditWidget({
     if (id) {
       // TODO: edit mode
     } else {
-      createTextWidget({ state: stateId, text });
+      createTextWidget({ paper: stateId, text });
     }
     handleClose();
   };
@@ -42,11 +42,10 @@ function TextEditWidget({
       <DialogTitle>{t('text')}</DialogTitle>
       <DialogContent>
         <DialogContentText>متن مورد نظر خود را وارد کنید.</DialogContentText>
-
         <TinyEditorComponent
           id={`edit-question-${Math.floor(Math.random() * 1000)}`}
           content={text}
-          onChange={(val) => setText(val)}
+          onChange={(text) => setText(text)}
         />
       </DialogContent>
       <DialogActions>

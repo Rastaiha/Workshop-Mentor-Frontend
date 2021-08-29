@@ -1,4 +1,4 @@
-import { IconButton } from '@material-ui/core';
+import { Box, IconButton, Divider } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
 import React, { useState } from 'react';
 
@@ -32,18 +32,24 @@ const Widget = ({ widget, mode = MODES.WRITE, stateId, ...props }) => {
     widget.widget_type || ANSWER_TYPE_TO_WIDGET_TYPES[widget.answer_type]
   ];
 
+
+  console.log(widget, props)
+
   return (
     <div>
       {mode === MODES.EDIT && (
         <>
-          <IconButton onClick={() => setOpenEditDialog(true)}>
+          <IconButton size='small' onClick={() => setOpenEditDialog(true)}>
             <EditIcon />
           </IconButton>
-          <IconButton onClick={() => setOpenDeleteWidgetDialog(true)}>
+          <IconButton size='small' onClick={() => setOpenDeleteWidgetDialog(true)}>
             <DeleteIcon />
           </IconButton>
+          <Box mb={2}>
+            <Divider />
+          </Box>
           <WidgetEditDialog
-            stateId={stateId}
+            widgetId={widget.id}
             open={openEditDialog}
             handleClose={() => setOpenEditDialog(false)}
           />

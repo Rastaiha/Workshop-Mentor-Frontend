@@ -33,7 +33,7 @@ export default function StatesTabbar({ value, setValue, tabs = [], fsmId }) {
       <div className={classes.root}>
         <AppBar position="static" color="default" className={classes.appbar}>
           <Grid container>
-            <Grid item xs={9} sm={10} md={11}>
+            <Grid item xs={9} sm={10}>
               <Tabs
                 value={value}
                 onChange={(e, val) => setValue(val)}
@@ -46,7 +46,7 @@ export default function StatesTabbar({ value, setValue, tabs = [], fsmId }) {
                 ))}
               </Tabs>
             </Grid>
-            <Grid item xs={3} sm={2} md={1}>
+            <Grid item xs={3} sm={2}>
               <Button
                 size="small"
                 fullWidth

@@ -17,7 +17,6 @@ import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 import { Link } from 'react-router-dom';
 
-import { visitWorkshopPlayerAction } from '../../redux/slices/mentor';
 import { stringToColor } from '../../utils/stringToColor';
 
 const useStyles = makeStyles({
@@ -75,5 +74,4 @@ const TeamInfo = ({
 };
 
 export default connect(null, {
-  visitPlayerWorkshop: visitWorkshopPlayerAction,
 })(TeamInfo);

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { createArticleAction, createWorkshopAction } from './mentor';
+import { createArticleAction } from './widget';
 
 const initialState = { redirectTo: null, force: false };
 
@@ -11,12 +11,6 @@ const redirectSlice = createSlice({
     initRedirect: () => initialState,
   },
   extraReducers: {
-    [createWorkshopAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => ({
-      redirectTo: `/edit_workshop/${response.id}`,
-    }),
     [createArticleAction.fulfilled.toString()]: (
       state,
       { payload: { response } }

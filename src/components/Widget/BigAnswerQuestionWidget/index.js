@@ -1,11 +1,8 @@
-import { Grid, Button, makeStyles, Paper } from '@material-ui/core';
+import { Button, Grid, makeStyles, Paper } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
-import TinyEditorComponent from '../../tiny_editor/react_tiny/TinyEditorComponent';
 
-
-// import { sendBigAnswerAction } from '../../../redux/slices/currentState';
 import TinyPreview from '../../tiny_editor/react_tiny/Preview';
 import TinyEditorComponent from '../../tiny_editor/react_tiny/TinyEditorComponent';
 import { MODES } from '..';
@@ -52,53 +49,24 @@ const BigAnswerQuestionWidget = ({
 
   return (
     <Grid container spacing={1}>
-      {/* <Grid item xs={12}>
-        <TinyPreview
-          frameProps={{
-            frameBorder: '0',
-            scrolling: 'no',
-            width: '100%',
-          }}
-          content={text}
+      <Grid item xs={12}>
+        <TinyEditorComponent
+          id={`edit-big-answer-${Math.floor(Math.random() * 1000)}`}
+          content={value}
+          onChange={handleTextChange}
         />
-      </Grid> */}
-      <Grid item xs={12}>
-        <label>{t('answer')}</label>
       </Grid>
       <Grid item xs={12}>
-        {mode === MODES.WRITE ?
-          <TinyEditorComponent
-            id={`edit-big-answer-${Math.floor(Math.random() * 1000)}`}
-            content={value}
-            onChange={handleTextChange}
-          />
-          :
-          <Paper className={classes.showAnswer}>
-            <TinyPreview
-              frameProps={{
-                frameBorder: '0',
-                width: '100%',
-              }}
-              content={value}
-            />
-          </Paper>
-        }
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          size="small"
+          className={classes.submit}
+          onClick={handleButtonClick}>
+          {t('submitAnswer')}
+        </Button>
       </Grid>
-
-      {(mode === MODES.WRITE && !pushAnswer) && (
-        <Grid item xs={12}>
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            size="small"
-            className={classes.submit}
-            disabled={mode === MODES.EDIT || isButtonDisabled}
-            onClick={handleButtonClick}>
-            {t('submitAnswer')}
-          </Button>
-        </Grid>
-      )}
     </Grid>
   );
 };

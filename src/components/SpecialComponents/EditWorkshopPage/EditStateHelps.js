@@ -6,7 +6,7 @@ import Carousel from 'react-material-ui-carousel';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createHelpAction } from '../../../redux/slices/mentor';
+import { createHelpAction } from '../../../redux/slices/widget';
 import Widget, { MODES } from '../../Widget';
 import CreateWidgetDialog from './components/CreateWidgetDialog';
 
@@ -69,8 +69,8 @@ function EditStateHelps({ helps, stateId, createHelp }) {
                 ))}
               </Carousel>
             ) : (
-              <Typography align="center">{t('thereIsNoItem')}</Typography>
-            )}
+                <Typography align="center">{t('thereIsNoItem')}</Typography>
+              )}
           </div>
           <Button
             fullWidth

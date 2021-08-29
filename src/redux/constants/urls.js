@@ -16,7 +16,14 @@ export const workshopCRUDUrl = ({ fsmId }) => fsmId ? `/fsm/fsm/${fsmId}/` : '/f
 export const addMentorToWorkshopUrl = ({ fsmId }) => `/fsm/fsm/${fsmId}/add_mentor/`;
 
 // workshop:
+export const getAllWorkshopStatesInfoUrl = ({ fsmId }) => `/fsm/fsm/${fsmId}/get_states/`;
+
+// state:
 export const stateCRUDUrl = ({ stateId }) => stateId ? `/fsm/state/${stateId}/` : '/fsm/state/';
+
+// widget:
+export const widgetUrl = ({ widgetId }) => widgetId ? `fsm/widget/${widgetId}/` : 'fsm/widget/';
+
 
 
 // fsm:
@@ -38,13 +45,8 @@ export const statesUrl = 'fsm/state/';
 
 export const helpUrl = 'fsm/help/';
 
-export const widgetUrl = 'fsm/widget/';
-
 export const workshopTeamsUrl = 'fsm/workshopplayers/';
 
-export const getLandingDataUrl = `https://res.cloudinary.com/dflcxtpro/raw/upload/v${Math.floor(
-  Math.random() * 10000000
-)}/rasta/landing-zero-v3_d5lbgq.json`;
 
 export const goBackwardUrl = 'fsm/gobackward/';
 

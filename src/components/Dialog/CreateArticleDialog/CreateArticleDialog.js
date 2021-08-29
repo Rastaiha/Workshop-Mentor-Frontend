@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createArticleAction } from '../../../redux/slices/mentor';
+import { createArticleAction } from '../../../redux/slices/widget';
 
 function CreateArticleDialog({ open, handleClose, createArticle }) {
   const t = useTranslate();

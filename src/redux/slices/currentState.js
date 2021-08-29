@@ -10,7 +10,7 @@ import {
   getArticleAction,
   getArticlesAction,
   getStateAction,
-} from './mentor';
+} from './widget';
 
 export const mentorGetCurrentStateAction = createAsyncThunkApi(
   'currentState/mentorGetCurrentState',
@@ -50,10 +50,10 @@ const sentAnswer = (state, { payload: { response } }) => {
   state.state.widgets = state.state.widgets.map((widget) =>
     +widget.id === +response.problem
       ? {
-          ...widget,
-          last_submit: response.xanswer,
-          answer: response.answer,
-        }
+        ...widget,
+        last_submit: response.xanswer,
+        answer: response.answer,
+      }
       : widget
   );
 };

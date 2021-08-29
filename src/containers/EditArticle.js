@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import EditWidgets from '../components/SpecialComponents/EditArticlePage/EditWidgets';
-import { getArticleAction } from '../redux/slices/mentor';
+import { getArticleAction } from '../redux/slices/widget';
 
 const useStyles = makeStyles((theme) => ({
   tabbar: {
@@ -41,8 +41,6 @@ const EditArticle = ({
   const history = useHistory();
 
   const widgets = [...article.widgets];
-
-  widgets.sort((a, b) => a.id - b.id);
 
   useEffect(() => {
     if (articleId) {

@@ -5,7 +5,7 @@ import TextEditWidget from './edit';
 
 export { TextEditWidget };
 
-const TextWidget = ({ text = '' }) => {
+const TextWidget = ({ text }) => {
   return (
     <TinyPreview
       frameProps={{

@@ -1,5 +1,4 @@
 import { updateToken } from '../../axios';
-import { mentorInitialState } from '../slices/mentor';
 import createStore from './createStore';
 
 const removeOldJsonData = (delta, data = {}) => {

@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createVideoWidgetAction } from '../../../redux/slices/mentor';
+import { createVideoWidgetAction } from '../../../redux/slices/widget';
 
 
 function VideoEditWidget({
@@ -29,7 +29,7 @@ function VideoEditWidget({
     if (id) {
       // TODO: edit mode
     } else {
-      createVideoWidget({ state: stateId, link });
+      createVideoWidget({ paper: stateId, link });
     }
     handleClose();
   };

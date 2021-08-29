@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createSmallAnswerQuestionWidgetAction } from '../../../redux/slices/mentor';
+import { createSmallAnswerQuestionWidgetAction } from '../../../redux/slices/widget';
 import TinyEditorComponent from '../../tiny_editor/react_tiny/TinyEditorComponent';
 
 function SmallAnswerQuestionEditWidget({
@@ -32,7 +32,7 @@ function SmallAnswerQuestionEditWidget({
       // TODO: edit mode
     } else {
       createSmallAnswerQuestionWidget({
-        state: stateId,
+        paper: stateId,
         text: question,
         answer,
       });

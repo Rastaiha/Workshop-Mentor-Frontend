@@ -1,5 +1,10 @@
-import { MenuItem, TextField } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -28,26 +33,25 @@ export default function CreateWidgetDialog({ open, handleClose, stateId }) {
   }
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} maxWidth='sm' onClose={handleClose}>
       <DialogTitle>{t('createWidget')}</DialogTitle>
       <DialogContent>
-        <TextField
-          fullWidth
-          autoFocus
-          select
-          label={t('widgetType')}
-          onChange={(e) => setType(e.target.value)}>
-          {Object.keys(WIDGET_TYPES).map((option, index) => (
-            <MenuItem key={index} value={option}>
-              {WIDGET_TYPES[option].label}
-            </MenuItem>
-          ))}
-        </TextField>
+        <FormControl size='small' fullWidth style={{ width: '200px' }} variant="outlined">
+          <InputLabel>{t('widgetType')}</InputLabel>
+          <Select
+            onChange={(e) => setType(e.target.value)}
+            name='fsmId'
+            label={t('widgetType')}>
+            {Object.keys(WIDGET_TYPES).map((option, index) => (
+              <MenuItem key={index} value={option}>
+                {WIDGET_TYPES[option].label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl >
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary" variant="contained">
-          بعدی
-        </Button>
+
       </DialogActions>
     </Dialog>
   );

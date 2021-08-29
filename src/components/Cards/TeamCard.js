@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 import { Link } from 'react-router-dom';
 
-import { visitWorkshopPlayerAction } from '../../redux/slices/mentor';
+import { visitWorkshopPlayerAction } from '../../redux/slices/widget';
 
 const useStyles = makeStyles({
   root: {

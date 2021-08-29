@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createUploadFileWidgetAction } from '../../../redux/slices/mentor';
+import { createUploadFileWidgetAction } from '../../../redux/slices/widget';
 
 function UploadFileQuestionEditWidget({
   open,
@@ -28,7 +28,7 @@ function UploadFileQuestionEditWidget({
     if (id) {
       // TODO: edit mode
     } else {
-      createUploadFileWidget({ state: stateId, text: question });
+      createUploadFileWidget({ paper: stateId, text: question });
     }
     handleClose();
   };

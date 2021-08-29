@@ -18,7 +18,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
-import { createMultiChoicesQuestionWidgetAction } from '../../../redux/slices/mentor';
+import { createMultiChoicesQuestionWidgetAction } from '../../../redux/slices/widget';
 import TinyEditorComponent from '../../tiny_editor/react_tiny/TinyEditorComponent';
 
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +55,7 @@ function MultiChoiceQuestionEditWidget({
       // TODO: edit mode
     } else {
       createMultiChoicesQuestionWidget({
-        state: stateId,
+        paper: stateId,
         text: question,
         answer,
         choices: choices.map((choice) => ({ text: choice })),
