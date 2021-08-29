@@ -111,7 +111,7 @@ const dictionary = {
       startGame: 'شروع بازی',
       score: 'امتیاز',
       thereIsNoItem: 'موردی وجود ندارد!',
-      createWidget: 'ایجاد ویجت',
+      createWidget: 'افزودن ویجت',
       removeState: 'حذف گام',
       createState: 'ایجاد گام',
       stateName: 'نام',

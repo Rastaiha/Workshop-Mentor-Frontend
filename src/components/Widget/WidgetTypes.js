@@ -16,18 +16,18 @@ import UploadFileQuestionWidget, {
 import VideoWidget, { VideoEditWidget } from './VideoWidget';
 
 const WIDGET_TYPES = {
-  // SmallAnswerProblem: {
-  //   WidgetComponent: SmallAnswerQuestionWidget,
-  //   WidgetEditDialog: SmallAnswerQuestionEditWidget,
-  //   label: 'کوتاه پاسخ',
-  //   backendType: 'SmallAnswerProblem',
-  // },
-  // BigAnswerProblem: {
-  //   WidgetComponent: BigAnswerQuestionWidget,
-  //   WidgetEditDialog: BigAnswerQuestionEditWidget,
-  //   label: 'بلند پاسخ',
-  //   backendType: 'BigAnswerProblem',
-  // },
+  SmallAnswerProblem: {
+    WidgetComponent: SmallAnswerQuestionWidget,
+    WidgetEditDialog: SmallAnswerQuestionEditWidget,
+    label: 'کوتاه پاسخ',
+    backendType: 'SmallAnswerProblem',
+  },
+  BigAnswerProblem: {
+    WidgetComponent: BigAnswerQuestionWidget,
+    WidgetEditDialog: BigAnswerQuestionEditWidget,
+    label: 'بلند پاسخ',
+    backendType: 'BigAnswerProblem',
+  },
   // MultiChoiceProblem: {
   //   WidgetComponent: MultiChoiceQuestionWidget,
   //   WidgetEditDialog: MultiChoiceQuestionEditWidget,
