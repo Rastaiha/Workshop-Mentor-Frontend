@@ -19,7 +19,7 @@ import { Link, useParams } from 'react-router-dom';
 import {
   getOneEventInfoAction,
 } from '../../redux/slices/events';
-import Edit from './Edit';
+import Design from './Design';
 import Info from './Info';
 import Layout from './Layout';
 import Teams from './Teams';
@@ -37,22 +37,22 @@ const tabs = [
     component: Info,
   },
   {
-    label: 'ویرایش',
+    label: 'طراحی',
     icon: '',
-    component: Edit,
+    component: Design,
   },
-  {
-    label: 'تیم‌ها',
-    icon: GroupIcon,
-    component: Teams,
-  },
-  {
-    label: 'درخواست‌ها',
-    component: Teams,
-    props: {
-      mode: 'notifications',
-    },
-  },
+  // {
+  //   label: 'تیم‌ها',
+  //   icon: GroupIcon,
+  //   component: Teams,
+  // },
+  // {
+  //   label: 'درخواست‌ها',
+  //   component: Teams,
+  //   props: {
+  //     mode: 'notifications',
+  //   },
+  // },
 ];
 
 const Event = () => {

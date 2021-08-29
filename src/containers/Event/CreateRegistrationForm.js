@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Index({ articles }) {
+function Index() {
   const classes = useStyles();
   const t = useTranslate();
 
@@ -49,6 +49,5 @@ function Index({ articles }) {
   );
 }
 const mapStateToProps = (state) => ({
-  articles: state.mentor.articles,
 });
 export default connect(mapStateToProps)(Index);

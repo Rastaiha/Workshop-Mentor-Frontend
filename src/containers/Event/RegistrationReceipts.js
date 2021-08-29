@@ -87,7 +87,6 @@ function Index({
   );
 }
 const mapStateToProps = (state) => ({
-  articles: state.mentor.articles,
   registrationFormId: state.events.event?.registration_form,
   allRegistrationReceipts: state.events.allRegistrationReceipts || [],
 });
