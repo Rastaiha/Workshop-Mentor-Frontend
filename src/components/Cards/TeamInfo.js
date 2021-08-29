@@ -9,6 +9,7 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
+import { NotificationsActive } from '@material-ui/icons';
 import React from 'react';
 
 const useStyles = makeStyles({
@@ -27,8 +28,9 @@ const TeamInfo = ({ name, members, playerId }) => {
     <Card className={classes.root}>
       <CardActionArea disabled>
         <CardContent>
+          {playerId && <NotificationsActive />}
           <Typography gutterBottom variant="h3" align="center">
-            {name} {playerId}
+            {name}
           </Typography>
           <Grid container direction="row" justify="center">
             <ol>
@@ -47,10 +49,21 @@ const TeamInfo = ({ name, members, playerId }) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <ButtonGroup disabled variant="outlined" color="primary" fullWidth>
-          <Button>{'ویرایش'}</Button>
-          <Button>{'حذف'}</Button>
-        </ButtonGroup>
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <ButtonGroup disabled variant="outlined" color="primary" fullWidth>
+              <Button>{'ویرایش'}</Button>
+              <Button>{'حذف'}</Button>
+            </ButtonGroup>
+          </Grid>
+          {playerId && (
+            <Grid item>
+              <Button variant="outlined" color="primary" fullWidth>
+                پاسخ به درخواست
+              </Button>
+            </Grid>
+          )}
+        </Grid>
       </CardActions>
     </Card>
   );

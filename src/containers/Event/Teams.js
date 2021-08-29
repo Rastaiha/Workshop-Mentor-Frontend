@@ -31,15 +31,21 @@ function Teams({
     };
   }, []);
 
+  const reqTeams = allEventTeams.filter((team) => requestTeams[team.id]);
+  const nonReqTeams = allEventTeams.filter((team) => !requestTeams[team.id]);
+
   return (
     <Grid container spacing={2} alignItems="center" justify="center">
-      {allEventTeams?.map((team) => {
-        return (
-          <Grid item xs={12} sm={6} md={4} key={team.id}>
-            <TeamInfoCard {...team} playerId={requestTeams[team.id]} />
-          </Grid>
-        );
-      })}
+      {reqTeams?.map((team) => (
+        <Grid item xs={12} sm={6} md={4} key={team.id}>
+          <TeamInfoCard {...team} playerId={requestTeams[team.id]} />
+        </Grid>
+      ))}
+      {nonReqTeams?.map((team) => (
+        <Grid item xs={12} sm={6} md={4} key={team.id}>
+          <TeamInfoCard {...team} />
+        </Grid>
+      ))}
     </Grid>
   );
 }
