@@ -4,20 +4,12 @@ import {
   Card,
   CardActionArea,
   CardActions,
-  Tooltip,
-  Avatar,
   CardContent,
   Grid,
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
-import { connect } from 'react-redux';
-import { useTranslate } from 'react-redux-multilingual/lib/context';
-import { Link } from 'react-router-dom';
-
-import { stringToColor } from '../../utils/stringToColor';
 
 const useStyles = makeStyles({
   root: {
@@ -28,20 +20,15 @@ const useStyles = makeStyles({
   },
 });
 
-
-const TeamInfo = ({
-  name,
-  members,
-}) => {
+const TeamInfo = ({ name, members, playerId }) => {
   const classes = useStyles();
-  const t = useTranslate();
 
   return (
     <Card className={classes.root}>
       <CardActionArea disabled>
         <CardContent>
-          <Typography gutterBottom variant="h3" align='center'>
-            {name}
+          <Typography gutterBottom variant="h3" align="center">
+            {name} {playerId}
           </Typography>
           <Grid container direction="row" justify="center">
             <ol>
@@ -61,17 +48,12 @@ const TeamInfo = ({
       </CardActionArea>
       <CardActions>
         <ButtonGroup disabled variant="outlined" color="primary" fullWidth>
-          <Button>
-            {'ویرایش'}
-          </Button>
-          <Button>
-            {'حذف'}
-          </Button>
+          <Button>{'ویرایش'}</Button>
+          <Button>{'حذف'}</Button>
         </ButtonGroup>
       </CardActions>
     </Card>
   );
 };
 
-export default connect(null, {
-})(TeamInfo);
+export default TeamInfo;

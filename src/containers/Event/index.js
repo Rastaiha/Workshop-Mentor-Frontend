@@ -12,17 +12,12 @@ import GroupIcon from '@material-ui/icons/Group';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
-import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
-import {
-  getOneEventInfoAction,
-} from '../../redux/slices/events';
-import CreateRegistrationForm from './CreateRegistrationForm';
-import DiscountCode from './DiscountCode';
+import { getOneEventInfoAction } from '../../redux/slices/events';
+import { getEventTeamsAction } from '../../redux/slices/events';
 import Info from './Info';
 import Layout from './Layout';
-import RegistrationReceipts from './RegistrationReceipts';
 import Teams from './Teams';
 import Workshops from './Workshops';
 
@@ -38,21 +33,21 @@ const tabs = [
     icon: '',
     component: Info,
   },
-  {
-    label: 'ایجاد فرم ثبت‌نام',
-    icon: '',
-    component: CreateRegistrationForm,
-  },
-  {
-    label: 'رسیدهای ثبت‌نام',
-    icon: '',
-    component: RegistrationReceipts,
-  },
-  {
-    label: 'کد تخفیف',
-    icon: '',
-    component: DiscountCode,
-  },
+  // {
+  //   label: 'ایجاد فرم ثبت‌نام',
+  //   icon: '',
+  //   component: CreateRegistrationForm,
+  // },
+  // {
+  //   label: 'رسیدهای ثبت‌نام',
+  //   icon: '',
+  //   component: RegistrationReceipts,
+  // },
+  // {
+  //   label: 'کد تخفیف',
+  //   icon: '',
+  //   component: DiscountCode,
+  // },
   {
     label: 'کارگاه‌ها',
     icon: ClassIcon,
@@ -65,27 +60,28 @@ const tabs = [
   },
 ];
 
-const Event = ({
-  getOneEventInfo,
-}) => {
+const Event = ({ allEventTeams = [], getOneEventInfo, getTeams }) => {
   const t = useTranslate();
-  const history = useHistory();
-  const { tabNumber, eventId } = useParams();
-  if (!tabNumber) {
-    history.push(`/event/${eventId}/0/`)
-  }
-  const [tabIndex, setTabIndex] = useState(tabNumber || 0);
+  const { eventId } = useParams();
+
+  const [tabIndex, setTabIndex] = useState(0);
   const classes = useStyles();
 
   useEffect(() => {
     getOneEventInfo({ eventId });
   }, [getOneEventInfo]);
 
-  const TabComponent = tabs[tabIndex].component;
+  useEffect(() => {
+    if (eventId) {
+      getTeams({ eventId });
+    }
+  }, [eventId]);
 
-  const handleTabChange = (index) => {
-    history.push(`/event/${eventId}/${index}/`)
-    setTabIndex(index);
+  const TabProps = {};
+
+  const TabComponent = tabs[tabIndex].component;
+  if (TabComponent === Teams) {
+    TabProps.allEventTeams = allEventTeams;
   }
 
   return (
@@ -103,7 +99,7 @@ const Event = ({
               {tabs.map((tab, index) => (
                 <Button
                   key={index}
-                  onClick={() => handleTabChange(index)}
+                  onClick={() => setTabIndex(index)}
                   variant={tabIndex == index && 'contained'}
                   startIcon={tab.icon && <tab.icon />}>
                   {tab.label}
@@ -126,7 +122,7 @@ const Event = ({
         </Grid>
         <Grid item sm={9} xs={12}>
           <Paper elevation={3} className={classes.rightBox}>
-            <TabComponent {...tabs[tabIndex].props} />
+            <TabComponent {...TabProps} />
           </Paper>
         </Grid>
         <Hidden smUp>
@@ -142,8 +138,10 @@ const Event = ({
 };
 
 const mapStateToProps = (state) => ({
+  allEventTeams: state.events.allEventTeams || [],
 });
 
 export default connect(mapStateToProps, {
   getOneEventInfo: getOneEventInfoAction,
+  getTeams: getEventTeamsAction,
 })(Event);

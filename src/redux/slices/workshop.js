@@ -14,17 +14,16 @@ import {
   updateWidgetAction,
 } from './widget';
 
-
 export const getOneWorkshopsInfoAction = createAsyncThunkApi(
   'events/getOneWorkshopsInfoAction',
   Apis.GET,
-  workshopCRUDUrl,
+  workshopCRUDUrl
 );
 
 export const getAllWorkshopsInfoAction = createAsyncThunkApi(
   'events/getAllWorkshopsInfoAction',
   Apis.GET,
-  workshopCRUDUrl,
+  workshopCRUDUrl
 );
 
 export const addMentorToWorkshopAction = createAsyncThunkApi(
@@ -41,15 +40,14 @@ export const addMentorToWorkshopAction = createAsyncThunkApi(
 export const getOneStateAction = createAsyncThunkApi(
   'events/getOneStateAction',
   Apis.GET,
-  stateCRUDUrl,
+  stateCRUDUrl
 );
 
 export const getAllWorkshopStatesInfoAction = createAsyncThunkApi(
   'events/getAllWorkshopStatesInfoAction',
   Apis.GET,
-  getAllWorkshopStatesInfoUrl,
+  getAllWorkshopStatesInfoUrl
 );
-
 
 export const addStateAction = createAsyncThunkApi(
   'events/addStateAction',
@@ -65,12 +63,8 @@ export const addStateAction = createAsyncThunkApi(
 export const removeStateAction = createAsyncThunkApi(
   'events/removeStateAction',
   Apis.DELETE,
-  stateCRUDUrl,
+  stateCRUDUrl
 );
-
-
-
-
 
 const initialState = {
   isFetching: false,
@@ -90,58 +84,68 @@ const eventSlice = createSlice({
   initialState,
   extraReducers: {
     [getAllWorkshopsInfoAction.pending.toString()]: isFetching,
-    [getAllWorkshopsInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+    [getAllWorkshopsInfoAction.fulfilled.toString()]: (
+      state,
+      { payload: { response } }
+    ) => {
       state.allWorkshops = response;
       state.isFetching = false;
     },
     [getAllWorkshopsInfoAction.rejected.toString()]: isNotFetching,
 
     [getOneWorkshopsInfoAction.pending.toString()]: isFetching,
-    [getOneWorkshopsInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+    [getOneWorkshopsInfoAction.fulfilled.toString()]: (
+      state,
+      { payload: { response } }
+    ) => {
       state.workshop = response;
       state.isFetching = false;
     },
     [getOneWorkshopsInfoAction.rejected.toString()]: isNotFetching,
 
-
     [getOneStateAction.pending.toString()]: isFetching,
-    [getOneStateAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+    [getOneStateAction.fulfilled.toString()]: (
+      state,
+      { payload: { response } }
+    ) => {
       state.currentState = response;
       state.isFetching = false;
     },
     [getOneStateAction.rejected.toString()]: isNotFetching,
 
-
     [getAllWorkshopStatesInfoAction.pending.toString()]: isFetching,
-    [getAllWorkshopStatesInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+    [getAllWorkshopStatesInfoAction.fulfilled.toString()]: (
+      state,
+      { payload: { response } }
+    ) => {
       state.allStates = response;
       state.isFetching = false;
     },
     [getAllWorkshopStatesInfoAction.rejected.toString()]: isNotFetching,
 
-
     [addStateAction.pending.toString()]: isFetching,
-    [addStateAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+    [addStateAction.fulfilled.toString()]: (
+      state,
+      { payload: { response } }
+    ) => {
       state.allStates = [...state.allStates, response];
       state.isFetching = false;
     },
     [addStateAction.rejected.toString()]: isNotFetching,
 
-
     [createWidgetAction.pending.toString()]: isFetching,
-    [createWidgetAction.fulfilled.toString()]: (state, { payload: { response } }) => {
-      state.currentState.widgets = [
-        ...state.currentState.widgets,
-        response
-      ];
+    [createWidgetAction.fulfilled.toString()]: (
+      state,
+      { payload: { response } }
+    ) => {
+      state.currentState.widgets = [...state.currentState.widgets, response];
       state.isFetching = false;
     },
     [createWidgetAction.rejected.toString()]: isNotFetching,
 
-
     [deleteWidgetAction.pending.toString()]: isFetching,
     [deleteWidgetAction.fulfilled.toString()]: (state, action) => {
-      const newCurrentState = [...state.currentState.widgets]
+      const newCurrentState = [...state.currentState.widgets];
       for (let i = 0; i < newCurrentState.length; i++) {
         if (newCurrentState[i].id === action.meta.arg.widgetId) {
           newCurrentState.splice(i, 1);
@@ -152,10 +156,9 @@ const eventSlice = createSlice({
     },
     [deleteWidgetAction.rejected.toString()]: isNotFetching,
 
-
     [updateWidgetAction.pending.toString()]: isFetching,
     [updateWidgetAction.fulfilled.toString()]: (state, action) => {
-      const newCurrentState = [...state.currentState.widgets]
+      const newCurrentState = [...state.currentState.widgets];
       for (let i = 0; i < newCurrentState.length; i++) {
         if (newCurrentState[i].id === action.meta.arg.widgetId) {
           newCurrentState[i] = action.payload.response;
@@ -165,7 +168,6 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [updateWidgetAction.rejected.toString()]: isNotFetching,
-
   },
 });
 

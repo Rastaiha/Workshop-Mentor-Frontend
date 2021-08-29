@@ -1,31 +1,34 @@
-import {
-  Grid,
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@material-ui/core';
-import ClearIcon from '@material-ui/icons/Clear';
-import React, { useEffect, useState } from 'react';
+import { Grid } from '@material-ui/core';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router';
 
 import TeamInfoCard from '../../components/Cards/TeamInfo';
-import { getEventTeamsAction } from '../../redux/slices/events';
-import { toPersianNumber } from '../../utils/translateNumber';
+import { getRequestSubscription } from '../../parse/mentor';
+import {
+  createRequestMentorAction,
+  getRequestMentorAction,
+  removeRequestMentorAction,
+} from '../../redux/slices/events';
 
 function Teams({
-  getTeams,
+  requestTeams,
   allEventTeams,
+  getRequestMentor,
+  createRequestMentor,
+  removeRequestMentor,
 }) {
-  const { eventId } = useParams();
-
-  useEffect(() => {
-    getTeams({ eventId });
+  useEffect(async () => {
+    getRequestMentor();
+    const subscription = await getRequestSubscription();
+    subscription.on('create', (requestMentor) =>
+      createRequestMentor(requestMentor.get('playerId'))
+    );
+    subscription.on('delete', (requestMentor) =>
+      removeRequestMentor(requestMentor.get('playerId'))
+    );
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   return (
@@ -33,7 +36,7 @@ function Teams({
       {allEventTeams?.map((team) => {
         return (
           <Grid item xs={12} sm={6} md={4} key={team.id}>
-            <TeamInfoCard {...team} />
+            <TeamInfoCard {...team} playerId={requestTeams[team.id]} />
           </Grid>
         );
       })}
@@ -42,9 +45,11 @@ function Teams({
 }
 
 const mapStateToProps = (state) => ({
-  allEventTeams: state.events.allEventTeams || [],
+  requestTeams: state.events.requestTeams || {},
 });
 
 export default connect(mapStateToProps, {
-  getTeams: getEventTeamsAction,
+  getRequestMentor: getRequestMentorAction,
+  createRequestMentor: createRequestMentorAction,
+  removeRequestMentor: removeRequestMentorAction,
 })(Teams);
