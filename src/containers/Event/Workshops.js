@@ -1,14 +1,14 @@
 import {
+  Button,
+  FormControl,
   Grid,
   IconButton,
-  makeStyles,
-  Button,
-  MenuItem,
-  FormControl,
-  Select,
-  Tooltip,
-  TextField,
   InputLabel,
+  makeStyles,
+  MenuItem,
+  Select,
+  TextField,
+  Tooltip,
 } from '@material-ui/core';
 import { AddCircle as AddCircleIcon } from '@material-ui/icons';
 import React, { useState } from 'react';
@@ -18,8 +18,8 @@ import { useTranslate } from 'react-redux-multilingual/lib/context';
 import WorkshopCard from '../../components/Cards/WorkshopCard';
 import CreateWorkshopDialog from '../../components/Dialog/CreateWorkshopDialog';
 import {
-  getAllWorkshopsInfoAction,
   addMentorToWorkshopAction,
+  getAllWorkshopsInfoAction,
 } from '../../redux/slices/events';
 import { toEnglishNumber } from '../../utils/translateNumber';
 

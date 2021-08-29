@@ -4,11 +4,7 @@ import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
   addMentorToWorkshopUrl,
-  allRegistrationReceiptsUrl,
-  eventInfoUrl,
-  getTeamsUrl,
-  oneRegistrationReceiptUrl,
-  validateRegistrationReceiptUrl,
+  stateCRUDUrl,
   workshopCRUDUrl,
 } from '../constants/urls';
 
@@ -36,6 +32,13 @@ export const addMentorToWorkshopAction = createAsyncThunkApi(
   }
 );
 
+export const getOneStateAction = createAsyncThunkApi(
+  'events/getOneStateAction',
+  Apis.GET,
+  stateCRUDUrl,
+);
+
+
 
 
 
@@ -44,10 +47,7 @@ export const addMentorToWorkshopAction = createAsyncThunkApi(
 
 const initialState = {
   isFetching: false,
-  allRegistrationReceipts: [],
-  allEvents: [],
-  allEventTeams: [],
-  allWorkshops: [],
+
 };
 
 const isFetching = (state) => {
@@ -72,9 +72,20 @@ const eventSlice = createSlice({
     [getOneWorkshopsInfoAction.pending.toString()]: isFetching,
     [getOneWorkshopsInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.workshop = response;
+      state.currentState = response.first_state;
       state.isFetching = false;
     },
     [getOneWorkshopsInfoAction.rejected.toString()]: isNotFetching,
+
+
+    [getOneStateAction.pending.toString()]: isFetching,
+    [getOneStateAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.currentState = response;
+      state.isFetching = false;
+    },
+    [getOneStateAction.rejected.toString()]: isNotFetching,
+
+
   },
 });
 

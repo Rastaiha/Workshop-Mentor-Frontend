@@ -2,6 +2,8 @@ import { Grid, Button, makeStyles, Paper } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
+import TinyEditorComponent from '../../tiny_editor/react_tiny/TinyEditorComponent';
+
 
 // import { sendBigAnswerAction } from '../../../redux/slices/currentState';
 import TinyPreview from '../../tiny_editor/react_tiny/Preview';

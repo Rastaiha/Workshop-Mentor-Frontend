@@ -19,6 +19,7 @@ import { Link, useParams } from 'react-router-dom';
 import {
   getOneEventInfoAction,
 } from '../../redux/slices/events';
+import Edit from './Edit';
 import Info from './Info';
 import Layout from './Layout';
 import Teams from './Teams';
@@ -34,6 +35,11 @@ const tabs = [
     label: 'اطلاعات کلی',
     icon: '',
     component: Info,
+  },
+  {
+    label: 'ویرایش',
+    icon: '',
+    component: Edit,
   },
   {
     label: 'تیم‌ها',
@@ -52,10 +58,10 @@ const tabs = [
 const Event = () => {
   const t = useTranslate();
   const history = useHistory();
-  const { tabNumber, eventId, fsmId } = useParams();
+  const { tabNumber, fsmId } = useParams();
 
   if (!tabNumber) {
-    history.push(`/event/${eventId}/workshop/${fsmId}/0/`)
+    history.push(`/workshop/${fsmId}/0/`)
   }
 
   const [tabIndex, setTabIndex] = useState(tabNumber || 0);
@@ -64,7 +70,7 @@ const Event = () => {
   const TabComponent = tabs[tabIndex].component;
 
   const handleTabChange = (index) => {
-    history.push(`/event/${eventId}/workshop/${fsmId}/${index}/`)
+    history.push(`/workshop/${fsmId}/${index}/`)
     setTabIndex(index);
   }
 
