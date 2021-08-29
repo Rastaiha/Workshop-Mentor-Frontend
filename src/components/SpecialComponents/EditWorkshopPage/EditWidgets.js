@@ -1,5 +1,5 @@
 import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
-import { Add as AddIcon } from '@material-ui/icons';
+import { Add } from '@material-ui/icons';
 import React, { useState } from 'react';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
@@ -21,8 +21,6 @@ function EditWidgets({ widgets = [], id, name }) {
   const t = useTranslate();
   const [openCreateWidgetDialog, setOpenCreateWidgetDialog] = useState(false);
 
-
-  console.log(widgets)
   const questions = widgets?.filter((widget) =>
     widget.widget_type.includes('Problem')
   );
@@ -33,11 +31,13 @@ function EditWidgets({ widgets = [], id, name }) {
   return (
     <>
       <Grid container spacing={2} className={classes.workshopContent} justify="center">
-        <Grid item xs={12}>
-          <Typography align="center" component="h2" variant="h3" gutterBottom>
-            {name}
-          </Typography>
-        </Grid>
+        {name &&
+          <Grid item xs={12}>
+            <Typography align="center" component="h2" variant="h3" gutterBottom>
+              {name}
+            </Typography>
+          </Grid>
+        }
         {
           questions.map((widget) => (
             <Grid item xs={12} key={widget.index}>
@@ -69,14 +69,16 @@ function EditWidgets({ widgets = [], id, name }) {
             <Typography align="center">{t('thereIsNoItem')}</Typography>
           </Grid>
         }
-        <Grid item xs={12} md={6} container justify="center">
-          <Button
-            color="primary" variant="contained"
-            fullWidth startIcon={<AddIcon />}
-            onClick={() => setOpenCreateWidgetDialog(true)}>
-            {t('createWidget')}
-          </Button>
-        </Grid>
+        {id &&
+          <Grid item xs={12} md={6} container justify="center">
+            <Button
+              color="primary" variant="contained"
+              fullWidth startIcon={<Add />}
+              onClick={() => setOpenCreateWidgetDialog(true)}>
+              {t('createWidget')}
+            </Button>
+          </Grid>
+        }
       </Grid>
       <CreateWidgetDialog
         stateId={id}

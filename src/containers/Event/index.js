@@ -1,7 +1,6 @@
 import {
   Button,
   ButtonGroup,
-  Container,
   Grid,
   Hidden,
   makeStyles,
@@ -16,18 +15,16 @@ import { useTranslate } from 'react-redux-multilingual/lib/context';
 import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
-import ResponsiveAppBar from '../../components/Appbar/ResponsiveAppBar';
 import {
   getOneEventInfoAction,
 } from '../../redux/slices/events';
 import CreateRegistrationForm from './CreateRegistrationForm';
 import DiscountCode from './DiscountCode';
 import Info from './Info';
+import Layout from './Layout';
 import RegistrationReceipts from './RegistrationReceipts';
 import Teams from './Teams';
 import Workshops from './Workshops';
-
-import Layout from './Layout';
 
 const useStyles = makeStyles((theme) => ({
   rightBox: {
@@ -65,13 +62,6 @@ const tabs = [
     label: 'تیم‌ها',
     icon: GroupIcon,
     component: Teams,
-  },
-  {
-    label: 'درخواست‌ها',
-    component: Teams,
-    props: {
-      mode: 'notifications',
-    },
   },
 ];
 

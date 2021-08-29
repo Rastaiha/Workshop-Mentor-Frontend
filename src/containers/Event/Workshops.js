@@ -10,7 +10,7 @@ import {
   TextField,
   Tooltip,
 } from '@material-ui/core';
-import { AddCircle as AddCircleIcon } from '@material-ui/icons';
+import { AddCircle } from '@material-ui/icons';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
@@ -94,7 +94,7 @@ function Index({
             {'افزودن همیار'}
           </Button>
         </Grid>
-        <Grid item container xs={12} justify='flex-start'>
+        <Grid item container xs={12} justify='flex-start' spacing={2}>
           {allWorkshops?.map((workshop) => (
             <Grid item xs={12} sm={6} md={4} key={workshop.id} >
               <WorkshopCard {...workshop} />
@@ -105,10 +105,11 @@ function Index({
         <Grid item container xs={12} justify='center'>
           <Tooltip arrow title={'افزودن کارگاه'}>
             <IconButton onClick={() => setOpenCreateWorkshopDialog(true)}>
-              <AddCircleIcon fontSize="large" />
+              <AddCircle fontSize="large" />
             </IconButton>
           </Tooltip>
         </Grid>
+
       </Grid>
       <CreateWorkshopDialog
         open={openCreateWorkshopDialog}

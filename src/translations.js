@@ -114,7 +114,7 @@ const dictionary = {
       createWidget: 'ایجاد ویجت',
       removeState: 'حذف گام',
       createState: 'ایجاد گام',
-      stateName: 'نام گام',
+      stateName: 'نام',
       help: 'راهنمایی',
       helpNumber: 'راهنمایی شماره',
       createHelp: 'ایجاد راهنمایی جدید',
