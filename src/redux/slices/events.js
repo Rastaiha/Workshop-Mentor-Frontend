@@ -132,7 +132,8 @@ export const getRequestMentorAction = createAsyncThunk(
       requests.forEach((request) => {
         const teamId = request.get('teamId');
         const playerId = request.get('playerId');
-        requestTeams[teamId] = playerId;
+        const fsmId = request.get('fsmId');
+        requestTeams[teamId + '.' + fsmId] = playerId;
       });
       return { requestTeams };
     } catch (err) {
@@ -147,11 +148,11 @@ const eventSlice = createSlice({
   name: 'events',
   initialState,
   reducers: {
-    createRequestMentor: (state, { payload: { playerId, teamId } }) => {
-      state.requestTeams[teamId] = playerId;
+    createRequestMentor: (state, { payload: { playerId, teamId, fsmId } }) => {
+      state.requestTeams[teamId + '.' + fsmId] = playerId;
     },
-    removeRequestMentor: (state, { payload: { teamId } }) => {
-      delete state.requestTeams[teamId];
+    removeRequestMentor: (state, { payload: { teamId, fsmId } }) => {
+      delete state.requestTeams[teamId + '.' + fsmId];
     },
   },
   extraReducers: {

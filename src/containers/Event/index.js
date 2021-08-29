@@ -14,10 +14,16 @@ import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 import { Link, useParams } from 'react-router-dom';
 
-import { getOneEventInfoAction } from '../../redux/slices/events';
-import { getEventTeamsAction } from '../../redux/slices/events';
+import {
+  getAllWorkshopsInfoAction,
+  getEventTeamsAction,
+  getOneEventInfoAction,
+} from '../../redux/slices/events';
+import CreateRegistrationForm from './CreateRegistrationForm';
+import DiscountCode from './DiscountCode';
 import Info from './Info';
 import Layout from './Layout';
+import RegistrationReceipts from './RegistrationReceipts';
 import Teams from './Teams';
 import Workshops from './Workshops';
 
@@ -38,16 +44,16 @@ const tabs = [
   //   icon: '',
   //   component: CreateRegistrationForm,
   // },
-  // {
-  //   label: 'رسیدهای ثبت‌نام',
-  //   icon: '',
-  //   component: RegistrationReceipts,
-  // },
-  // {
-  //   label: 'کد تخفیف',
-  //   icon: '',
-  //   component: DiscountCode,
-  // },
+  {
+    label: 'رسیدهای ثبت‌نام',
+    icon: '',
+    component: RegistrationReceipts,
+  },
+  {
+    label: 'کد تخفیف',
+    icon: '',
+    component: DiscountCode,
+  },
   {
     label: 'کارگاه‌ها',
     icon: ClassIcon,
@@ -60,7 +66,7 @@ const tabs = [
   },
 ];
 
-const Event = ({ allEventTeams = [], getOneEventInfo, getTeams }) => {
+const Event = ({ getWorkshopsInfo, getOneEventInfo, getTeams }) => {
   const t = useTranslate();
   const { eventId } = useParams();
 
@@ -77,12 +83,11 @@ const Event = ({ allEventTeams = [], getOneEventInfo, getTeams }) => {
     }
   }, [eventId]);
 
-  const TabProps = {};
+  useEffect(() => {
+    getWorkshopsInfo({});
+  }, []);
 
   const TabComponent = tabs[tabIndex].component;
-  if (TabComponent === Teams) {
-    TabProps.allEventTeams = allEventTeams;
-  }
 
   return (
     <Layout>
@@ -122,7 +127,7 @@ const Event = ({ allEventTeams = [], getOneEventInfo, getTeams }) => {
         </Grid>
         <Grid item sm={9} xs={12}>
           <Paper elevation={3} className={classes.rightBox}>
-            <TabComponent {...TabProps} />
+            <TabComponent />
           </Paper>
         </Grid>
         <Hidden smUp>
@@ -137,11 +142,8 @@ const Event = ({ allEventTeams = [], getOneEventInfo, getTeams }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  allEventTeams: state.events.allEventTeams || [],
-});
-
-export default connect(mapStateToProps, {
+export default connect(null, {
   getOneEventInfo: getOneEventInfoAction,
+  getWorkshopsInfo: getAllWorkshopsInfoAction,
   getTeams: getEventTeamsAction,
 })(Event);
