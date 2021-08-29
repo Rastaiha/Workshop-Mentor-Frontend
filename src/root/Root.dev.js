@@ -12,10 +12,13 @@ const Root = () => {
   return (
     <Switch>
       <PrivateRoute path="/edit_article/:articleId/" component={EditArticle} />
-      <PrivateRoute path="/registration_receipt/:registrationReceiptId/" component={RegistrationReceipt} />
+      <PrivateRoute
+        path="/registration_receipt/:registrationReceiptId/"
+        component={RegistrationReceipt}
+      />
 
       <PrivateRoute path="/workshop/:fsmId/:tabNumber?/" component={Workshop} />
-      <PrivateRoute path="/event/:eventId/:tabNumber?/" component={Event} />
+      <PrivateRoute path="/event/:eventId/" component={Event} />
       <Route path="/" component={Login}></Route>
     </Switch>
   );

@@ -1,50 +1,61 @@
-import {
-  Grid,
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@material-ui/core';
-import ClearIcon from '@material-ui/icons/Clear';
-import React, { useEffect, useState } from 'react';
+import { Grid } from '@material-ui/core';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router';
 
 import TeamInfoCard from '../../components/Cards/TeamInfo';
-import { getEventTeamsAction } from '../../redux/slices/events';
-import { toPersianNumber } from '../../utils/translateNumber';
+import { getRequestSubscription } from '../../parse/mentor';
+import {
+  createRequestMentorAction,
+  getRequestMentorAction,
+  removeRequestMentorAction,
+} from '../../redux/slices/events';
 
 function Teams({
-  getTeams,
+  requestTeams,
   allEventTeams,
+  getRequestMentor,
+  createRequestMentor,
+  removeRequestMentor,
 }) {
-  const { eventId } = useParams();
-
-  useEffect(() => {
-    getTeams({ eventId });
+  useEffect(async () => {
+    getRequestMentor();
+    const subscription = await getRequestSubscription();
+    subscription.on('create', (requestMentor) =>
+      createRequestMentor(requestMentor.get('playerId'))
+    );
+    subscription.on('delete', (requestMentor) =>
+      removeRequestMentor(requestMentor.get('playerId'))
+    );
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
+
+  const reqTeams = allEventTeams.filter((team) => requestTeams[team.id]);
+  const nonReqTeams = allEventTeams.filter((team) => !requestTeams[team.id]);
 
   return (
     <Grid container spacing={2} alignItems="center" justify="center">
-      {allEventTeams?.map((team) => {
-        return (
-          <Grid item xs={12} sm={6} md={4} key={team.id}>
-            <TeamInfoCard {...team} />
-          </Grid>
-        );
-      })}
+      {reqTeams?.map((team) => (
+        <Grid item xs={12} sm={6} md={4} key={team.id}>
+          <TeamInfoCard {...team} playerId={requestTeams[team.id]} />
+        </Grid>
+      ))}
+      {nonReqTeams?.map((team) => (
+        <Grid item xs={12} sm={6} md={4} key={team.id}>
+          <TeamInfoCard {...team} />
+        </Grid>
+      ))}
     </Grid>
   );
 }
 
 const mapStateToProps = (state) => ({
-  allEventTeams: state.events.allEventTeams || [],
+  requestTeams: state.events.requestTeams || {},
 });
 
 export default connect(mapStateToProps, {
-  getTeams: getEventTeamsAction,
+  getRequestMentor: getRequestMentorAction,
+  createRequestMentor: createRequestMentorAction,
+  removeRequestMentor: removeRequestMentorAction,
 })(Teams);

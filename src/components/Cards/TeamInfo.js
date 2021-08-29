@@ -4,20 +4,13 @@ import {
   Card,
   CardActionArea,
   CardActions,
-  Tooltip,
-  Avatar,
   CardContent,
   Grid,
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import AvatarGroup from '@material-ui/lab/AvatarGroup';
+import { NotificationsActive } from '@material-ui/icons';
 import React from 'react';
-import { connect } from 'react-redux';
-import { useTranslate } from 'react-redux-multilingual/lib/context';
-import { Link } from 'react-router-dom';
-
-import { stringToColor } from '../../utils/stringToColor';
 
 const useStyles = makeStyles({
   root: {
@@ -28,19 +21,15 @@ const useStyles = makeStyles({
   },
 });
 
-
-const TeamInfo = ({
-  name,
-  members,
-}) => {
+const TeamInfo = ({ name, members, playerId }) => {
   const classes = useStyles();
-  const t = useTranslate();
 
   return (
     <Card className={classes.root}>
       <CardActionArea disabled>
         <CardContent>
-          <Typography gutterBottom variant="h3" align='center'>
+          {playerId && <NotificationsActive />}
+          <Typography gutterBottom variant="h3" align="center">
             {name}
           </Typography>
           <Grid container direction="row" justify="center">
@@ -60,18 +49,24 @@ const TeamInfo = ({
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <ButtonGroup disabled variant="outlined" color="primary" fullWidth>
-          <Button>
-            {'ویرایش'}
-          </Button>
-          <Button>
-            {'حذف'}
-          </Button>
-        </ButtonGroup>
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <ButtonGroup disabled variant="outlined" color="primary" fullWidth>
+              <Button>{'ویرایش'}</Button>
+              <Button>{'حذف'}</Button>
+            </ButtonGroup>
+          </Grid>
+          {playerId && (
+            <Grid item>
+              <Button variant="outlined" color="primary" fullWidth>
+                پاسخ به درخواست
+              </Button>
+            </Grid>
+          )}
+        </Grid>
       </CardActions>
     </Card>
   );
 };
 
-export default connect(null, {
-})(TeamInfo);
+export default TeamInfo;

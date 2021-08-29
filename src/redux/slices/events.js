@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+import { getRequests } from '../../parse/mentor';
 import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
   addMentorToWorkshopUrl,
   allRegistrationReceiptsUrl,
   eventInfoUrl,
-  getAllWorkshopEdges,
   getTeamsUrl,
   oneRegistrationReceiptUrl,
   validateRegistrationReceiptUrl,
@@ -16,7 +16,7 @@ import {
 export const getOneEventInfoAction = createAsyncThunkApi(
   'events/getEventInfoAction',
   Apis.GET,
-  eventInfoUrl,
+  eventInfoUrl
 );
 
 export const editOneEventInfoAction = createAsyncThunkApi(
@@ -33,13 +33,13 @@ export const editOneEventInfoAction = createAsyncThunkApi(
 export const getAllRegistrationReceiptsAction = createAsyncThunkApi(
   'events/getAllRegistrationReceiptsAction',
   Apis.GET,
-  allRegistrationReceiptsUrl,
+  allRegistrationReceiptsUrl
 );
 
 export const getOneRegistrationReceiptAction = createAsyncThunkApi(
   'events/getOneRegistrationReceiptAction',
   Apis.GET,
-  oneRegistrationReceiptUrl,
+  oneRegistrationReceiptUrl
 );
 
 export const validateRegistrationReceiptAction = createAsyncThunkApi(
@@ -57,19 +57,19 @@ export const validateRegistrationReceiptAction = createAsyncThunkApi(
 export const getEventTeamsAction = createAsyncThunkApi(
   'events/getEventTeamsAction',
   Apis.GET,
-  getTeamsUrl,
+  getTeamsUrl
 );
 
 export const createWorkshopAction = createAsyncThunkApi(
   'events/createWorkshopAction',
   Apis.POST,
-  workshopCRUDUrl,
+  workshopCRUDUrl
 );
 
 export const getAllWorkshopsInfoAction = createAsyncThunkApi(
   'events/getAllWorkshopsInfoAction',
   Apis.GET,
-  workshopCRUDUrl,
+  workshopCRUDUrl
 );
 
 export const addMentorToWorkshopAction = createAsyncThunkApi(
@@ -95,6 +95,7 @@ const initialState = {
   allRegistrationReceipts: [],
   allEvents: [],
   allEventTeams: [],
+  requestTeams: {},
   allWorkshops: [],
 };
 
@@ -106,52 +107,99 @@ const isNotFetching = (state) => {
   state.isFetching = false;
 };
 
+export const getRequestMentorAction = createAsyncThunk(
+  'requestMentor/getAll',
+  async (arg, { rejectWithValue }) => {
+    try {
+      const requests = await getRequests();
+      const requestTeams = {};
+      requests.forEach((request) => {
+        const teamId = request.get('teamId');
+        const playerId = request.get('playerId');
+        requestTeams[teamId] = playerId;
+      });
+      return { requestTeams };
+    } catch (err) {
+      return rejectWithValue({
+        message: 'یه مشکلی وجود داره. یه چند لحظه دیگه دوباره تلاش کن!',
+      });
+    }
+  }
+);
+
 const eventSlice = createSlice({
   name: 'events',
   initialState,
+  reducers: {
+    createRequestMentor: (state, { payload: { playerId, teamId } }) => {
+      state.requestTeams[teamId] = playerId;
+    },
+    removeRequestMentor: (state, { payload: { teamId } }) => {
+      delete state.requestTeams[teamId];
+    },
+  },
   extraReducers: {
+    [getRequestMentorAction.fulfilled.toString()]: (
+      state,
+      { payload: { requestTeams } }
+    ) => {
+      state.requestTeams = requestTeams;
+    },
     [getOneEventInfoAction.pending.toString()]: isFetching,
-    [getOneEventInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+    [getOneEventInfoAction.fulfilled.toString()]: (
+      state,
+      { payload: { response } }
+    ) => {
       state.event = response;
       state.isFetching = false;
     },
     [getOneEventInfoAction.rejected.toString()]: isNotFetching,
 
-
     [getAllRegistrationReceiptsAction.pending.toString()]: isFetching,
-    [getAllRegistrationReceiptsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+    [getAllRegistrationReceiptsAction.fulfilled.toString()]: (
+      state,
+      { payload: { response } }
+    ) => {
       state.allRegistrationReceipts = response;
       state.isFetching = false;
     },
     [getAllRegistrationReceiptsAction.rejected.toString()]: isNotFetching,
 
-
     [getOneRegistrationReceiptAction.pending.toString()]: isFetching,
-    [getOneRegistrationReceiptAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+    [getOneRegistrationReceiptAction.fulfilled.toString()]: (
+      state,
+      { payload: { response } }
+    ) => {
       state.registrationReceipt = response;
       state.isFetching = false;
     },
     [getOneRegistrationReceiptAction.rejected.toString()]: isNotFetching,
 
-
     [getEventTeamsAction.pending.toString()]: isFetching,
-    [getEventTeamsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+    [getEventTeamsAction.fulfilled.toString()]: (
+      state,
+      { payload: { response } }
+    ) => {
       state.allEventTeams = response;
       state.isFetching = false;
     },
     [getEventTeamsAction.rejected.toString()]: isNotFetching,
 
-
     [getAllWorkshopsInfoAction.pending.toString()]: isFetching,
-    [getAllWorkshopsInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+    [getAllWorkshopsInfoAction.fulfilled.toString()]: (
+      state,
+      { payload: { response } }
+    ) => {
       state.allWorkshops = response;
       state.isFetching = false;
     },
     [getAllWorkshopsInfoAction.rejected.toString()]: isNotFetching,
 
-
     [createWorkshopAction.pending.toString()]: isFetching,
-    [createWorkshopAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+    [createWorkshopAction.fulfilled.toString()]: (
+      state,
+      { payload: { response } }
+    ) => {
       state.allWorkshops = [response, ...state.allWorkshops];
       state.isFetching = false;
     },
@@ -161,5 +209,10 @@ const eventSlice = createSlice({
 
 
 });
+
+export const {
+  createRequestMentor: createRequestMentorAction,
+  removeRequestMentor: removeRequestMentorAction,
+} = eventSlice.actions;
 
 export const { reducer: eventsReducer } = eventSlice;

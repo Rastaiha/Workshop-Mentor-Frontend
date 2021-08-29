@@ -10,6 +10,7 @@ import { IntlProvider } from 'react-redux-multilingual';
 import { useHistory } from 'react-router';
 
 import Notifier from './components/Notifications/Notifications';
+import { initParseServer } from './parse/init';
 import { initRedirectAction } from './redux/slices/redirect';
 import Root from './root';
 import MuiTheme from './Theme/MuiThemes/MuiTheme';
@@ -45,23 +46,27 @@ const App = ({ dir, redirectTo, forceRedirect, initRedirect, isFetching }) => {
     document.body.dir = dir;
   }, [dir]);
 
-
+  useEffect(() => {
+    initParseServer();
+  }, []);
 
   const Loading = () => {
     if (isFetching) {
       return (
-        <div style={{ width: '100%', position: 'fixed', top: '0px', zIndex: '1000' }}>
+        <div
+          style={{
+            width: '100%',
+            position: 'fixed',
+            top: '0px',
+            zIndex: '1000',
+          }}>
           <LinearProgress />
         </div>
-      )
+      );
     } else {
-      return (
-        <>
-        </>
-      )
+      return <></>;
     }
-  }
-
+  };
 
   return (
     <IntlProvider translations={translations}>
@@ -75,12 +80,12 @@ const App = ({ dir, redirectTo, forceRedirect, initRedirect, isFetching }) => {
           </ThemeProvider>
         </>
       ) : (
-          <>
-            <ThemeProvider theme={MuiTheme}>
-              <Mentor />
-            </ThemeProvider>
-          </>
-        )}
+        <>
+          <ThemeProvider theme={MuiTheme}>
+            <Mentor />
+          </ThemeProvider>
+        </>
+      )}
     </IntlProvider>
   );
 };
