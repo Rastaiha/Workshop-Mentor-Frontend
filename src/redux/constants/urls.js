@@ -8,12 +8,15 @@ export const studentshipCRUDUrl = ({ userId }) => userId ? `auth/studentship/${u
 export const discountCRUDUrl = ({ discountCodeId }) => discountCodeId ? `auth/discount_code/${discountCodeId}/` : 'auth/discount_code/';
 export const merchandiseDiscountCodeUrl = ({ merchandiseId }) => `/auth/merchandise/${merchandiseId}/discount_codes/`;
 
+// team:
+export const getTeamsUrl = '/fsm/team/'; //todo: get team per registration form
+
 
 // fsm:
-export const eventInfoUrl = ({ eventId = undefined }) => eventId ? `fsm/event/${eventId}/` : 'fsm/event/';
-export const allRegistrationReceiptsUrl = ({ registrationFormId = undefined }) => `fsm/registration/${registrationFormId}/receipts/`;
-export const oneRegistrationReceiptUrl = ({ registrationReceiptId = undefined }) => `fsm/receipts/${registrationReceiptId}/`;
-export const validateRegistrationReceiptUrl = ({ registrationReceiptId = undefined }) => `/fsm/receipts/${registrationReceiptId}/validate/`
+export const eventInfoUrl = ({ eventId }) => eventId ? `fsm/event/${eventId}/` : 'fsm/event/';
+export const allRegistrationReceiptsUrl = ({ registrationFormId }) => `fsm/registration/${registrationFormId}/receipts/`;
+export const oneRegistrationReceiptUrl = ({ registrationReceiptId }) => `fsm/receipts/${registrationReceiptId}/`;
+export const validateRegistrationReceiptUrl = ({ registrationReceiptId }) => `/fsm/receipts/${registrationReceiptId}/validate/`
 
 
 

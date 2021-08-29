@@ -1,75 +1,50 @@
-import { Grid, Tab, Tabs } from '@material-ui/core';
+import {
+  Grid,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@material-ui/core';
+import ClearIcon from '@material-ui/icons/Clear';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router';
 
-import TeamCard from '../../components/Cards/TeamCard';
-import { getWorkshopTeamsAction } from '../../redux/slices/mentor';
+import TeamInfoCard from '../../components/Cards/TeamInfo';
+import { getEventTeamsAction } from '../../redux/slices/events';
+import { toPersianNumber } from '../../utils/translateNumber';
 
 function Teams({
-  workshops = [],
-  teams,
-  getWorkshopTeams,
-  mode = 'normal',
-  notifications,
+  getTeams,
+  allEventTeams,
 }) {
-  const [workshopNumber, setWorkshopNumber] = useState(0);
+  const { eventId } = useParams();
 
   useEffect(() => {
-    if (workshops[workshopNumber] && !teams[workshops[workshopNumber].id]) {
-      getWorkshopTeams({ fsmId: workshops[workshopNumber].id });
-    }
-  }, [getWorkshopTeams, workshops, teams, workshopNumber]);
-
-  const currentTeams = teams[workshops[workshopNumber]?.id]?.teams || [];
-
-  const viewTeams =
-    mode === 'notifications'
-      ? currentTeams.filter((team) => notifications.includes(+team.id))
-      : currentTeams;
+    getTeams({ eventId });
+  }, []);
 
   return (
-    <Grid container direction="column">
-      <Grid item xs={12}>
-        <Tabs
-          value={workshopNumber}
-          onChange={(e, val) => setWorkshopNumber(val)}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="scrollable"
-          scrollButtons="auto">
-          {workshops.map((workshop) => (
-            <Tab label={workshop.name} key={workshop.name} />
-          ))}
-        </Tabs>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        container
-        spacing={2}
-        alignItems="center"
-        justify="center">
-        {viewTeams.map((team) => {
-          return (
-            <Grid item xs={12} sm={6} md={4} key={team.id}>
-              <TeamCard
-                team={team}
-                fsmId={workshops[workshopNumber].id}
-                fsmFirstState={workshops[workshopNumber].first_state}
-              />
-            </Grid>
-          );
-        })}
-      </Grid>
+    <Grid container spacing={2} alignItems="center" justify="center">
+      {allEventTeams?.map((team) => {
+        return (
+          <Grid item xs={12} sm={6} md={4} key={team.id}>
+            <TeamInfoCard {...team} />
+          </Grid>
+        );
+      })}
     </Grid>
   );
 }
 
 const mapStateToProps = (state) => ({
-  workshops: state.mentor.workshops,
-  teams: state.mentor.teams,
-  notifications: state.mentor.notifications,
+  allEventTeams: state.events.allEventTeams || [],
 });
+
 export default connect(mapStateToProps, {
-  getWorkshopTeams: getWorkshopTeamsAction,
+  getTeams: getEventTeamsAction,
 })(Teams);

@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Index({ articles }) {
+function Index() {
   const classes = useStyles();
   const t = useTranslate();
 

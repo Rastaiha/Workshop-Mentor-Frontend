@@ -70,7 +70,6 @@ export const deleteDiscountCodeAction = createAsyncThunkApi(
   }
 );
 
-
 export const getAllMerchandiseDiscountCodesAction = createAsyncThunkApi(
   'account/getAllMerchandiseDiscountCodesAction',
   Apis.GET,

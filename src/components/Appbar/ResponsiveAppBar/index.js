@@ -56,8 +56,8 @@ function ResponsiveAppBar({
   mode = 'LANDING',
   showBackOnScroll = false,
   hideOnScroll = false,
+  position = 'relative',
   width,
-  position,
 }) {
   const classes = useStyles();
   const [drawerOpen, setDrawerOpen] = useState(false);

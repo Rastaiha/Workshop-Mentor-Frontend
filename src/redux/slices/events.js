@@ -5,6 +5,7 @@ import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
   allRegistrationReceiptsUrl,
   eventInfoUrl,
+  getTeamsUrl,
   oneRegistrationReceiptUrl,
   validateRegistrationReceiptUrl,
 } from '../constants/urls';
@@ -49,11 +50,22 @@ export const validateRegistrationReceiptAction = createAsyncThunkApi(
   }
 );
 
+//todo: this method currently gets all teams of all events!
+export const getEventTeamsAction = createAsyncThunkApi(
+  'events/getEventTeamsAction',
+  Apis.GET,
+  getTeamsUrl,
+);
+
+
+
+
 
 const initialState = {
   isFetching: false,
   allRegistrationReceipts: [],
   allEvents: [],
+  allEventTeams: [],
 };
 
 const isFetching = (state) => {
@@ -71,6 +83,7 @@ const eventSlice = createSlice({
     [getOneEventInfoAction.pending.toString()]: isFetching,
     [getOneEventInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.event = response;
+      state.isFetching = false;
     },
     [getOneEventInfoAction.rejected.toString()]: isNotFetching,
 
@@ -78,6 +91,7 @@ const eventSlice = createSlice({
     [getAllRegistrationReceiptsAction.pending.toString()]: isFetching,
     [getAllRegistrationReceiptsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.allRegistrationReceipts = response;
+      state.isFetching = false;
     },
     [getAllRegistrationReceiptsAction.rejected.toString()]: isNotFetching,
 
@@ -85,8 +99,18 @@ const eventSlice = createSlice({
     [getOneRegistrationReceiptAction.pending.toString()]: isFetching,
     [getOneRegistrationReceiptAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.registrationReceipt = response;
+      state.isFetching = false;
     },
     [getOneRegistrationReceiptAction.rejected.toString()]: isNotFetching,
+
+
+    [getEventTeamsAction.pending.toString()]: isFetching,
+    [getEventTeamsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.allEventTeams = response;
+      state.isFetching = false;
+    },
+    [getEventTeamsAction.rejected.toString()]: isNotFetching,
+
   },
 });
 

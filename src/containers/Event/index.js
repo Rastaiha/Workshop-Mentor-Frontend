@@ -39,10 +39,6 @@ const useStyles = makeStyles((theme) => ({
   rightBox: {
     padding: theme.spacing(2),
   },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
-  },
 }));
 
 const tabs = [

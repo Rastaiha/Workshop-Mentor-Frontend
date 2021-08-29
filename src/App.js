@@ -49,7 +49,6 @@ const App = ({ dir, redirectTo, forceRedirect, initRedirect, isFetching }) => {
 
   const Loading = () => {
     if (isFetching) {
-      console.log("@@@@@@@@@@@@@@@")
       return (
         <div style={{ width: '100%', position: 'fixed', top: '0px', zIndex: '1000' }}>
           <LinearProgress />
