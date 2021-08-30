@@ -6,7 +6,6 @@ import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
   addMentorToWorkshopUrl,
   allRegistrationReceiptsUrl,
-  edgeUrl,
   eventInfoUrl,
   getPlayerFromTeamUrl,
   getTeamsUrl,
@@ -85,27 +84,12 @@ export const addMentorToWorkshopAction = createAsyncThunkApi(
   }
 );
 
-export const addEdgeAction = createAsyncThunkApi(
-  'events/addEdgeAction',
-  Apis.POST,
-  edgeUrl,
-  {
-    defaultNotification: {
-      success: 'یال با موفقیت اضافه شد.',
-    },
-  }
-);
 
-export const removeEdgeAction = createAsyncThunkApi(
-  'events/removeEdgeAction',
-  Apis.DELETE,
-  edgeUrl,
-  {
-    defaultNotification: {
-      success: 'یال با موفقیت حذف شد.',
-    },
-  }
-);
+
+
+
+
+
 
 export const getPlayerFromTeamAction = createAsyncThunkApi(
   'events/removeEdgeAction',
@@ -262,6 +246,9 @@ const eventSlice = createSlice({
     },
     [createWorkshopAction.rejected.toString()]: isNotFetching,
   },
+
+
+
 });
 
 export const {
