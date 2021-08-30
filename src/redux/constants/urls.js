@@ -21,15 +21,22 @@ export const getTeamsUrl = '/fsm/team/'; //todo: get team per registration form
 // event:
 export const addMentorToWorkshopUrl = ({ fsmId }) =>
   `/fsm/fsm/${fsmId}/add_mentor/`;
+export const getMentoredFsmsUrl = ({ eventId }) =>
+  `/fsm/event/${eventId}/get_mentored_fsms/`;
 
 // workshop:
-export const workshopCRUDUrl = ({ fsmId }) => fsmId ? `/fsm/fsm/${fsmId}/` : '/fsm/fsm/';
-export const getAllWorkshopStatesInfoUrl = ({ fsmId }) => `/fsm/fsm/${fsmId}/get_states/`;
-export const getAllWorkshopEdges = ({ fsmId }) => `/fsm/fsm/${fsmId}/get_edges/`;
+export const workshopCRUDUrl = ({ fsmId }) =>
+  fsmId ? `/fsm/fsm/${fsmId}/` : '/fsm/fsm/';
+export const getAllWorkshopStatesInfoUrl = ({ fsmId }) =>
+  `/fsm/fsm/${fsmId}/get_states/`;
+export const getAllWorkshopEdges = ({ fsmId }) =>
+  `/fsm/fsm/${fsmId}/get_edges/`;
 
 // state:
-export const stateCRUDUrl = ({ stateId }) => stateId ? `/fsm/state/${stateId}/` : '/fsm/state/';
-export const edgeUrl = ({ edgeId }) => edgeId ? `/fsm/edge/${edgeId}/` : '/fsm/edge/';
+export const stateCRUDUrl = ({ stateId }) =>
+  stateId ? `/fsm/state/${stateId}/` : '/fsm/state/';
+export const edgeUrl = ({ edgeId }) =>
+  edgeId ? `/fsm/edge/${edgeId}/` : '/fsm/edge/';
 
 // widget:
 export const widgetCRUDUrl = ({ widgetId }) =>

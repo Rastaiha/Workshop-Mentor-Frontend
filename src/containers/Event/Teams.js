@@ -43,6 +43,8 @@ function Teams({
     };
   }, []);
 
+  if (!allWorkshops[workshopNumber]) return <></>;
+
   const reqTeams = allEventTeams.filter(
     (team) => requestTeams[team.id + '.' + allWorkshops[workshopNumber].id]
   );
@@ -91,7 +93,7 @@ function Teams({
 }
 
 const mapStateToProps = (state) => ({
-  allWorkshops: state.events.allWorkshops || [],
+  allWorkshops: state.events.myWorkshops || [],
   allEventTeams: state.events.allEventTeams || [],
   requestTeams: state.events.requestTeams || {},
 });

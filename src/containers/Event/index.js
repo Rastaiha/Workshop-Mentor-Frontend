@@ -17,9 +17,9 @@ import { Link, useParams } from 'react-router-dom';
 import {
   getAllWorkshopsInfoAction,
   getEventTeamsAction,
+  getMentoredFsmsAction,
   getOneEventInfoAction,
 } from '../../redux/slices/events';
-import CreateRegistrationForm from './CreateRegistrationForm';
 import DiscountCode from './DiscountCode';
 import Info from './Info';
 import Layout from './Layout';
@@ -66,7 +66,12 @@ const tabs = [
   },
 ];
 
-const Event = ({ getWorkshopsInfo, getOneEventInfo, getTeams }) => {
+const Event = ({
+  getWorkshopsInfo,
+  getOneEventInfo,
+  getTeams,
+  getMentoredFsms,
+}) => {
   const t = useTranslate();
   const { eventId } = useParams();
 
@@ -74,18 +79,13 @@ const Event = ({ getWorkshopsInfo, getOneEventInfo, getTeams }) => {
   const classes = useStyles();
 
   useEffect(() => {
-    getOneEventInfo({ eventId });
-  }, [getOneEventInfo]);
-
-  useEffect(() => {
     if (eventId) {
+      getOneEventInfo({ eventId });
       getTeams({ eventId });
+      getWorkshopsInfo({});
+      getMentoredFsms({ eventId });
     }
   }, [eventId]);
-
-  useEffect(() => {
-    getWorkshopsInfo({});
-  }, []);
 
   const TabComponent = tabs[tabIndex].component;
 
@@ -146,4 +146,5 @@ export default connect(null, {
   getOneEventInfo: getOneEventInfoAction,
   getWorkshopsInfo: getAllWorkshopsInfoAction,
   getTeams: getEventTeamsAction,
+  getMentoredFsms: getMentoredFsmsAction,
 })(Event);
