@@ -11,6 +11,9 @@ import {
 } from '@material-ui/core';
 import { NotificationsActive } from '@material-ui/icons';
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { deleteRequestMentorAction } from '../../redux/slices/events';
 
 const useStyles = makeStyles({
   root: {
@@ -21,7 +24,14 @@ const useStyles = makeStyles({
   },
 });
 
-const TeamInfo = ({ name, members, playerId }) => {
+const TeamInfo = ({
+  name,
+  members,
+  teamId,
+  fsmId,
+  playerId,
+  deleteRequestMentor,
+}) => {
   const classes = useStyles();
 
   return (
@@ -59,7 +69,11 @@ const TeamInfo = ({ name, members, playerId }) => {
 
           <Grid item>
             {playerId ? (
-              <Button variant="contained" color="primary" fullWidth>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={() => deleteRequestMentor({ teamId, fsmId })}>
                 پاسخ به درخواست
               </Button>
             ) : (
@@ -74,4 +88,6 @@ const TeamInfo = ({ name, members, playerId }) => {
   );
 };
 
-export default TeamInfo;
+export default connect(null, {
+  deleteRequestMentor: deleteRequestMentorAction,
+})(TeamInfo);

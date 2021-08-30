@@ -68,6 +68,8 @@ function Teams({
           <Grid item xs={12} sm={6} md={4} key={team.id}>
             <TeamInfoCard
               {...team}
+              teamId={team.id}
+              fsmId={allWorkshops[workshopNumber].id}
               playerId={
                 requestTeams[team.id + '.' + allWorkshops[workshopNumber].id]
               }
