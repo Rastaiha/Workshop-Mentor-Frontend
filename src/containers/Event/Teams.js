@@ -78,7 +78,11 @@ function Teams({
         ))}
         {nonReqTeams?.map((team) => (
           <Grid item xs={12} sm={6} md={4} key={team.id}>
-            <TeamInfoCard {...team} />
+            <TeamInfoCard
+              {...team}
+              teamId={team.id}
+              fsmId={allWorkshops[workshopNumber].id}
+            />
           </Grid>
         ))}
       </Grid>

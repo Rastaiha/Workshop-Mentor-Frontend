@@ -13,7 +13,10 @@ import { NotificationsActive } from '@material-ui/icons';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { deleteRequestMentorAction } from '../../redux/slices/events';
+import {
+  deleteRequestMentorAction,
+  getPlayerFromTeamAction,
+} from '../../redux/slices/events';
 
 const useStyles = makeStyles({
   root: {
@@ -29,10 +32,20 @@ const TeamInfo = ({
   members,
   teamId,
   fsmId,
+  token,
   playerId,
   deleteRequestMentor,
+  getPlayerFromTeam,
 }) => {
   const classes = useStyles();
+
+  const redirect = () => {
+    if (!playerId) {
+      getPlayerFromTeam({ teamId, id: fsmId, token });
+    } else {
+      window.open(`https://academy.rastaiha.ir/join/${playerId}/${token}`);
+    }
+  };
 
   return (
     <Card className={classes.root}>
@@ -73,11 +86,18 @@ const TeamInfo = ({
                 variant="contained"
                 color="primary"
                 fullWidth
-                onClick={() => deleteRequestMentor({ teamId, fsmId })}>
+                onClick={() => {
+                  deleteRequestMentor({ teamId, fsmId });
+                  redirect();
+                }}>
                 پاسخ به درخواست
               </Button>
             ) : (
-              <Button variant="outlined" color="primary" fullWidth>
+              <Button
+                variant="outlined"
+                color="primary"
+                fullWidth
+                onClick={redirect}>
                 مشاهده
               </Button>
             )}
@@ -88,6 +108,11 @@ const TeamInfo = ({
   );
 };
 
-export default connect(null, {
+const mapStateToProps = (state) => ({
+  token: state.account.token,
+});
+
+export default connect(mapStateToProps, {
   deleteRequestMentor: deleteRequestMentorAction,
+  getPlayerFromTeam: getPlayerFromTeamAction,
 })(TeamInfo);

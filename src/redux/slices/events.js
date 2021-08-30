@@ -7,6 +7,7 @@ import {
   addMentorToWorkshopUrl,
   allRegistrationReceiptsUrl,
   eventInfoUrl,
+  getPlayerFromTeamUrl,
   getTeamsUrl,
   oneRegistrationReceiptUrl,
   validateRegistrationReceiptUrl,
@@ -90,6 +91,17 @@ export const addMentorToWorkshopAction = createAsyncThunkApi(
 
 
 
+export const getPlayerFromTeamAction = createAsyncThunkApi(
+  'events/removeEdgeAction',
+  Apis.POST,
+  getPlayerFromTeamUrl,
+  {
+    bodyCreator: ({ teamId }) => ({
+      team: teamId,
+    }),
+  }
+);
+
 const initialState = {
   isFetching: false,
   allRegistrationReceipts: [],
@@ -153,6 +165,14 @@ const eventSlice = createSlice({
     },
   },
   extraReducers: {
+    [getPlayerFromTeamAction.fulfilled.toString()]: (
+      state,
+      { payload, meta }
+    ) => {
+      window.open(
+        `https://academy.rastaiha.ir/join/${payload?.response?.id}/${meta?.arg?.token}/`
+      );
+    },
     [getRequestMentorAction.fulfilled.toString()]: (
       state,
       { payload: { requestTeams } }
