@@ -75,6 +75,7 @@ function Index({
       <Grid container spacing={1} alignItems="center" justify="center">
         <Grid item xs={12} sm={8} >
           <TextField
+            disabled
             size='small' fullWidth
             variant='outlined'
             label='جستجو بین گام‌ها'
@@ -82,7 +83,7 @@ function Index({
             value={stateName} onChange={(e) => setStateName(e.target.value)} />
         </Grid>
         <Grid item xs={12} sm={4} >
-          <Button
+          <Button disabled
             fullWidth variant='contained'
             color='primary'
             onClick={doSearch}>
