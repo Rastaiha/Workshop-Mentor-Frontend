@@ -65,7 +65,23 @@ export const addStateAction = createAsyncThunkApi(
 export const removeStateAction = createAsyncThunkApi(
   'events/removeStateAction',
   Apis.DELETE,
-  stateCRUDUrl
+  stateCRUDUrl,
+  {
+    defaultNotification: {
+      success: 'گام با موفقیت حذف شد.',
+    },
+  }
+);
+
+export const updateStateAction = createAsyncThunkApi(
+  'events/updateStateAction',
+  Apis.PATCH,
+  stateCRUDUrl,
+  {
+    defaultNotification: {
+      success: 'گام با موفقیت به‌روز شد.',
+    },
+  }
 );
 
 export const getAllWorkshopEdgesAction = createAsyncThunkApi(
@@ -143,44 +159,52 @@ const eventSlice = createSlice({
     [getAllWorkshopsInfoAction.rejected.toString()]: isNotFetching,
 
     [getOneWorkshopsInfoAction.pending.toString()]: isFetching,
-    [getOneWorkshopsInfoAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
+    [getOneWorkshopsInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.workshop = response;
       state.isFetching = false;
     },
     [getOneWorkshopsInfoAction.rejected.toString()]: isNotFetching,
 
     [getOneStateAction.pending.toString()]: isFetching,
-    [getOneStateAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
+    [getOneStateAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.currentState = response;
       state.isFetching = false;
     },
     [getOneStateAction.rejected.toString()]: isNotFetching,
 
     [getAllWorkshopStatesInfoAction.pending.toString()]: isFetching,
-    [getAllWorkshopStatesInfoAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
+    [getAllWorkshopStatesInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.allStates = response;
       state.isFetching = false;
     },
     [getAllWorkshopStatesInfoAction.rejected.toString()]: isNotFetching,
 
+
     [addStateAction.pending.toString()]: isFetching,
-    [addStateAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
+    [addStateAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.allStates = [...state.allStates, response];
       state.isFetching = false;
     },
     [addStateAction.rejected.toString()]: isNotFetching,
+
+
+    [updateStateAction.pending.toString()]: isFetching,
+    [updateStateAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.currentState = response;
+      state.isFetching = false;
+    },
+    [updateStateAction.rejected.toString()]: isNotFetching,
+
+
+    [removeStateAction.pending.toString()]: isFetching,
+    [removeStateAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.isFetching = false;
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000)
+    },
+    [removeStateAction.rejected.toString()]: isNotFetching,
+
 
     [createWidgetAction.pending.toString()]: isFetching,
     [createWidgetAction.fulfilled.toString()]: (
@@ -191,6 +215,7 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [createWidgetAction.rejected.toString()]: isNotFetching,
+
 
     [deleteWidgetAction.pending.toString()]: isFetching,
     [deleteWidgetAction.fulfilled.toString()]: (state, action) => {
@@ -204,6 +229,7 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [deleteWidgetAction.rejected.toString()]: isNotFetching,
+
 
     [updateWidgetAction.pending.toString()]: isFetching,
     [updateWidgetAction.fulfilled.toString()]: (state, action) => {

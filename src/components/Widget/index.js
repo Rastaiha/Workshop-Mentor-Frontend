@@ -1,4 +1,4 @@
-import { Box, IconButton, Divider } from '@material-ui/core';
+import { Box, Divider, IconButton } from '@material-ui/core';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
 import React, { useState } from 'react';
 

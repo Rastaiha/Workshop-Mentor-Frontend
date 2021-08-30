@@ -66,18 +66,9 @@ function Index({
     getAllWorkshopStatesInfo({ fsmId });
   }, [])
 
-  const doRemoveEdge = (edge) => {
-    removeEdge({ tail: edge.tail, head: edge.head })
-  }
-
-  const doAddEdge = (tail, head) => {
-
-  }
-
   const doSearch = () => {
 
   }
-
 
   return (
     <>
