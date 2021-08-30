@@ -11,6 +11,9 @@ import {
 } from '@material-ui/core';
 import { NotificationsActive } from '@material-ui/icons';
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { deleteRequestMentorAction } from '../../redux/slices/events';
 
 const useStyles = makeStyles({
   root: {
@@ -21,14 +24,21 @@ const useStyles = makeStyles({
   },
 });
 
-const TeamInfo = ({ name, members, playerId }) => {
+const TeamInfo = ({
+  name,
+  members,
+  teamId,
+  fsmId,
+  playerId,
+  deleteRequestMentor,
+}) => {
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
       <CardActionArea disabled>
         <CardContent>
-          {playerId && <NotificationsActive />}
+          {playerId && <NotificationsActive color="primary" />}
           <Typography gutterBottom variant="h3" align="center">
             {name}
           </Typography>
@@ -49,24 +59,35 @@ const TeamInfo = ({ name, members, playerId }) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Grid container direction="column" spacing={2}>
+        <Grid container direction="column" spacing={1}>
           <Grid item>
             <ButtonGroup disabled variant="outlined" color="primary" fullWidth>
               <Button>{'ویرایش'}</Button>
               <Button>{'حذف'}</Button>
             </ButtonGroup>
           </Grid>
-          {playerId && (
-            <Grid item>
-              <Button variant="outlined" color="primary" fullWidth>
+
+          <Grid item>
+            {playerId ? (
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={() => deleteRequestMentor({ teamId, fsmId })}>
                 پاسخ به درخواست
               </Button>
-            </Grid>
-          )}
+            ) : (
+              <Button variant="outlined" color="primary" fullWidth>
+                مشاهده
+              </Button>
+            )}
+          </Grid>
         </Grid>
       </CardActions>
     </Card>
   );
 };
 
-export default TeamInfo;
+export default connect(null, {
+  deleteRequestMentor: deleteRequestMentorAction,
+})(TeamInfo);

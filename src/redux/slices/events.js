@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { getRequests } from '../../parse/mentor';
+import { deleteRequest, getRequests } from '../../parse/mentor';
 import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
@@ -128,6 +128,19 @@ export const getRequestMentorAction = createAsyncThunk(
   }
 );
 
+export const deleteRequestMentorAction = createAsyncThunk(
+  'requestMentor/delete',
+  async ({ teamId, fsmId }, { rejectWithValue }) => {
+    try {
+      await deleteRequest({ teamId, fsmId });
+    } catch (err) {
+      return rejectWithValue({
+        message: 'یه مشکلی وجود داره. یه چند لحظه دیگه دوباره تلاش کن!',
+      });
+    }
+  }
+);
+
 const eventSlice = createSlice({
   name: 'events',
   initialState,
@@ -146,6 +159,13 @@ const eventSlice = createSlice({
     ) => {
       state.requestTeams = requestTeams;
     },
+    [deleteRequestMentorAction.fulfilled.toString()]: (
+      state,
+      { meta: { arg } }
+    ) => {
+      delete state.requestTeams[arg.teamId + '.' + arg.fsmId];
+    },
+
     [getOneEventInfoAction.pending.toString()]: isFetching,
     [getOneEventInfoAction.fulfilled.toString()]: (
       state,
