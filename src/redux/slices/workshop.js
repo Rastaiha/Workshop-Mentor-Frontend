@@ -189,8 +189,15 @@ const eventSlice = createSlice({
 
 
     [updateStateAction.pending.toString()]: isFetching,
-    [updateStateAction.fulfilled.toString()]: (state, { payload: { response } }) => {
-      state.currentState = response;
+    [updateStateAction.fulfilled.toString()]: (state, action) => {
+      const newAllStates = [...state.allStates];
+      for (let i = 0; i < newAllStates.length; i++) {
+        if (newAllStates[i].id == action.meta.arg.stateId) {
+          newAllStates[i] = action.payload.response;
+        }
+      }
+      state.allStates = newAllStates;
+      state.currentState = action.payload.response;
       state.isFetching = false;
     },
     [updateStateAction.rejected.toString()]: isNotFetching,

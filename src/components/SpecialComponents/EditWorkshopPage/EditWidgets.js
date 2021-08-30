@@ -11,6 +11,7 @@ import {
 import { Add } from '@material-ui/icons';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
 import SaveIcon from '@material-ui/icons/Save';
+import { useParams } from 'react-router';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
@@ -43,6 +44,7 @@ function EditWidgets({
 }) {
   const classes = useStyles();
   const t = useTranslate();
+  const { fsmId } = useParams()
   const [openCreateWidgetDialog, setOpenCreateWidgetDialog] = useState(false);
   const [openDeleteWidgetDialog, setOpenDeleteWidgetDialog] = useState(false);
   const [isEditingStateName, setIsEditingStateName] = useState(false);
@@ -79,7 +81,12 @@ function EditWidgets({
               <Grid item>
                 {isEditingStateName &&
                   <Tooltip title='ذخیره' arrow>
-                    <IconButton size='small' onClick={() => updateState({ stateId, name: newName })}>
+                    <IconButton size='small'
+                      onClick={() => {
+                        updateState({ stateId, name: newName, fsm: fsmId });
+                        setIsEditingStateName(false);
+                      }
+                      }>
                       <SaveIcon />
                     </IconButton>
                   </Tooltip>
