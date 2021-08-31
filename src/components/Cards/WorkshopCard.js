@@ -40,8 +40,6 @@ const WorkshopCard = ({
   const t = useTranslate();
   const { eventId } = useParams();
 
-  console.log(description)
-
   return (
     <Card className={classes.root}>
       <CardActionArea disabled>

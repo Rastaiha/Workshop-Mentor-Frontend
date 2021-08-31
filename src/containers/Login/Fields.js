@@ -71,7 +71,7 @@ const InputFields = ({ isFetching, login, addNotification, token }) => {
           autoComplete="off"
           variant="outlined"
           fullWidth
-          onBlur={putData}
+          onChange={putData}
           label="گذرواژه"
           name="password"
           inputProps={{ className: 'ltr-input' }}

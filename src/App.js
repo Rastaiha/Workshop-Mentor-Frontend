@@ -70,22 +70,23 @@ const App = ({ dir, redirectTo, forceRedirect, initRedirect, isFetching }) => {
 
   return (
     <IntlProvider translations={translations}>
-      <Loading />
       {dir === 'rtl' ? (
         <>
           <ThemeProvider theme={RTLMuiTheme}>
             <StylesProvider jss={jss}>
+              <Loading />
               <Mentor />
             </StylesProvider>
           </ThemeProvider>
         </>
       ) : (
-        <>
-          <ThemeProvider theme={MuiTheme}>
-            <Mentor />
-          </ThemeProvider>
-        </>
-      )}
+          <>
+            <ThemeProvider theme={MuiTheme}>
+              <Loading />
+              <Mentor />
+            </ThemeProvider>
+          </>
+        )}
     </IntlProvider>
   );
 };

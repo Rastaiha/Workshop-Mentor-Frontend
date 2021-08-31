@@ -31,10 +31,6 @@ function BigAnswerQuestionEditWidget({
   const [text, setText] = useState(oldText);
   const [solution, setSolution] = useState(oldSolution?.text);
 
-
-  console.log(stateId)
-  console.log(widgetId)
-
   const handleClick = () => {
     if (widgetId) {
       updateBigAnswerQuestionWidgetAction({
