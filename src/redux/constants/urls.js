@@ -17,6 +17,7 @@ export const merchandiseDiscountCodeUrl = ({ merchandiseId }) =>
 
 // team:
 export const getTeamsUrl = '/fsm/team/'; //todo: get team per registration form
+export const makeTeamHeadUrl = ({ teamId }) => `/fsm/team/${teamId}/make_team_head/`;
 
 // event:
 export const addMentorToWorkshopUrl = ({ fsmId }) =>

@@ -19,11 +19,11 @@ import { Link, useParams } from 'react-router-dom';
 import {
   getOneEventInfoAction,
 } from '../../redux/slices/events';
-import ConnectStates from './ConnectStates';
 import Design from './Design';
+import Edges from './Edges';
 import Info from './Info';
 import Layout from './Layout';
-import Teams from './Teams';
+import Requests from './Requests';
 
 const useStyles = makeStyles((theme) => ({
   rightBox: {
@@ -45,7 +45,12 @@ const tabs = [
   {
     label: 'یال‌ها',
     icon: '',
-    component: ConnectStates,
+    component: Edges,
+  },
+  {
+    label: 'درخواست‌ها',
+    icon: '',
+    component: Requests,
   },
   // {
   //   label: 'تیم‌ها',

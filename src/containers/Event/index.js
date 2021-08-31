@@ -55,14 +55,14 @@ const tabs = [
     component: DiscountCode,
   },
   {
-    label: 'کارگاه‌ها',
-    icon: ClassIcon,
-    component: Workshops,
-  },
-  {
     label: 'تیم‌ها',
     icon: GroupIcon,
     component: Teams,
+  },
+  {
+    label: 'کارگاه‌ها',
+    icon: ClassIcon,
+    component: Workshops,
   },
 ];
 

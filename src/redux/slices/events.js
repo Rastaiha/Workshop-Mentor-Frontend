@@ -8,6 +8,7 @@ import {
   allRegistrationReceiptsUrl,
   eventInfoUrl,
   getMentoredFsmsUrl,
+  makeTeamHeadUrl,
   getPlayerFromTeamUrl,
   getTeamsUrl,
   oneRegistrationReceiptUrl,
@@ -101,6 +102,22 @@ export const getPlayerFromTeamAction = createAsyncThunkApi(
     }),
   }
 );
+
+
+export const makeTeamHeadAction = createAsyncThunkApi(
+  'events/makeTeamHeadAction',
+  Apis.POST,
+  makeTeamHeadUrl,
+  {
+    bodyCreator: ({ receipt }) => ({
+      receipt,
+    }),
+    defaultNotification: {
+      success: 'سرگروه تیم با موفقیت تغییر کرد.',
+    },
+  }
+);
+
 
 const initialState = {
   isFetching: false,
@@ -253,6 +270,20 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [createWorkshopAction.rejected.toString()]: isNotFetching,
+
+
+    [makeTeamHeadAction.pending.toString()]: isFetching,
+    [makeTeamHeadAction.fulfilled.toString()]: (state, action) => {
+      let newAllEventTeams = [...state.allEventTeams];
+      for (let i = 0; i < newAllEventTeams.length; i++) {
+        if (newAllEventTeams[i].id == action.payload.response.id) {
+          newAllEventTeams[i] = action.payload.response;
+        }
+      }
+      state.allEventTeams = newAllEventTeams;
+      state.isFetching = false;
+    },
+    [makeTeamHeadAction.rejected.toString()]: isNotFetching,
   },
 });
 
