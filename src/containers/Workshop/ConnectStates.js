@@ -57,7 +57,7 @@ function Index({
   const [newEdge, setNewEdge] = useState({
     tail: '',
     head: '',
-    is_hidden: false,
+    is_visible: false,
   });
   const { fsmId } = useParams()
 
@@ -143,11 +143,11 @@ function Index({
                   </TableCell>
                   <TableCell align='center'>
                     <Checkbox
-                      checked={newEdge.is_hidden}
+                      checked={newEdge.is_visible}
                       onChange={() => {
                         setNewEdge({
                           ...newEdge,
-                          is_hidden: !newEdge.is_hidden,
+                          is_visible: !newEdge.is_visible,
                         })
                       }}
                       color="primary"
@@ -173,11 +173,11 @@ function Index({
                     </TableCell>
                     <TableCell align='center'>
                       <Checkbox
-                        checked={edge.is_hidden}
+                        checked={edge.is_visible}
                         onChange={() => {
                           updateEdge({
                             edgeId: edge.id,
-                            is_hidden: !edge.is_hidden,
+                            is_visible: !edge.is_visible,
                             head: edge.head?.id,
                             tail: edge.tail?.id,
                           }) // todo: fix 
