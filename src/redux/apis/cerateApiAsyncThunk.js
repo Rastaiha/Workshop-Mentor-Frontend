@@ -10,8 +10,6 @@ export const createAsyncThunkApi = (typePrefix, api, url, options) =>
       const body = options?.bodyCreator?.(input) || input;
       const stringUrl = typeof url === 'function' ? url(input) : url;
 
-      console.log(body)
-
       const response = await api(stringUrl, body);
 
       if (options?.onSuccessAction) {
@@ -22,7 +20,9 @@ export const createAsyncThunkApi = (typePrefix, api, url, options) =>
         response,
         ...(options?.defaultNotification?.success
           ? { message: options.defaultNotification.success }
-          : {}),
+          : (response.code ?
+            { message: persianMessages[response.code] } //todo: make cleaner + support english messages
+            : {})),
       };
     } catch (error) {
       return errorHandler(

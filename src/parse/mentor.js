@@ -7,8 +7,8 @@ export const getRequests = async () => {
 
 export const deleteRequest = async ({ teamId, fsmId }) => {
   const query = new Parse.Query('RequestMentor');
-  query.equalTo('teamId', +teamId);
-  query.equalTo('fsmId', +fsmId);
+  query.equalTo('teamId', teamId);
+  query.equalTo('fsmId', fsmId);
   const requests = await query.find();
   for (let i = 0; i < requests.length; i++) {
     await requests[i].destroy();
