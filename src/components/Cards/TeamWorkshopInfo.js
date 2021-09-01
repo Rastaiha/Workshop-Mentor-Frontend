@@ -63,9 +63,6 @@ const TeamInfo = ({
                     {`${member?.first_name} ${member?.last_name}`}
                   </Typography>
                 </li>
-                // <Avatar key={member.id} style={{ backgroundColor: stringToColor(member?.first_name) }}>
-                //   {member?.first_name[0] + '‌' + member?.last_name[0]}
-                // </Avatar>
               ))}
             </ol>
           </Grid>
@@ -73,13 +70,6 @@ const TeamInfo = ({
       </CardActionArea>
       <CardActions>
         <Grid container direction="column" spacing={1}>
-          <Grid item>
-            <ButtonGroup disabled variant="outlined" color="primary" fullWidth>
-              <Button>{'ویرایش'}</Button>
-              <Button>{'حذف'}</Button>
-            </ButtonGroup>
-          </Grid>
-
           <Grid item>
             {playerId ? (
               <Button
@@ -93,14 +83,14 @@ const TeamInfo = ({
                 پاسخ به درخواست
               </Button>
             ) : (
-              <Button
-                variant="outlined"
-                color="primary"
-                fullWidth
-                onClick={redirect}>
-                مشاهده
-              </Button>
-            )}
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  onClick={redirect}>
+                  مشاهده
+                </Button>
+              )}
           </Grid>
         </Grid>
       </CardActions>

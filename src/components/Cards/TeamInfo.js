@@ -73,7 +73,7 @@ const TeamInfo = ({
           ))}
         </Grid>
       </CardContent>
-      {/* <CardActions>
+      <CardActions>
         <Grid container direction="column" spacing={1}>
           <Grid item>
             <ButtonGroup disabled variant="outlined" color="primary" fullWidth>
@@ -82,7 +82,7 @@ const TeamInfo = ({
             </ButtonGroup>
           </Grid>
         </Grid>
-      </CardActions> */}
+      </CardActions>
     </Card >
   );
 };

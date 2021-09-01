@@ -17,7 +17,6 @@ import { Link, useParams } from 'react-router-dom';
 import {
   getAllWorkshopsInfoAction,
   getEventTeamsAction,
-  getMentoredFsmsAction,
   getOneEventInfoAction,
 } from '../../redux/slices/events';
 import DiscountCode from './DiscountCode';
@@ -70,7 +69,6 @@ const Event = ({
   getWorkshopsInfo,
   getOneEventInfo,
   getTeams,
-  getMentoredFsms,
 }) => {
   const t = useTranslate();
   const { eventId } = useParams();
@@ -83,7 +81,6 @@ const Event = ({
       getOneEventInfo({ eventId });
       getTeams({ eventId });
       getWorkshopsInfo({});
-      getMentoredFsms({ eventId });
     }
   }, [eventId]);
 
@@ -146,5 +143,4 @@ export default connect(null, {
   getOneEventInfo: getOneEventInfoAction,
   getWorkshopsInfo: getAllWorkshopsInfoAction,
   getTeams: getEventTeamsAction,
-  getMentoredFsms: getMentoredFsmsAction,
 })(Event);

@@ -8,9 +8,9 @@ import {
   allRegistrationReceiptsUrl,
   eventInfoUrl,
   getMentoredFsmsUrl,
-  makeTeamHeadUrl,
   getPlayerFromTeamUrl,
   getTeamsUrl,
+  makeTeamHeadUrl,
   oneRegistrationReceiptUrl,
   validateRegistrationReceiptUrl,
   workshopCRUDUrl,
@@ -191,12 +191,14 @@ const eventSlice = createSlice({
         `https://academy.rastaiha.ir/join/${payload?.response?.id}/${meta?.arg?.token}/`
       );
     },
+
     [getRequestMentorAction.fulfilled.toString()]: (
       state,
       { payload: { requestTeams } }
     ) => {
       state.requestTeams = requestTeams;
     },
+
     [deleteRequestMentorAction.fulfilled.toString()]: (
       state,
       { meta: { arg } }

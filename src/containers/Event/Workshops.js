@@ -37,8 +37,6 @@ function Index({ addMentorToWorkshop, allWorkshops }) {
     addMentorToWorkshop(properties);
   };
 
-  console.log(allWorkshops);
-
   return (
     <>
       <Grid
