@@ -93,14 +93,14 @@ const TeamInfo = ({
                 پاسخ به درخواست
               </Button>
             ) : (
-              <Button
-                variant="outlined"
-                color="primary"
-                fullWidth
-                onClick={redirect}>
-                مشاهده
-              </Button>
-            )}
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  onClick={redirect}>
+                  مشاهده
+                </Button>
+              )}
           </Grid>
         </Grid>
       </CardActions>

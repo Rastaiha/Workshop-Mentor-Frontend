@@ -29,7 +29,7 @@ const InputFields = ({ isFetching, login, addNotification, token }) => {
   const putData = (event) => {
     setData({
       ...data,
-      [event.target.name]: toEnglishNumber(event.target.value),
+      [event.target.name]: event.target.value,
     });
   };
 

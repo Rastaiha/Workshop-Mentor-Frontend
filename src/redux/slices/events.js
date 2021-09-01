@@ -162,6 +162,7 @@ export const deleteRequestMentorAction = createAsyncThunk(
   'requestMentor/delete',
   async ({ teamId, fsmId }, { rejectWithValue }) => {
     try {
+      console.log("@@@@@@@")
       await deleteRequest({ teamId, fsmId });
     } catch (err) {
       return rejectWithValue({
