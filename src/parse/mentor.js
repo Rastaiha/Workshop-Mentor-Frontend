@@ -11,7 +11,7 @@ export const deleteRequest = async ({ teamId, fsmId }) => {
   query.equalTo('fsmId', fsmId);
   const requests = await query.find();
   for (let i = 0; i < requests.length; i++) {
-    await requests[i].destroy();
+    await requests[i].destroy({});
   }
   return;
 };
