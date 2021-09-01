@@ -191,10 +191,6 @@ const MINI_GAMES = [
     url: '/physic_centrifugal_force',
     name: 'فیزیک - گریز از مرکز',
   },
-  {
-    url: '/image_morpho2',
-    name: 'پردازش تصویر - مورفولوژی۲',
-  },
 ]
 
 export default MINI_GAMES;

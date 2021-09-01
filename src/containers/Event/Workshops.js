@@ -44,7 +44,7 @@ function Index({ addMentorToWorkshop, allWorkshops }) {
       <Grid
         container
         item
-        spacing={2}
+        spacing={1}
         alignItems="center"
         justify="center"
         direction="row">
