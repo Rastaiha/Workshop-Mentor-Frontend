@@ -70,7 +70,6 @@ const Event = ({
   getWorkshopsInfo,
   getOneEventInfo,
   getTeams,
-  getMentoredFsms,
 }) => {
   const t = useTranslate();
   const { eventId } = useParams();
@@ -83,7 +82,6 @@ const Event = ({
       getOneEventInfo({ eventId });
       getTeams({ eventId });
       getWorkshopsInfo({});
-      getMentoredFsms({ eventId });
     }
   }, [eventId]);
 

@@ -47,6 +47,7 @@ const App = ({ dir, redirectTo, forceRedirect, initRedirect, isFetching }) => {
   }, [dir]);
 
   useEffect(() => {
+    console.log("@@@@@@@@@")
     initParseServer();
   }, []);
 

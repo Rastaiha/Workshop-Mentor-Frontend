@@ -17,7 +17,7 @@ const Root = () => {
         component={RegistrationReceipt}
       />
 
-      <PrivateRoute path="/workshop/:fsmId/:tabNumber?/" component={Workshop} />
+      <PrivateRoute path="/event/:eventId/workshop/:fsmId/:tabNumber?/" component={Workshop} />
       <PrivateRoute path="/event/:eventId/" component={Event} />
       <Route path="/" component={Login}></Route>
     </Switch>
