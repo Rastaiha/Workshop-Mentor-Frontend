@@ -17,7 +17,6 @@ import { useHistory } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 
 import {
-  getEventTeamsAction,
   getOneEventInfoAction,
 } from '../../redux/slices/events';
 import Design from './Design';
@@ -53,23 +52,38 @@ const tabs = [
     icon: '',
     component: Requests,
   },
+  // {
+  //   label: 'تیم‌ها',
+  //   icon: GroupIcon,
+  //   component: Teams,
+  // },
+  // {
+  //   label: 'درخواست‌ها',
+  //   component: Teams,
+  //   props: {
+  //     mode: 'notifications',
+  //   },
+  // },
 ];
 
-const Event = ({
-  getEventTeams,
-}) => {
+const Event = () => {
   const t = useTranslate();
   const history = useHistory();
-  const { fsmId, eventId } = useParams();
+  const { tabNumber, fsmId } = useParams();
 
-  useEffect(() => {
-    getEventTeams({ eventId });
-  }, [])
+  if (!tabNumber) {
+    history.push(`/workshop/${fsmId}/0/`)
+  }
 
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(tabNumber || 0);
   const classes = useStyles();
 
   const TabComponent = tabs[tabIndex].component;
+
+  const handleTabChange = (index) => {
+    history.push(`/workshop/${fsmId}/${index}/`)
+    setTabIndex(index);
+  }
 
   return (
     <Layout>
@@ -80,7 +94,7 @@ const Event = ({
               {tabs.map((tab, index) => (
                 <Button
                   key={index}
-                  onClick={() => setTabIndex(index)}
+                  onClick={() => handleTabChange(index)}
                   variant={tabIndex == index && 'contained'}
                   startIcon={tab.icon && <tab.icon />}>
                   {tab.label}
@@ -123,5 +137,4 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getOneEventInfo: getOneEventInfoAction,
-  getEventTeams: getEventTeamsAction,
 })(Event);
