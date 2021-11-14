@@ -24,14 +24,13 @@ export const addMentorToWorkshopUrl = ({ fsmId }) =>
   `/fsm/fsm/${fsmId}/add_mentor/`;
 export const getMentoredFsmsUrl = ({ eventId }) =>
   `/fsm/event/${eventId}/get_mentored_fsms/`;
+export const getEventWorkshopsUrl = ({ eventId }) => `fsm/event/${eventId}/get_fsms/`;
+
 
 // workshop:
-export const workshopCRUDUrl = ({ fsmId }) =>
-  fsmId ? `/fsm/fsm/${fsmId}/` : '/fsm/fsm/';
-export const getAllWorkshopStatesInfoUrl = ({ fsmId }) =>
-  `/fsm/fsm/${fsmId}/get_states/`;
-export const getAllWorkshopEdges = ({ fsmId }) =>
-  `/fsm/fsm/${fsmId}/get_edges/`;
+export const workshopCRUDUrl = ({ fsmId }) => fsmId ? `/fsm/fsm/${fsmId}/` : '/fsm/fsm/';
+export const getAllWorkshopStatesInfoUrl = ({ fsmId }) => `/fsm/fsm/${fsmId}/get_states/`;
+export const getAllWorkshopEdges = ({ fsmId }) => `/fsm/fsm/${fsmId}/get_edges/`;
 
 // state:
 export const stateCRUDUrl = ({ stateId }) =>

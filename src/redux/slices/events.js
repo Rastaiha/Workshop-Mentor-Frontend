@@ -14,6 +14,7 @@ import {
   oneRegistrationReceiptUrl,
   validateRegistrationReceiptUrl,
   workshopCRUDUrl,
+  getEventWorkshopsUrl,
 } from '../constants/urls';
 
 export const getMentoredFsmsAction = createAsyncThunkApi(
@@ -81,6 +82,12 @@ export const getAllWorkshopsInfoAction = createAsyncThunkApi(
   workshopCRUDUrl
 );
 
+export const getEventWorkshopsAction = createAsyncThunkApi(
+  'events/getEventWorkshopsAction',
+  Apis.GET,
+  getEventWorkshopsUrl
+);
+
 export const addMentorToWorkshopAction = createAsyncThunkApi(
   'events/addMentorToWorkshopAction',
   Apis.POST,
@@ -102,7 +109,6 @@ export const getPlayerFromTeamAction = createAsyncThunkApi(
     }),
   }
 );
-
 
 export const makeTeamHeadAction = createAsyncThunkApi(
   'events/makeTeamHeadAction',
@@ -253,15 +259,12 @@ const eventSlice = createSlice({
     },
     [getEventTeamsAction.rejected.toString()]: isNotFetching,
 
-    [getAllWorkshopsInfoAction.pending.toString()]: isFetching,
-    [getAllWorkshopsInfoAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
-      state.allWorkshops = response;
+    [getEventWorkshopsAction.pending.toString()]: isFetching,
+    [getEventWorkshopsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.allEventWorkshops = response;
       state.isFetching = false;
     },
-    [getAllWorkshopsInfoAction.rejected.toString()]: isNotFetching,
+    [getEventWorkshopsAction.rejected.toString()]: isNotFetching,
 
     [createWorkshopAction.pending.toString()]: isFetching,
     [createWorkshopAction.fulfilled.toString()]: (

@@ -15,7 +15,7 @@ import { useTranslate } from 'react-redux-multilingual/lib/context';
 import { Link, useParams } from 'react-router-dom';
 
 import {
-  getAllWorkshopsInfoAction,
+  getEventWorkshopsAction,
   getEventTeamsAction,
   getOneEventInfoAction,
 } from '../../redux/slices/events';
@@ -66,7 +66,7 @@ const tabs = [
 ];
 
 const Event = ({
-  getWorkshopsInfo,
+  getEventWorkshops,
   getOneEventInfo,
   getTeams,
 }) => {
@@ -80,7 +80,7 @@ const Event = ({
     if (eventId) {
       getOneEventInfo({ eventId });
       getTeams({ eventId });
-      getWorkshopsInfo({});
+      getEventWorkshops({ eventId });
     }
   }, [eventId]);
 
@@ -141,6 +141,6 @@ const Event = ({
 
 export default connect(null, {
   getOneEventInfo: getOneEventInfoAction,
-  getWorkshopsInfo: getAllWorkshopsInfoAction,
+  getEventWorkshops: getEventWorkshopsAction,
   getTeams: getEventTeamsAction,
 })(Event);

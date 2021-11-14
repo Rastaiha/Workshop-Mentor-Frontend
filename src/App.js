@@ -58,7 +58,7 @@ const App = ({ dir, redirectTo, forceRedirect, initRedirect, isFetching }) => {
             width: '100%',
             position: 'fixed',
             top: '0px',
-            zIndex: '1000',
+            zIndex: '99999',
           }}>
           <LinearProgress />
         </div>

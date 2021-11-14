@@ -18,9 +18,11 @@ import CreateWorkshopDialog from '../../components/Dialog/CreateWorkshopDialog';
 import { addMentorToWorkshopAction } from '../../redux/slices/events';
 import { toEnglishNumber } from '../../utils/translateNumber';
 
-function Index({ addMentorToWorkshop, allWorkshops }) {
-  const [openCreateWorkshopDialog, setOpenCreateWorkshopDialog] =
-    useState(false);
+function Index({
+  addMentorToWorkshop,
+  allEventWorkshops,
+}) {
+  const [openCreateWorkshopDialog, setOpenCreateWorkshopDialog] = useState(false);
   const [properties, setProperties] = useState({
     username: '',
     fsmId: '',
@@ -62,7 +64,7 @@ function Index({ addMentorToWorkshop, allWorkshops }) {
           <FormControl size="small" fullWidth variant="outlined">
             <InputLabel>کارگاه</InputLabel>
             <Select onChange={putData} name="fsmId" label="کارگاه">
-              {allWorkshops?.map((workshop) => (
+              {allEventWorkshops?.map((workshop) => (
                 <MenuItem key={workshop.id} value={workshop.id}>
                   {workshop.name}
                 </MenuItem>
@@ -81,7 +83,7 @@ function Index({ addMentorToWorkshop, allWorkshops }) {
           </Button>
         </Grid>
         <Grid item container xs={12} justify="flex-start" spacing={2}>
-          {allWorkshops?.map((workshop) => (
+          {allEventWorkshops?.map((workshop) => (
             <Grid item xs={12} sm={6} md={4} key={workshop.id}>
               <WorkshopCard {...workshop} />
             </Grid>
@@ -104,7 +106,7 @@ function Index({ addMentorToWorkshop, allWorkshops }) {
   );
 }
 const mapStateToProps = (state) => ({
-  allWorkshops: state.events.allWorkshops || [],
+  allEventWorkshops: state.events.allEventWorkshops,
 });
 
 export default connect(mapStateToProps, {
