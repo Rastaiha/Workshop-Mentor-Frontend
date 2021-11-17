@@ -57,6 +57,9 @@ const tabs = [
 
 const Event = ({
   getEventTeams,
+  getOneEventInfo,
+
+  event,
 }) => {
   const classes = useStyles();
   const t = useTranslate();
@@ -65,8 +68,14 @@ const Event = ({
   const TabComponent = tabs[tabIndex].component;
 
   useEffect(() => {
-    getEventTeams({ eventId });
-  }, [])
+    getOneEventInfo({ eventId });
+  }, []);
+
+  useEffect(() => {
+    if (event?.registration_form) {
+      getEventTeams({ registrationFormId: event?.registration_form });
+    }
+  }, [event]);
 
   return (
     <Layout>
@@ -116,9 +125,13 @@ const Event = ({
 };
 
 const mapStateToProps = (state) => ({
+  event: state.events.event,
 });
 
-export default connect(mapStateToProps, {
-  getEventTeams: getEventTeamsAction,
-  getOneEventInfo: getOneEventInfoAction,
-})(Event);
+export default connect(
+  mapStateToProps,
+  {
+    getEventTeams: getEventTeamsAction,
+    getOneEventInfo: getOneEventInfoAction,
+  }
+)(Event);

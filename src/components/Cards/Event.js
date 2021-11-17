@@ -82,57 +82,20 @@ const Event = (event) => {
               label={
                 event?.event_type == 'Individual'
                   ? 'انفرادی'
-                  : `${toPersianNumber(event?.team_size)} ${t('person')}`
+                  : `${toPersianNumber(event?.team_size)} نفر`
               }
             />
           </Grid>
           <Grid item>
-            {event?.user_registration_status === 'NotRegistered' && (
-              <Button
-                disabled={!event?.is_active}
-                size="small"
-                variant="outlined"
-                fullWidth
-                component={Link}
-                to={`/event/${event?.id}/registration_form/`}
-                color="secondary">
-                {t('register')}
-              </Button>
-            )}
-            {!event?.is_user_participating &&
-              event?.user_registration_status != 'NotRegistered' && (
-                <Button
-                  size="small"
-                  variant="outlined"
-                  fullWidth
-                  component={Link}
-                  to={`/event/${event?.id}/status/`}
-                  color="secondary">
-                  {'وضعیت ثبت‌نام'}
-                </Button>
-              )}
-            {/* {is_user_participating && (
-              <Button
-                size="small"
-                variant="outlined"
-                fullWidth
-                component={Link}
-                to={`/event/${id}/team_selection/`}
-                color="secondary">
-                {'تیم‌کشی'}
-              </Button>
-            )} */}
-            {event?.is_user_participating && (
-              <Button
-                size="small"
-                variant="outlined"
-                fullWidth
-                component={Link}
-                to={`/event/${event?.id}/`}
-                color="secondary">
-                {'ورود'}
-              </Button>
-            )}
+            <Button
+              size="small"
+              variant="outlined"
+              fullWidth
+              component={Link}
+              to={`/event/${event?.id}/`}
+              color="secondary">
+              {'ورود'}
+            </Button>
           </Grid>
         </Grid>
       </Grid>

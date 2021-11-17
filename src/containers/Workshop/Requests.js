@@ -80,7 +80,7 @@ function Teams({
 }
 
 const mapStateToProps = (state) => ({
-  allEventTeams: state.events.allEventTeams || [],
+  allEventTeams: state.events.allEventTeams,
   requestTeams: state.events.requestTeams || {},
 });
 

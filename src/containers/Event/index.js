@@ -15,8 +15,8 @@ import { useTranslate } from 'react-redux-multilingual/lib/context';
 import { Link, useParams } from 'react-router-dom';
 
 import {
-  getEventWorkshopsAction,
   getEventTeamsAction,
+  getEventWorkshopsAction,
   getOneEventInfoAction,
 } from '../../redux/slices/events';
 import DiscountCode from './DiscountCode';
@@ -68,21 +68,27 @@ const tabs = [
 const Event = ({
   getEventWorkshops,
   getOneEventInfo,
-  getTeams,
+  getEventTeams,
+
+  event,
 }) => {
   const t = useTranslate();
   const { eventId } = useParams();
-
   const [tabIndex, setTabIndex] = useState(0);
   const classes = useStyles();
 
   useEffect(() => {
-    if (eventId) {
-      getOneEventInfo({ eventId });
-      getTeams({ eventId });
-      getEventWorkshops({ eventId });
+    getOneEventInfo({ eventId });
+    getEventWorkshops({ eventId });
+  }, []);
+
+  console.log(event)
+
+  useEffect(() => {
+    if (event?.registration_form) {
+      getEventTeams({ registrationFormId: event?.registration_form });
     }
-  }, [eventId]);
+  }, [event]);
 
   const TabComponent = tabs[tabIndex].component;
 
@@ -139,8 +145,15 @@ const Event = ({
   );
 };
 
-export default connect(null, {
-  getOneEventInfo: getOneEventInfoAction,
-  getEventWorkshops: getEventWorkshopsAction,
-  getTeams: getEventTeamsAction,
-})(Event);
+const mapStateToProps = (state) => ({
+  event: state.events.event,
+});
+
+export default connect(
+  mapStateToProps,
+  {
+    getOneEventInfo: getOneEventInfoAction,
+    getEventWorkshops: getEventWorkshopsAction,
+    getEventTeams: getEventTeamsAction,
+  }
+)(Event);
