@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   ButtonGroup,
   Container,
@@ -80,7 +81,7 @@ const Event = ({
   return (
     <Layout>
       <Grid container spacing={2} direction="row" justify="center">
-        <Grid container item sm={3} xs={12} direction="column" justify="space-between">
+        <Grid container item sm={3} xs={12} direction="column" justify="flex-start">
           <Grid item>
             <ButtonGroup orientation="vertical" color="primary" fullWidth>
               {tabs.map((tab, index) => (
@@ -94,31 +95,25 @@ const Event = ({
               ))}
             </ButtonGroup>
           </Grid>
-          <Hidden xsDown>
+          <Box mt={1}>
             <Grid item>
               <Button
                 fullWidth
+                variant='outlined'
                 color="primary"
                 component={Link}
-                to="/"
+                to={`/event/${eventId}/`}
                 startIcon={<ExitToAppIcon />}>
                 {t('back')}
               </Button>
             </Grid>
-          </Hidden>
+          </Box>
         </Grid>
         <Grid item sm={9} xs={12}>
           <Paper elevation={3} className={classes.rightBox}>
             <TabComponent {...tabs[tabIndex].props} />
           </Paper>
         </Grid>
-        <Hidden smUp>
-          <Grid item>
-            <Button fullWidth color="primary" startIcon={<ExitToAppIcon />}>
-              {t('back')}
-            </Button>
-          </Grid>
-        </Hidden>
       </Grid>
     </Layout>
   );
