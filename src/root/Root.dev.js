@@ -12,13 +12,13 @@ import PrivateRoute from './PrivateRoute';
 const Root = () => {
   return (
     <Switch>
-      <PrivateRoute path="/events/" component={Events} />
       <PrivateRoute path="/edit_article/:articleId/" component={EditArticle} />
       <PrivateRoute
         path="/registration_receipt/:registrationReceiptId/"
         component={RegistrationReceipt}
       />
 
+      <PrivateRoute path="/events/" component={Events} />
       <PrivateRoute path="/event/:eventId/workshop/:fsmId/:tabNumber?/" component={Workshop} />
       <PrivateRoute path="/event/:eventId/" component={Event} />
       <Route path="/" component={Login}></Route>
