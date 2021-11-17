@@ -20,6 +20,7 @@ export const getTeamsUrl = '/fsm/team/'; //todo: get team per registration form
 export const makeTeamHeadUrl = ({ teamId }) => `/fsm/team/${teamId}/make_team_head/`;
 
 // event:
+export const getAllEventsInfoUrl = 'fsm/event/';
 export const addMentorToWorkshopUrl = ({ fsmId }) =>
   `/fsm/fsm/${fsmId}/add_mentor/`;
 export const getMentoredFsmsUrl = ({ eventId }) =>

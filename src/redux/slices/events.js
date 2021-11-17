@@ -7,6 +7,8 @@ import {
   addMentorToWorkshopUrl,
   allRegistrationReceiptsUrl,
   eventInfoUrl,
+  getAllEventsInfoUrl,
+  getEventWorkshopsUrl,
   getMentoredFsmsUrl,
   getPlayerFromTeamUrl,
   getTeamsUrl,
@@ -14,8 +16,13 @@ import {
   oneRegistrationReceiptUrl,
   validateRegistrationReceiptUrl,
   workshopCRUDUrl,
-  getEventWorkshopsUrl,
 } from '../constants/urls';
+
+export const getAllEventsInfoAction = createAsyncThunkApi(
+  'events/getAllEventsInfoAction',
+  Apis.GET,
+  getAllEventsInfoUrl
+);
 
 export const getMentoredFsmsAction = createAsyncThunkApi(
   'events/getMentoredFsms',
@@ -239,15 +246,14 @@ const eventSlice = createSlice({
       state.myWorkshops = response;
     },
 
-    [getOneRegistrationReceiptAction.pending.toString()]: isFetching,
-    [getOneRegistrationReceiptAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
-      state.registrationReceipt = response;
+
+    [getAllEventsInfoAction.pending.toString()]: isFetching,
+    [getAllEventsInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.allEvents = response?.results;
       state.isFetching = false;
     },
-    [getOneRegistrationReceiptAction.rejected.toString()]: isNotFetching,
+    [getAllEventsInfoAction.rejected.toString()]: isNotFetching,
+
 
     [getEventTeamsAction.pending.toString()]: isFetching,
     [getEventTeamsAction.fulfilled.toString()]: (

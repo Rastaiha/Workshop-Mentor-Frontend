@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import EditArticle from '../containers/EditArticle';
 import Event from '../containers/Event';
+import Events from '../containers/Events';
 import Login from '../containers/Login';
 import RegistrationReceipt from '../containers/RegistrationReceipt';
 import Workshop from '../containers/Workshop';
@@ -11,6 +12,7 @@ import PrivateRoute from './PrivateRoute';
 const Root = () => {
   return (
     <Switch>
+      <PrivateRoute path="/events/" component={Events} />
       <PrivateRoute path="/edit_article/:articleId/" component={EditArticle} />
       <PrivateRoute
         path="/registration_receipt/:registrationReceiptId/"
