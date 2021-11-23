@@ -1,9 +1,15 @@
 import {
-  Grid,
   Button,
+  Divider,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   Tab,
+  Tabs,
   TextField,
-  Tabs
+  Typography
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -12,6 +18,7 @@ import { useParams } from 'react-router';
 import TeamInfoCard from '../../components/Cards/TeamInfo';
 import { getRequestSubscription } from '../../parse/mentor';
 import {
+  addUserToTeamAction,
   createRequestMentorAction,
   createTeamAction,
   getRequestMentorAction,
@@ -19,6 +26,7 @@ import {
 } from '../../redux/slices/events';
 
 function Teams({
+  addUserToTeam,
   createTeam,
   event,
 
@@ -26,14 +34,27 @@ function Teams({
 }) {
   const { fsmId } = useParams();
   const [newTeamName, setNewTeamName] = useState('');
+  const [userPhoneNumber, setUserPhoneNumber] = useState('');
+  const [selectedTeamId, setSelectedTeamId] = useState('');
 
   const doCreateTeam = () => {
     createTeam({ name: newTeamName, registration_form: event?.registration_form })
   }
 
+  const doAddUserToTeam = () => {
+    addUserToTeam({ teamId: selectedTeamId, phone_number: userPhoneNumber })
+  }
+
   return (
     <>
       <Grid container spacing={2} alignItems="center" justify="center">
+        <Grid item xs={12}>
+          <Typography variant='h3'>
+            {'ساختن تیم'}
+          </Typography>
+          <Divider />
+        </Grid>
+
         <Grid item xs={12} sm={6}>
           <TextField
             value={newTeamName}
@@ -51,8 +72,56 @@ function Teams({
             variant="contained"
             color="primary"
             onClick={doCreateTeam}>
-            {'ساختن تیم'}
+            {'بساز'}
           </Button>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant='h3'>
+            {'افزودن کاربر به تیم'}
+          </Typography>
+          <Divider />
+        </Grid>
+
+        <Grid item xs={12} sm={4}>
+          <TextField
+            value={userPhoneNumber}
+            size="small"
+            fullWidth
+            variant="outlined"
+            label="شماره تلفن"
+            inputProps={{ className: 'ltr-input' }}
+            onChange={(e) => { setUserPhoneNumber(e.target.value) }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <FormControl size="small" fullWidth variant="outlined">
+            <InputLabel>تیم</InputLabel>
+            <Select onChange={(e) => setSelectedTeamId(e.target.value)} label="تیم">
+              {allEventTeams?.map((team) => (
+                <MenuItem key={team.id} value={team.id}>
+                  {team.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Button
+            disabled={!userPhoneNumber || !selectedTeamId}
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={doAddUserToTeam}>
+            {'بیافزا'}
+          </Button>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant='h3'>
+            {'تیم‌ها'}
+          </Typography>
+          <Divider />
         </Grid>
 
         {allEventTeams?.map((team) => (
@@ -81,4 +150,5 @@ export default connect(mapStateToProps, {
   createRequestMentor: createRequestMentorAction,
   removeRequestMentor: removeRequestMentorAction,
   createTeam: createTeamAction,
+  addUserToTeam: addUserToTeamAction,
 })(Teams);

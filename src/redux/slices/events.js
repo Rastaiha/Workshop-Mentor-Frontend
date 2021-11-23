@@ -309,11 +309,25 @@ const eventSlice = createSlice({
 
     [createTeamAction.pending.toString()]: isFetching,
     [createTeamAction.fulfilled.toString()]: (state, { payload: { response } }) => {
-      console.log(response)
       state.allEventTeams = [response, ...state.allEventTeams];
       state.isFetching = false;
     },
     [createTeamAction.rejected.toString()]: isNotFetching,
+
+
+    [addUserToTeamAction.pending.toString()]: isFetching,
+    [addUserToTeamAction.fulfilled.toString()]: (state, action) => {
+      let newAllEventTeams = [...state.allEventTeams];
+      for (let i = 0; i < newAllEventTeams.length; i++) {
+        if (newAllEventTeams[i].id == action.payload.response.id) {
+          newAllEventTeams[i] = action.payload.response;
+        }
+      }
+      state.allEventTeams = newAllEventTeams;
+      state.isFetching = false;
+    },
+    [addUserToTeamAction.rejected.toString()]: isNotFetching,
+
   },
 });
 
