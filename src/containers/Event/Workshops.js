@@ -8,6 +8,7 @@ import {
   Select,
   TextField,
   Tooltip,
+  Typography,
 } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
 import React, { useState } from 'react';
@@ -44,43 +45,57 @@ function Index({
       <Grid
         container
         item
-        spacing={1}
+        spacing={2}
         alignItems="center"
         justify="center"
         direction="row">
-        <Grid item xs={12} sm={4}>
-          <TextField
-            value={properties.username}
-            size="small"
-            fullWidth
-            variant="outlined"
-            label="شماره تلفن"
-            name="username"
-            inputProps={{ className: 'ltr-input' }}
-            onChange={putData}
-          />
+
+        <Grid item xs={12}>
+          <Typography variant='h4'>
+            {'افزودن همیار به کارگاه'}
+          </Typography>
         </Grid>
-        <Grid item xs={12} sm={4}>
-          <FormControl size="small" fullWidth variant="outlined">
-            <InputLabel>کارگاه</InputLabel>
-            <Select onChange={putData} name="fsmId" label="کارگاه">
-              {allEventWorkshops?.map((workshop) => (
-                <MenuItem key={workshop.id} value={workshop.id}>
-                  {workshop.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+        <Grid item container xs spacing={1}>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              value={properties.username}
+              size="small"
+              fullWidth
+              variant="outlined"
+              label="شماره تلفن"
+              name="username"
+              inputProps={{ className: 'ltr-input' }}
+              onChange={putData}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <FormControl size="small" fullWidth variant="outlined">
+              <InputLabel>کارگاه</InputLabel>
+              <Select onChange={putData} name="fsmId" label="کارگاه">
+                {allEventWorkshops?.map((workshop) => (
+                  <MenuItem key={workshop.id} value={workshop.id}>
+                    {workshop.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Button
+              disabled={!properties.username || !properties.fsmId}
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={addMentor}>
+              {'بیافزا'}
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={4}>
-          <Button
-            disabled={!properties.username || !properties.fsmId}
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={addMentor}>
-            {'افزودن همیار'}
-          </Button>
+
+        <Grid item xs={12}>
+          <Typography variant='h4'>
+            {'کارگاه‌ها'}
+          </Typography>
         </Grid>
         <Grid item container xs={12} justify="flex-start" spacing={2}>
           {allEventWorkshops?.map((workshop) => (

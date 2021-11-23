@@ -47,83 +47,82 @@ function Teams({
 
   return (
     <>
-      <Grid container spacing={2} alignItems="center" justify="center">
+      <Grid container spacing={2} alignItems="center">
+
         <Grid item xs={12}>
-          <Typography variant='h3'>
-            {'ساختن تیم'}
+          <Typography variant='h4'>
+            {'ساخت تیم'}
           </Typography>
-          <Divider />
         </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <TextField
-            value={newTeamName}
-            size="small"
-            fullWidth
-            variant="outlined"
-            label="نام تیم"
-            onChange={(e) => { setNewTeamName(e.target.value) }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Button
-            disabled={!newTeamName}
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={doCreateTeam}>
-            {'بساز'}
-          </Button>
+        <Grid item container xs spacing={1}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              value={newTeamName}
+              size="small"
+              fullWidth
+              variant="outlined"
+              label="نام تیم"
+              onChange={(e) => { setNewTeamName(e.target.value) }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Button
+              disabled={!newTeamName}
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={doCreateTeam}>
+              {'بساز'}
+            </Button>
+          </Grid>
         </Grid>
 
         <Grid item xs={12}>
-          <Typography variant='h3'>
+          <Typography variant='h4'>
             {'افزودن کاربر به تیم'}
           </Typography>
-          <Divider />
         </Grid>
-
-        <Grid item xs={12} sm={4}>
-          <TextField
-            value={userPhoneNumber}
-            size="small"
-            fullWidth
-            variant="outlined"
-            label="شماره تلفن"
-            inputProps={{ className: 'ltr-input' }}
-            onChange={(e) => { setUserPhoneNumber(e.target.value) }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <FormControl size="small" fullWidth variant="outlined">
-            <InputLabel>تیم</InputLabel>
-            <Select onChange={(e) => setSelectedTeamId(e.target.value)} label="تیم">
-              {allEventTeams?.map((team) => (
-                <MenuItem key={team.id} value={team.id}>
-                  {team.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <Button
-            disabled={!userPhoneNumber || !selectedTeamId}
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={doAddUserToTeam}>
-            {'بیافزا'}
-          </Button>
+        <Grid item container xs spacing={1}>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              value={userPhoneNumber}
+              size="small"
+              fullWidth
+              variant="outlined"
+              label="شماره تلفن"
+              inputProps={{ className: 'ltr-input' }}
+              onChange={(e) => { setUserPhoneNumber(e.target.value) }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <FormControl size="small" fullWidth variant="outlined">
+              <InputLabel>تیم</InputLabel>
+              <Select onChange={(e) => setSelectedTeamId(e.target.value)} label="تیم">
+                {allEventTeams?.map((team) => (
+                  <MenuItem key={team.id} value={team.id}>
+                    {team.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Button
+              disabled={!userPhoneNumber || !selectedTeamId}
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={doAddUserToTeam}>
+              {'بیافزا'}
+            </Button>
+          </Grid>
         </Grid>
 
         <Grid item xs={12}>
-          <Typography variant='h3'>
+          <Typography variant='h4'>
             {'تیم‌ها'}
           </Typography>
-          <Divider />
         </Grid>
-
         {allEventTeams?.map((team) => (
           <Grid item xs={12} sm={6} md={4} key={team.id}>
             <TeamInfoCard

@@ -52,7 +52,7 @@ function Teams({
 
   return (
     <>
-      <Grid container spacing={2} alignItems="center" justify="center">
+      <Grid container spacing={2} alignItems="center">
         {reqTeams?.map((team) => (
           <Grid item xs={12} sm={6} md={4} key={team.id}>
             <TeamWorkshopInfoCard

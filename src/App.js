@@ -58,7 +58,7 @@ const App = ({ dir, redirectTo, forceRedirect, initRedirect, isFetching }) => {
             width: '100%',
             position: 'fixed',
             top: '0px',
-            zIndex: '99999',
+            zIndex: '999999',
           }}>
           <LinearProgress />
         </div>
@@ -80,13 +80,13 @@ const App = ({ dir, redirectTo, forceRedirect, initRedirect, isFetching }) => {
           </ThemeProvider>
         </>
       ) : (
-          <>
-            <ThemeProvider theme={MuiTheme}>
-              <Loading />
-              <Mentor />
-            </ThemeProvider>
-          </>
-        )}
+        <>
+          <ThemeProvider theme={MuiTheme}>
+            <Loading />
+            <Mentor />
+          </ThemeProvider>
+        </>
+      )}
     </IntlProvider>
   );
 };

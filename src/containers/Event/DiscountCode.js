@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Typography,
 } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import React, { useEffect, useState } from 'react';
@@ -76,28 +77,41 @@ function Index({
 
   return (
     <>
-      <Grid container spacing={1} alignItems="center" justify="center">
-        <Grid item xs={12} sm={4} >
-          <TextField
-            size='small' fullWidth
-            variant='outlined'
-            label='شماره تلفن'
-            inputProps={{ className: 'ltr-input' }}
-            value={username} onChange={(e) => setUsername(toEnglishNumber(e.target.value))} />
+      <Grid container spacing={2} alignItems="center" justify="center">
+        <Grid item xs={12}>
+          <Typography variant='h4'>
+            {'ایجاد کد تخفیف'}
+          </Typography>
         </Grid>
-        <Grid item xs={12} sm={4} >
-          <TextField
-            size='small' fullWidth
-            variant='outlined'
-            label='درصد تخفیف'
-            inputProps={{ className: 'ltr-input' }}
-            value={value} onChange={(e) => setValue(toEnglishNumber(e.target.value))} />
+        <Grid item container xs spacing={1}>
+          <Grid item xs={12} sm={4} >
+            <TextField
+              size='small' fullWidth
+              variant='outlined'
+              label='شماره تلفن'
+              inputProps={{ className: 'ltr-input' }}
+              value={username} onChange={(e) => setUsername(toEnglishNumber(e.target.value))} />
+          </Grid>
+          <Grid item xs={12} sm={4} >
+            <TextField
+              size='small' fullWidth
+              variant='outlined'
+              label='درصد تخفیف'
+              inputProps={{ className: 'ltr-input' }}
+              value={value} onChange={(e) => setValue(toEnglishNumber(e.target.value))} />
+          </Grid>
+          <Grid item xs={12} sm={4} >
+            <Button
+              fullWidth variant='contained'
+              color='primary'
+              onClick={handleCreateDiscountCode}>{'ایجاد'}</Button>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={4} >
-          <Button
-            fullWidth variant='contained'
-            color='primary'
-            onClick={handleCreateDiscountCode}>{'ایجاد'}</Button>
+
+        <Grid item xs={12}>
+          <Typography variant='h4'>
+            {'کدهای تخفیف موجود'}
+          </Typography>
         </Grid>
         <Grid item xs={12}>
           <TableContainer>
@@ -106,7 +120,7 @@ function Index({
                 <TableRow>
                   <TableCell align='center'>صاحب</TableCell>
                   <TableCell align='center'>شماره</TableCell>
-                  <TableCell align='center'>کد تخفیف</TableCell>
+                  <TableCell align='center'>کد</TableCell>
                   <TableCell align='center'>درصد تخفیف</TableCell>
                   <TableCell align='center'>دفعات باقی‌مانده</TableCell>
                   <TableCell align='center'>حذف</TableCell>
