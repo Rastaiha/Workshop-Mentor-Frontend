@@ -20,6 +20,7 @@ export const getTeamsUrl = ({ registrationFormId }) => registrationFormId ? `/fs
 export const makeTeamHeadUrl = ({ teamId }) => `/fsm/team/${teamId}/make_team_head/`;
 
 // event:
+export const teamCRUDUrl = ({ teamId }) => teamId ? `fsm/team/${teamId}/` : 'fsm/team/';
 export const getAllEventsInfoUrl = 'fsm/event/';
 export const addMentorToWorkshopUrl = ({ fsmId }) => `/fsm/fsm/${fsmId}/add_mentor/`;
 export const getMentoredFsmsUrl = ({ eventId }) => `/fsm/event/${eventId}/get_mentored_fsms/`;

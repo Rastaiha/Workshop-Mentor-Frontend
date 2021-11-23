@@ -8,6 +8,7 @@ import {
   getAllWorkshopEdges,
   getAllWorkshopStatesInfoUrl,
   stateCRUDUrl,
+  teamCRUDUrl,
   workshopCRUDUrl,
 } from '../constants/urls';
 import {
@@ -16,20 +17,27 @@ import {
   updateWidgetAction,
 } from './widget';
 
+
+export const getOneTeamInfoAction = createAsyncThunkApi(
+  'workshop/getOneTeamInfoAction',
+  Apis.GET,
+  teamCRUDUrl,
+)
+
 export const getOneWorkshopsInfoAction = createAsyncThunkApi(
-  'events/getOneWorkshopsInfoAction',
+  'workshop/getOneWorkshopsInfoAction',
   Apis.GET,
   workshopCRUDUrl
 );
 
 export const getAllWorkshopsInfoAction = createAsyncThunkApi(
-  'events/getAllWorkshopsInfoAction',
+  'workshop/getAllWorkshopsInfoAction',
   Apis.GET,
   workshopCRUDUrl
 );
 
 export const addMentorToWorkshopAction = createAsyncThunkApi(
-  'events/addMentorToWorkshopAction',
+  'workshop/addMentorToWorkshopAction',
   Apis.POST,
   addMentorToWorkshopUrl,
   {
@@ -40,19 +48,19 @@ export const addMentorToWorkshopAction = createAsyncThunkApi(
 );
 
 export const getOneStateAction = createAsyncThunkApi(
-  'events/getOneStateAction',
+  'workshop/getOneStateAction',
   Apis.GET,
   stateCRUDUrl
 );
 
 export const getAllWorkshopStatesInfoAction = createAsyncThunkApi(
-  'events/getAllWorkshopStatesInfoAction',
+  'workshop/getAllWorkshopStatesInfoAction',
   Apis.GET,
   getAllWorkshopStatesInfoUrl
 );
 
 export const addStateAction = createAsyncThunkApi(
-  'events/addStateAction',
+  'workshop/addStateAction',
   Apis.POST,
   stateCRUDUrl,
   {
@@ -63,7 +71,7 @@ export const addStateAction = createAsyncThunkApi(
 );
 
 export const removeStateAction = createAsyncThunkApi(
-  'events/removeStateAction',
+  'workshop/removeStateAction',
   Apis.DELETE,
   stateCRUDUrl,
   {
@@ -74,7 +82,7 @@ export const removeStateAction = createAsyncThunkApi(
 );
 
 export const updateStateAction = createAsyncThunkApi(
-  'events/updateStateAction',
+  'workshop/updateStateAction',
   Apis.PATCH,
   stateCRUDUrl,
   {
@@ -85,14 +93,14 @@ export const updateStateAction = createAsyncThunkApi(
 );
 
 export const getAllWorkshopEdgesAction = createAsyncThunkApi(
-  'events/getAllWorkshopEdgesAction',
+  'workshop/getAllWorkshopEdgesAction',
   Apis.GET,
   getAllWorkshopEdges,
 );
 
 
 export const addEdgeAction = createAsyncThunkApi(
-  'events/addEdgeAction',
+  'workshop/addEdgeAction',
   Apis.POST,
   edgeUrl,
   {
@@ -104,7 +112,7 @@ export const addEdgeAction = createAsyncThunkApi(
 
 
 export const updateEdgeAction = createAsyncThunkApi(
-  'events/updateEdgeAction',
+  'workshop/updateEdgeAction',
   Apis.PATCH,
   edgeUrl,
   {
@@ -115,7 +123,7 @@ export const updateEdgeAction = createAsyncThunkApi(
 );
 
 export const removeEdgeAction = createAsyncThunkApi(
-  'events/removeEdgeAction',
+  'workshop/removeEdgeAction',
   Apis.DELETE,
   edgeUrl,
   {
@@ -127,13 +135,12 @@ export const removeEdgeAction = createAsyncThunkApi(
 
 
 
-
-
-
 const initialState = {
   isFetching: false,
   allStates: [],
   allWorkshopEdges: [],
+  fetchedTeamsObjects: [],
+  requestedTeams: [],
 };
 
 const isFetching = (state) => {
@@ -160,6 +167,7 @@ const eventSlice = createSlice({
 
     [getOneWorkshopsInfoAction.pending.toString()]: isFetching,
     [getOneWorkshopsInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      console.log(response)
       state.workshop = response;
       state.isFetching = false;
     },
@@ -294,6 +302,16 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [removeEdgeAction.rejected.toString()]: isNotFetching,
+
+
+    [getOneTeamInfoAction.pending.toString()]: isFetching,
+    [getOneTeamInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      console.log(response)
+      state.fetchedTeamsObjects = [response, ...state.fetchedTeamsObjects];
+      state.isFetching = false;
+    },
+    [getOneTeamInfoAction.rejected.toString()]: isNotFetching,
+
   },
 });
 
