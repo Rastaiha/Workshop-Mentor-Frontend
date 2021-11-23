@@ -6,10 +6,16 @@ import {
 import React from 'react';
 import { connect } from 'react-redux';
 
+import {
+  addUserToTeamAction,
+} from '../../redux/slices/events';
+
 const useStyles = makeStyles((theme) => ({
 }));
 
 function Index({
+  addUserToTeam,
+
   event,
 }) {
   const classes = useStyles()
@@ -40,5 +46,6 @@ const mapStateToProps = (state) => ({
 export default connect(
   mapStateToProps,
   {
+    addUserToTeam: addUserToTeamAction,
   }
 )(Index);

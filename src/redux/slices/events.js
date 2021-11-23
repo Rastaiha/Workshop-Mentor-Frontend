@@ -5,7 +5,9 @@ import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
   addMentorToWorkshopUrl,
+  addUserToTeamUrl,
   allRegistrationReceiptsUrl,
+  createTeamUrl,
   eventInfoUrl,
   getAllEventsInfoUrl,
   getMentoredFsmsUrl,
@@ -17,6 +19,18 @@ import {
   validateRegistrationReceiptUrl,
   workshopCRUDUrl,
 } from '../constants/urls';
+
+export const createTeamAction = createAsyncThunkApi(
+  'events/createTeamAction',
+  Apis.POST,
+  createTeamUrl
+);
+
+export const addUserToTeamAction = createAsyncThunkApi(
+  'events/addUserToTeamAction',
+  Apis.POST,
+  addUserToTeamUrl
+);
 
 export const getAllEventsInfoAction = createAsyncThunkApi(
   'events/getAllEventsInfoAction',
@@ -291,6 +305,15 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [makeTeamHeadAction.rejected.toString()]: isNotFetching,
+
+
+    [createTeamAction.pending.toString()]: isFetching,
+    [createTeamAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      console.log(response)
+      state.allEventTeams = [response, ...state.allEventTeams];
+      state.isFetching = false;
+    },
+    [createTeamAction.rejected.toString()]: isNotFetching,
   },
 });
 
