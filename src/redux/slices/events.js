@@ -151,7 +151,7 @@ const initialState = {
   allEvents: [],
   allEventTeams: [],
   requestTeams: {},
-  allWorkshops: [],
+  allEventWorkshops: [],
   myWorkshops: [],
 };
 
@@ -283,11 +283,9 @@ const eventSlice = createSlice({
     [getEventWorkshopsAction.rejected.toString()]: isNotFetching,
 
     [createWorkshopAction.pending.toString()]: isFetching,
-    [createWorkshopAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
-      state.allWorkshops = [response, ...state.allWorkshops];
+    [createWorkshopAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      console.log(response)
+      state.allEventWorkshops = [...state.allEventWorkshops, response];
       state.isFetching = false;
     },
     [createWorkshopAction.rejected.toString()]: isNotFetching,
