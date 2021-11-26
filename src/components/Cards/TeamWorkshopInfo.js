@@ -43,7 +43,7 @@ const TeamInfo = ({
     if (!playerId) {
       getPlayerFromTeam({ teamId, id: fsmId, token });
     } else {
-      window.open(`https://academy.rastaiha.ir/join/${playerId}/${token}`);
+      window.open(`https://academy.rastaiha.ir/join/${playerId}/${token}/`);
     }
   };
 
@@ -83,14 +83,14 @@ const TeamInfo = ({
                 پاسخ به درخواست
               </Button>
             ) : (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  onClick={redirect}>
-                  مشاهده
-                </Button>
-              )}
+              <Button
+                variant="outlined"
+                color="primary"
+                fullWidth
+                onClick={redirect}>
+                مشاهده
+              </Button>
+            )}
           </Grid>
         </Grid>
       </CardActions>
