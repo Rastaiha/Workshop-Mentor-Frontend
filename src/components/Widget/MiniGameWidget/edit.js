@@ -123,7 +123,7 @@ function MiniGameEditWidget({
           inputProps={{ className: 'ltr-input' }}
           onChange={(e) => setLink(e.target.value)}>
           {MINI_GAMES.map((miniGame, index) => (
-            <MenuItem key={index} value={'https://minigames.rastaiha.ir' + miniGame.url}>
+            <MenuItem key={index} value={miniGame.url}>
               {miniGame.name}
             </MenuItem>
           ))}
