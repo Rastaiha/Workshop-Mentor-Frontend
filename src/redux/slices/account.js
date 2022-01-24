@@ -170,6 +170,7 @@ const accountSlice = createSlice({
     [loginAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.userAccount = response.account;
       state.token = response.access;
+      history.pushState({}, '', '/events/');
       state.isFetching = false;
     },
     [loginAction.rejected.toString()]: isNotFetching,
