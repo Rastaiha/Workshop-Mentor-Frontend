@@ -1,16 +1,13 @@
-import { Button, Container, Grid, makeStyles, Paper } from '@material-ui/core';
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { useHistory } from 'react-router';
+import { Container, makeStyles } from '@material-ui/core';
+import React from 'react';
 
 import AppBar from '../components/Appbar/ResponsiveAppBar';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    padding: theme.spacing(4),
+    paddingTop: theme.spacing(4),
     display: 'flex',
     justifyContent: 'center',
-    maxWidth: '1280px !important',
     marginRight: 'auto !important',
     marginLeft: 'auto !important',
   },
@@ -22,7 +19,7 @@ const Layout = (props) => {
   return (
     <>
       <AppBar mode='MENTOR_DASHBOARD' position='relative' />
-      <Container className={classes.container} >
+      <Container maxWidth='lg' className={classes.container} >
         {props.children}
       </Container>
     </>

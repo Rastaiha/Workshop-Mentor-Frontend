@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router';
 
 import AppBar from '../../components/Appbar/ResponsiveAppBar';
-import {
-  getOneWorkshopsInfoAction,
-} from '../../redux/slices/workshop';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -20,16 +17,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Layout = ({
-  getOneWorkshopsInfo,
   ...props
 }) => {
   const classes = useStyles();
-  const { fsmId } = useParams()
-
-  useEffect(() => {
-    getOneWorkshopsInfo({ fsmId });
-  }, [])
-
   return (
     <>
       <AppBar mode='MENTOR_DASHBOARD' position='relative' />
@@ -40,9 +30,4 @@ const Layout = ({
   );
 }
 
-export default connect(
-  null,
-  {
-    getOneWorkshopsInfo: getOneWorkshopsInfoAction,
-  }
-)(Layout);
+export default Layout;

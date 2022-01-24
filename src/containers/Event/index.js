@@ -19,9 +19,9 @@ import {
   getEventWorkshopsAction,
   getOneEventInfoAction,
 } from '../../redux/slices/events';
+import Layout from '../Layout';
 import DiscountCode from './DiscountCode';
 import Info from './Info';
-import Layout from './Layout';
 import RegistrationReceipts from './RegistrationReceipts';
 import Teams from './Teams';
 import Workshops from './Workshops';

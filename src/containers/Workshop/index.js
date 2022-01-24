@@ -21,10 +21,13 @@ import {
   getEventTeamsAction,
   getOneEventInfoAction,
 } from '../../redux/slices/events';
+import {
+  getOneWorkshopsInfoAction,
+} from '../../redux/slices/workshop';
+import Layout from '../Layout';
 import Design from './Design';
 import Edges from './Edges';
 import Info from './Info';
-import Layout from './Layout';
 import Requests from './Requests';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,6 +62,7 @@ const tabs = [
 const Event = ({
   getEventTeams,
   getOneEventInfo,
+  getOneWorkshopsInfo,
 
   event,
 }) => {
@@ -71,6 +75,11 @@ const Event = ({
   useEffect(() => {
     getOneEventInfo({ eventId });
   }, []);
+
+  useEffect(() => {
+    getOneWorkshopsInfo({ fsmId });
+  }, [])
+
 
   useEffect(() => {
     if (event?.registration_form) {
@@ -128,5 +137,6 @@ export default connect(
   {
     getEventTeams: getEventTeamsAction,
     getOneEventInfo: getOneEventInfoAction,
+    getOneWorkshopsInfo: getOneWorkshopsInfoAction,
   }
 )(Event);
