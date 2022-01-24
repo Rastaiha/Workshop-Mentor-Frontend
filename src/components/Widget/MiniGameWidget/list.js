@@ -1,4 +1,10 @@
 const MINI_GAMES = [
+  {
+
+    url: 'https://workshop.rastaiha.ir/game/experts',
+    name: 'بازی خبرگان',
+  },
+  
   // Image processing games
   {
 
