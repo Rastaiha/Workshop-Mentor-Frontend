@@ -4,11 +4,15 @@ import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
   accountCRUDUrl,
+  changePasswordUrl,
   discountCRUDUrl,
+  institutesUrl,
   loginUrl,
   merchandiseDiscountCodeUrl,
   profileCRUDUrl,
+  refreshTokenUrl,
   studentshipCRUDUrl,
+  verificationCodeUrl,
 } from '../constants/urls';
 
 const initialState = {
@@ -17,17 +21,84 @@ const initialState = {
   discountCodes: [],
 };
 
+
+export const createAccountAction = createAsyncThunkApi(
+  'account/createAccountAction',
+  Apis.POST_FORM_DATA,
+  accountCRUDUrl,
+  {
+    bodyCreator: ({ phoneNumber, password, code }) => ({
+      phone_number: phoneNumber,
+      password,
+      code,
+    }),
+    defaultNotification: {
+      success: 'حساب شما با موفقیت ایجاد شد.',
+      error: 'ایجاد حساب با مشکل روبه‌رو شد.',
+    },
+  }
+);
+
+export const getVerificationCodeAction = createAsyncThunkApi(
+  'account/getVerificationCode',
+  Apis.POST,
+  verificationCodeUrl,
+  {
+    bodyCreator: ({ phoneNumber, codeType }) => ({
+      phone_number: phoneNumber,
+      code_type: codeType,
+    }),
+    defaultNotification: {
+      success: 'کد تایید فرستاده شد! این کد بعد از ۵ دقیقه منقضی می‌شود.',
+      error: 'مشکلی وجود دارد. چند لحظه دیگر دوباره تلاش کن!',
+    },
+  }
+);
+
 export const loginAction = createAsyncThunkApi(
   'account/loginAction',
   Apis.POST,
   loginUrl,
   {
     defaultNotification: {
-      success: 'دوباره سلام!',
-      error: 'نام کاربری یا رمز عبور اشتباه است!',
+      success: 'سلام!',
+      error: 'نام کاربری یا رمز عبور اشتباه است.',
     },
   }
 );
+
+export const refreshTokenAction = createAsyncThunkApi(
+  'account/refreshTokenAction',
+  Apis.POST,
+  refreshTokenUrl,
+  {
+    defaultNotification: {
+      error: 'ایرادی در تازه‌سازی توکن وجود داشت.',
+    },
+  }
+);
+
+export const changePasswordAction = createAsyncThunkApi(
+  'account/changePasswordAction',
+  Apis.POST,
+  changePasswordUrl,
+  {
+    bodyCreator: ({ phoneNumber, password, code }) => ({
+      phone_number: phoneNumber,
+      password,
+      code,
+    }),
+    defaultNotification: {
+      success: 'گذرواژه با موفقیت تغییر یافت!',
+      error: 'مشکلی وجود دارد، رمز تغییر نکرد.',
+    },
+  }
+);
+
+
+
+/////
+
 
 export const getUserAccountAction = createAsyncThunkApi(
   'account/getUserAccountAction',

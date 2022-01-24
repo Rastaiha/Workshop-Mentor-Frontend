@@ -1,6 +1,11 @@
+// import {
+//   logoutAction,
+//   refreshTokenAction,
+// } from '../slices/account';
 import { persianMessages } from './messages';
 
-export const errorHandler = (
+const errorHandler = (
+  state,
   error,
   dispatch,
   rejectWithValue,
@@ -10,19 +15,19 @@ export const errorHandler = (
 
   if (!error.response) {
     return rejectWithValue({
-      message: 'ارتباطت با مشکل مواجه شده. یه چند لحظه دیگه دوباره تلاش کن!',
+      message: 'ارتباط با سرور دچار مشکل شده است.',
     });
   }
 
-  if (error.response.data?.code) {
+  if (persianMessages?.[error.response.data?.code]) {
     return rejectWithValue({
-      message: persianMessages[error.response.data.code] || error.response.data.detail
+      message: persianMessages[error.response.data.code],
     });
   }
 
-  if (error.response.data?.detail) {
+  if (error.response.detail) {
     return rejectWithValue({
-      message: error.response.data.detail,
+      message: error.response.detail,
     });
   }
 
@@ -31,17 +36,24 @@ export const errorHandler = (
       if (error.config.url === 'auth/token/obtain/') {
         break;
       }
-      dispatch({ type: 'account/logout' });
-      return rejectWithValue({
-        message: 'لطفا دوباره وارد سامانه شو!',
-      });
-    case 404:
-      return rejectWithValue({
-        message: 'موردی یافت نشد!',
-      });
+      if (error.response.config.url.includes('refresh')) {
+        dispatch({ type: 'account/logout' });
+        // dispatch(logoutAction({}));
+        return rejectWithValue({
+          message: 'نشست شما به پایان رسیده. لطفاً دوباره وارد سامانه شوید.',
+        });
+      } else {
+        // dispatch(refreshTokenAction({ refresh: state?.account?.refresh }));
+        return rejectWithValue();
+      }
+
+    // case 404:
+    //   return rejectWithValue({
+    //     message: 'موردی یافت نشد.',
+    //   });
     case 500:
       return rejectWithValue({
-        message: 'ایرادی پیش اومده! لطفا ما را در جریان بذار!',
+        message: 'ایراد سروری پیش آمده! لطفاً ما را در جریان بگذارید.',
       });
   }
 
@@ -55,3 +67,6 @@ export const errorHandler = (
 
   return rejectWithValue();
 };
+
+
+export default errorHandler;
