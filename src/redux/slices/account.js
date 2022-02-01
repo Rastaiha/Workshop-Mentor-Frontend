@@ -10,16 +10,9 @@ import {
   loginUrl,
   merchandiseDiscountCodeUrl,
   profileCRUDUrl,
-  refreshTokenUrl,
   studentshipCRUDUrl,
   verificationCodeUrl,
 } from '../constants/urls';
-
-const initialState = {
-  token: null,
-  user: {},
-  discountCodes: [],
-};
 
 
 export const createAccountAction = createAsyncThunkApi(
@@ -67,17 +60,6 @@ export const loginAction = createAsyncThunkApi(
   }
 );
 
-export const refreshTokenAction = createAsyncThunkApi(
-  'account/refreshTokenAction',
-  Apis.POST,
-  refreshTokenUrl,
-  {
-    defaultNotification: {
-      error: 'ایرادی در تازه‌سازی توکن وجود داشت.',
-    },
-  }
-);
-
 export const changePasswordAction = createAsyncThunkApi(
   'account/changePasswordAction',
   Apis.POST,
@@ -94,7 +76,6 @@ export const changePasswordAction = createAsyncThunkApi(
     },
   }
 );
-
 
 
 /////
@@ -117,7 +98,6 @@ export const getUserStudentshipAction = createAsyncThunkApi(
   Apis.GET,
   studentshipCRUDUrl,
 );
-
 
 export const createDiscountCodeAction = createAsyncThunkApi(
   'account/createDiscountCodeAction',
@@ -148,7 +128,12 @@ export const getAllMerchandiseDiscountCodesAction = createAsyncThunkApi(
 );
 
 
-
+const initialState = {
+  token: null,
+  refresh: null,
+  user: {},
+  discountCodes: [],
+};
 
 
 const isFetching = (state) => {
@@ -164,14 +149,21 @@ const accountSlice = createSlice({
   initialState,
   reducers: {
     logout: () => initialState,
+    refreshToken: (state, action) => {
+      state.token = action.payload.access;
+      state.refresh = action.payload.refresh;
+      window.location.reload();
+    },
   },
   extraReducers: {
+
     [loginAction.pending.toString()]: isFetching,
     [loginAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.userAccount = response.account;
       state.token = response.access;
-      history.pushState({}, '', '/events/');
+      state.refresh = response.refresh;
       state.isFetching = false;
+      history.pushState({}, '', '/events/');
     },
     [loginAction.rejected.toString()]: isNotFetching,
 

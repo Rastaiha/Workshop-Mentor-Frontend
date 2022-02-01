@@ -152,7 +152,7 @@ const isNotFetching = (state) => {
 };
 
 const eventSlice = createSlice({
-  name: 'events',
+  name: 'workshop',
   initialState,
   extraReducers: {
     [getAllWorkshopsInfoAction.pending.toString()]: isFetching,

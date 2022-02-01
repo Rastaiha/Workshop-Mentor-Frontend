@@ -98,6 +98,4 @@ const mapStateToProps = (state) => ({
   isFetching: state.account.isFetching || state.events.isFetching,
 });
 
-export default connect(mapStateToProps, { initRedirect: initRedirectAction })(
-  App
-);
+export default connect(mapStateToProps, { initRedirect: initRedirectAction })(App);

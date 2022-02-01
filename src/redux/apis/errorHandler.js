@@ -1,10 +1,10 @@
-// import {
-//   logoutAction,
-//   refreshTokenAction,
-// } from '../slices/account';
+import { Apis } from '../apis';
+import {
+  refreshTokenUrl,
+} from '../constants/urls';
 import { persianMessages } from './messages';
 
-const errorHandler = (
+const errorHandler = async (
   state,
   error,
   dispatch,
@@ -32,21 +32,23 @@ const errorHandler = (
   }
 
   switch (error.response.status) {
-    case 401:
+    case 401: {
       if (error.config.url === 'auth/token/obtain/') {
         break;
       }
-      if (error.response.config.url.includes('refresh')) {
+      try {
+        const response = await Apis.POST(refreshTokenUrl, { refresh: state?.account?.refresh });
+        console.log(response)
+        dispatch({ type: 'account/refreshToken', payload: { access: response.access, refresh: response.refresh } });
+        return rejectWithValue();
+      }
+      catch (error) {
         dispatch({ type: 'account/logout' });
-        // dispatch(logoutAction({}));
         return rejectWithValue({
           message: 'نشست شما به پایان رسیده. لطفاً دوباره وارد سامانه شوید.',
         });
-      } else {
-        // dispatch(refreshTokenAction({ refresh: state?.account?.refresh }));
-        return rejectWithValue();
       }
-
+    }
     // case 404:
     //   return rejectWithValue({
     //     message: 'موردی یافت نشد.',
