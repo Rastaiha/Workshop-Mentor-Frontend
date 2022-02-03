@@ -16,7 +16,6 @@ import { Link, useParams } from 'react-router-dom';
 
 import {
   getEventTeamsAction,
-  getEventWorkshopsAction,
   getOneEventInfoAction,
 } from '../../redux/slices/events';
 import Layout from '../Layout';
@@ -66,7 +65,6 @@ const tabs = [
 ];
 
 const Event = ({
-  getEventWorkshops,
   getOneEventInfo,
   getEventTeams,
 
@@ -79,7 +77,6 @@ const Event = ({
 
   useEffect(() => {
     getOneEventInfo({ eventId });
-    getEventWorkshops({ eventId });
   }, []);
 
   useEffect(() => {
@@ -145,7 +142,6 @@ export default connect(
   mapStateToProps,
   {
     getOneEventInfo: getOneEventInfoAction,
-    getEventWorkshops: getEventWorkshopsAction,
     getEventTeams: getEventTeamsAction,
   }
 )(Event);

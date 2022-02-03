@@ -33,7 +33,16 @@ export const getEventWorkshopsUrl = ({ eventId }) => `fsm/event/${eventId}/get_f
 
 
 // workshop:
-export const getWorkshopsUrl = ({ eventId }) => eventId ? `/fsm/fsm/?event=${eventId}` : '/fsm/fsm/';
+export const getWorkshopsUrl = ({ eventId, pageNumber }) => {
+  let url = '/fsm/fsm/';
+  if (eventId) {
+    url += `?event=${eventId}`;
+  }
+  if (pageNumber) {
+    url += `&page=${pageNumber}`;
+  }
+  return url;
+}
 export const workshopCRUDUrl = ({ fsmId }) => fsmId ? `/fsm/fsm/${fsmId}/` : '/fsm/fsm/';
 export const getAllWorkshopStatesInfoUrl = ({ fsmId }) => `/fsm/fsm/${fsmId}/get_states/`;
 export const getAllWorkshopEdges = ({ fsmId }) => `/fsm/fsm/${fsmId}/get_edges/`;

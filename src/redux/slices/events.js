@@ -278,6 +278,7 @@ const eventSlice = createSlice({
     [getEventWorkshopsAction.pending.toString()]: isFetching,
     [getEventWorkshopsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.allEventWorkshops = response?.results;
+      state.workshopsCount = response.count;
       state.isFetching = false;
     },
     [getEventWorkshopsAction.rejected.toString()]: isNotFetching,

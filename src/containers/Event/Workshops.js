@@ -2,17 +2,22 @@ import {
   Button,
   FormControl,
   Grid,
-  IconButton,
   InputLabel,
   MenuItem,
   Select,
   TextField,
-  Tooltip,
   Typography,
 } from '@material-ui/core';
-import { AddCircle } from '@material-ui/icons';
-import React, { useState } from 'react';
+import Pagination from '@material-ui/lab/Pagination';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
+import {
+  getEventTeamsAction,
+  getEventWorkshopsAction,
+  getOneEventInfoAction,
+} from '../../redux/slices/events';
 
 import WorkshopCard from '../../components/Cards/WorkshopCard';
 import CreateWorkshopDialog from '../../components/Dialog/CreateWorkshopDialog';
@@ -21,13 +26,22 @@ import { toEnglishNumber } from '../../utils/translateNumber';
 
 function Index({
   addMentorToWorkshop,
+  getEventWorkshops,
+
+  workshopsCount,
   allEventWorkshops,
 }) {
+  const { eventId } = useParams();
   const [openCreateWorkshopDialog, setOpenCreateWorkshopDialog] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
   const [properties, setProperties] = useState({
     username: '',
     fsmId: '',
   });
+
+  useEffect(() => {
+    getEventWorkshops({ eventId, pageNumber });
+  }, [pageNumber]);
 
   const putData = (e) => {
     setProperties({
@@ -50,11 +64,14 @@ function Index({
         justify="center"
         direction="row">
 
-        <Grid item xs={12}>
-          <Typography variant='h4'>
-            {'افزودن همیار به کارگاه'}
-          </Typography>
+        <Grid item container xs={12} spacing={2}>
+          <Grid item>
+            <Typography variant='h2'>
+              {'افزودن همیار به کارگاه'}
+            </Typography>
+          </Grid>
         </Grid>
+
         <Grid item container xs spacing={1}>
           <Grid item xs={12} sm={4}>
             <TextField
@@ -92,12 +109,21 @@ function Index({
           </Grid>
         </Grid>
 
-        <Grid item xs={12}>
-          <Typography variant='h4'>
-            {'کارگاه‌ها'}
-          </Typography>
+
+        <Grid item container justifyContent='space-between' xs={12} spacing={2} style={{ marginTop: 2 }}>
+          <Grid item>
+            <Typography variant='h2'>
+              {'کارگاه‌ها'}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Button variant='outlined' onClick={() => setOpenCreateWorkshopDialog(true)}>
+              {'افزودن کارگاه جدید'}
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item container xs={12} justify="flex-start" spacing={2}>
+
+        <Grid item container xs={12} justify="space-between" spacing={2}>
           {allEventWorkshops?.map((workshop) => (
             <Grid item xs={12} sm={6} md={4} key={workshop.id}>
               <WorkshopCard {...workshop} />
@@ -105,12 +131,18 @@ function Index({
           ))}
         </Grid>
 
-        <Grid item container xs={12} justify="center">
-          <Tooltip arrow title={'افزودن کارگاه'}>
-            <IconButton onClick={() => setOpenCreateWorkshopDialog(true)}>
-              <AddCircle fontSize="large" />
-            </IconButton>
-          </Tooltip>
+        <Grid item container justifyContent='space-between'>
+          <Grid item>
+            <Pagination
+              variant="outlined"
+              color="primary"
+              shape='rounded'
+              count={Math.ceil(workshopsCount / 12)}
+              page={pageNumber}
+              onChange={(e, value) => setPageNumber(value)}
+            />
+          </Grid>
+
         </Grid>
       </Grid>
       <CreateWorkshopDialog
@@ -121,9 +153,11 @@ function Index({
   );
 }
 const mapStateToProps = (state) => ({
+  workshopsCount: state.events.workshopsCount,
   allEventWorkshops: state.events.allEventWorkshops,
 });
 
 export default connect(mapStateToProps, {
   addMentorToWorkshop: addMentorToWorkshopAction,
+  getEventWorkshops: getEventWorkshopsAction,
 })(Index);
