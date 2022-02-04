@@ -43,7 +43,7 @@ const TeamInfo = ({
     if (!playerId) {
       getPlayerFromTeam({ teamId, id: fsmId, token });
     } else {
-      window.open(`https://academy.rastaiha.ir/join/${playerId}/${token}/`);
+      window.open(`https://kamva.academy/join/${playerId}/${token}/`);
     }
   };
 

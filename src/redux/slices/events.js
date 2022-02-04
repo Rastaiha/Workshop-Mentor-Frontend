@@ -214,7 +214,7 @@ const eventSlice = createSlice({
       { payload, meta }
     ) => {
       window.open(
-        `https://academy.rastaiha.ir/join/${payload?.response?.id}/${meta?.arg?.token}/`
+        `https://kamva.academy/join/${payload?.response?.id}/${meta?.arg?.token}/`
       );
     },
 

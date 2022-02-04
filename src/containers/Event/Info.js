@@ -14,8 +14,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Index({
-  addUserToTeam,
-
   event,
 }) {
   const classes = useStyles()
