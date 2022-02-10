@@ -209,53 +209,35 @@ const eventSlice = createSlice({
     },
   },
   extraReducers: {
-    [getPlayerFromTeamAction.fulfilled.toString()]: (
-      state,
-      { payload, meta }
-    ) => {
+    [getPlayerFromTeamAction.fulfilled.toString()]: (state, { payload, meta }) => {
       window.open(
         `https://kamva.academy/join/${payload?.response?.id}/${meta?.arg?.token}/`
       );
     },
 
-    [getRequestMentorAction.fulfilled.toString()]: (
-      state,
-      { payload: { requestTeams } }
-    ) => {
+    [getRequestMentorAction.fulfilled.toString()]: (state, { payload: { requestTeams } }) => {
       state.requestTeams = requestTeams;
     },
 
-    [deleteRequestMentorAction.fulfilled.toString()]: (
-      state,
-      { meta: { arg } }
-    ) => {
+    [deleteRequestMentorAction.fulfilled.toString()]: (state, { meta: { arg } }) => {
       delete state.requestTeams[arg.teamId + '.' + arg.fsmId];
     },
 
     [getOneEventInfoAction.pending.toString()]: isFetching,
-    [getOneEventInfoAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
+    [getOneEventInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.event = response;
       state.isFetching = false;
     },
     [getOneEventInfoAction.rejected.toString()]: isNotFetching,
 
     [getAllRegistrationReceiptsAction.pending.toString()]: isFetching,
-    [getAllRegistrationReceiptsAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
+    [getAllRegistrationReceiptsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.allRegistrationReceipts = response;
       state.isFetching = false;
     },
     [getAllRegistrationReceiptsAction.rejected.toString()]: isNotFetching,
 
-    [getMentoredFsmsAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
+    [getMentoredFsmsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.myWorkshops = response;
     },
 
@@ -326,6 +308,15 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [addUserToTeamAction.rejected.toString()]: isNotFetching,
+
+
+    [getOneRegistrationReceiptAction.pending.toString()]: isFetching,
+    [getOneRegistrationReceiptAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.registrationReceipt = response;
+      state.isFetching = false;
+
+    },
+    [getOneRegistrationReceiptAction.rejected.toString()]: isNotFetching,
 
   },
 });

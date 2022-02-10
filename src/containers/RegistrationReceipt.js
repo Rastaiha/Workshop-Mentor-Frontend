@@ -73,13 +73,10 @@ function Index({
     if (registrationReceipt?.user) {
       getUserProfile({ userId: registrationReceipt?.user })
     }
+    if (registrationReceipt?.status) {
+      setStatus(registrationReceipt?.status);
+    }
   }, [registrationReceipt])
-
-  // useEffect(() => {
-  //   if (registrationReceipt?.user) {
-  //     getUserStudentship({ userId: registrationReceipt?.user })
-  //   }
-  // }, [registrationReceipt?.user])
 
   const handleButtonClick = () => {
     if (!status) {
@@ -122,13 +119,13 @@ function Index({
             </Grid>
             <Grid item container>
               <Grid item xs={6}>
-                <Typography align='center'>{`استان: ${Iran.Provinces.filter(province => province.id == userProfile?.province)[0]?.title || '؟'}`}</Typography>
+                <Typography align='center'>{`استان: ${userProfile?.province}`}</Typography>
               </Grid>
               <Grid item xs={6}>
-                <Typography align='center'>{`شهر: ${Iran.Cities.filter(city => city.id == userProfile?.city)[0]?.title || '؟'}`}</Typography>
+                <Typography align='center'>{`شهر: ${userProfile?.city}`}</Typography>
               </Grid>
             </Grid>
-            <Grid item container justify='center'>
+            {/* <Grid item container justify='center'>
               <Button
                 fullWidth variant='outlined'
                 className={classes.lastUploadButton}
@@ -137,22 +134,25 @@ function Index({
                 component="a" target="_blank">
                 {'مشاهده‌ی مدرک تحصیلی'}
               </Button>
-            </Grid>
+            </Grid> */}
             <Divider />
-            <Grid item>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>وضعیت</InputLabel>
-                <Select
-                  onChange={(e) => setStatus(e.target.value)}
-                  name='status'
-                  label='وضعیت'
-                >
-                  <MenuItem value={'Waiting'} >{'منتظر'}</MenuItem>
-                  <MenuItem value={'Accepted'} >{'پذیرفته‌شده'}</MenuItem>
-                  <MenuItem value={'Rejected'} >{'ردشده'}</MenuItem>
-                </Select>
-              </FormControl >
-            </Grid>
+            {status &&
+              <Grid item>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel>وضعیت</InputLabel>
+                  <Select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    name='status'
+                    label='وضعیت'
+                  >
+                    <MenuItem value={'Waiting'} >{'منتظر'}</MenuItem>
+                    <MenuItem value={'Accepted'} >{'پذیرفته‌شده'}</MenuItem>
+                    <MenuItem value={'Rejected'} >{'ردشده'}</MenuItem>
+                  </Select>
+                </FormControl >
+              </Grid>
+            }
             <Grid item>
               <Button fullWidth variant='contained'
                 onClick={handleButtonClick}
