@@ -119,10 +119,10 @@ function Index({
             </Grid>
             <Grid item container>
               <Grid item xs={6}>
-                <Typography align='center'>{`استان: ${userProfile?.province}`}</Typography>
+                <Typography align='center'>{`استان: ${userProfile?.province ? userProfile?.province : '؟'}`}</Typography>
               </Grid>
               <Grid item xs={6}>
-                <Typography align='center'>{`شهر: ${userProfile?.city}`}</Typography>
+                <Typography align='center'>{`شهر: ${userProfile?.city ? userProfile?.city : '؟'}`}</Typography>
               </Grid>
             </Grid>
             {/* <Grid item container justify='center'>
