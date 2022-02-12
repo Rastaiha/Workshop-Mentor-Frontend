@@ -109,22 +109,24 @@ function Index({
               </Typography>
             </Grid>
             <Divider />
-            <Grid item container>
+            <Grid item container spacing={1}>
               <Grid item xs={6}>
-                <Typography align='center'>{`پایه‌ی: ${userProfile?.school_studentship?.grade ? faSeri(userProfile?.school_studentship?.grade) : '؟'}`}</Typography>
+                <Typography >{`پایه‌ی: ${userProfile?.school_studentship?.grade ? faSeri(userProfile?.school_studentship?.grade) : '؟'}`}</Typography>
               </Grid>
               <Grid item xs={6}>
-                <Typography align='center'>{`جنسیت: ${userProfile?.gender == 'Male' ? 'پسر' : (userProfile?.gender == 'Female' ? 'دختر' : '؟')}`}</Typography>
+                <Typography >{`جنسیت: ${userProfile?.gender == 'Male' ? 'پسر' : (userProfile?.gender == 'Female' ? 'دختر' : '؟')}`}</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography >{`استان: ${userProfile?.province ? userProfile?.province : '؟'}`}</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography >{`شهر: ${userProfile?.city ? userProfile?.city : '؟'}`}</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography >{`قطعی: ${registrationReceipt?.is_participating ? 'بله' : 'خیر'}`}</Typography>
               </Grid>
             </Grid>
-            <Grid item container>
-              <Grid item xs={6}>
-                <Typography align='center'>{`استان: ${userProfile?.province ? userProfile?.province : '؟'}`}</Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography align='center'>{`شهر: ${userProfile?.city ? userProfile?.city : '؟'}`}</Typography>
-              </Grid>
-            </Grid>
+
             {/* <Grid item container justify='center'>
               <Button
                 fullWidth variant='outlined'
@@ -142,6 +144,7 @@ function Index({
                   <InputLabel>وضعیت</InputLabel>
                   <Select
                     value={status}
+                    disabled={registrationReceipt?.is_participating}
                     onChange={(e) => setStatus(e.target.value)}
                     name='status'
                     label='وضعیت'
@@ -154,7 +157,9 @@ function Index({
               </Grid>
             }
             <Grid item>
-              <Button fullWidth variant='contained'
+              <Button
+                disabled={registrationReceipt?.is_participating}
+                fullWidth variant='contained'
                 onClick={handleButtonClick}
                 color='primary'>
                 {'ثبت'}
