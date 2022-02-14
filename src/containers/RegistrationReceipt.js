@@ -1,19 +1,14 @@
 import {
+  Box,
   Button,
   Divider,
   FormControl,
-  FormControlLabel,
-  FormLabel,
   Grid,
-  IconButton,
   InputLabel,
   makeStyles,
   MenuItem,
   Paper,
-  Radio,
-  RadioGroup,
   Select,
-  Tooltip,
   Typography,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
@@ -33,7 +28,6 @@ import {
 import {
   addNotificationAction,
 } from '../redux/slices/notifications'
-import Iran from '../utils/iran';
 import { faSeri } from '../utils/translateNumber';
 import Layout from './Layout';
 
@@ -111,7 +105,7 @@ function Index({
             <Divider />
             <Grid item container spacing={1}>
               <Grid item xs={6}>
-                <Typography >{`پایه‌ی: ${userProfile?.school_studentship?.grade ? faSeri(userProfile?.school_studentship?.grade) : '؟'}`}</Typography>
+                <Typography >{`پایه‌ی ${userProfile?.school_studentship?.grade ? faSeri(userProfile?.school_studentship?.grade) : '؟'}`}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <Typography >{`جنسیت: ${userProfile?.gender == 'Male' ? 'پسر' : (userProfile?.gender == 'Female' ? 'دختر' : '؟')}`}</Typography>
@@ -125,6 +119,9 @@ function Index({
               <Grid item xs={6}>
                 <Typography >{`قطعی: ${registrationReceipt?.is_participating ? 'بله' : 'خیر'}`}</Typography>
               </Grid>
+              <Grid item xs={12}>
+                <Typography >{`شماره تماس: ${userProfile?.phone_number}`}</Typography>
+              </Grid>
             </Grid>
 
             {/* <Grid item container justify='center'>
@@ -137,34 +134,34 @@ function Index({
                 {'مشاهده‌ی مدرک تحصیلی'}
               </Button>
             </Grid> */}
-            <Divider />
+            {/* <Divider /> */}
             {status &&
               <Grid item>
                 <FormControl fullWidth variant="outlined">
-                  <InputLabel>وضعیت</InputLabel>
+                  <InputLabel>وضعیت ثبت‌نام</InputLabel>
                   <Select
                     value={status}
                     disabled={registrationReceipt?.is_participating}
                     onChange={(e) => setStatus(e.target.value)}
                     name='status'
-                    label='وضعیت'
+                    label='وضعیت ثبت‌نام'
                   >
                     <MenuItem value={'Waiting'} >{'منتظر'}</MenuItem>
-                    <MenuItem value={'Accepted'} >{'پذیرفته‌شده'}</MenuItem>
+                    <MenuItem value={'Accepted'} >{'مجاز به پرداخت'}</MenuItem>
                     <MenuItem value={'Rejected'} >{'ردشده'}</MenuItem>
                   </Select>
                 </FormControl >
+                <Box mt={1}>
+                  <Button
+                    disabled={registrationReceipt?.is_participating}
+                    fullWidth variant='contained'
+                    onClick={handleButtonClick}
+                    color='primary'>
+                    {registrationReceipt?.is_participating ? 'پرداخت با موفقیت انجام شده' : 'ثبت'}
+                  </Button>
+                </Box>
               </Grid>
             }
-            <Grid item>
-              <Button
-                disabled={registrationReceipt?.is_participating}
-                fullWidth variant='contained'
-                onClick={handleButtonClick}
-                color='primary'>
-                {'ثبت'}
-              </Button>
-            </Grid>
           </Grid>
         </Grid>
       </Grid>
