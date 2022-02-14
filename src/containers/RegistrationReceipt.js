@@ -116,9 +116,6 @@ function Index({
               <Grid item xs={6}>
                 <Typography >{`شهر: ${userProfile?.city ? userProfile?.city : '؟'}`}</Typography>
               </Grid>
-              <Grid item xs={6}>
-                <Typography >{`قطعی: ${registrationReceipt?.is_participating ? 'بله' : 'خیر'}`}</Typography>
-              </Grid>
               <Grid item xs={12}>
                 <Typography >{`شماره تماس: ${userProfile?.phone_number}`}</Typography>
               </Grid>
