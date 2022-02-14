@@ -157,7 +157,7 @@ function Index({
                     fullWidth variant='contained'
                     onClick={handleButtonClick}
                     color='primary'>
-                    {registrationReceipt?.is_participating ? 'پرداخت با موفقیت انجام شده' : 'ثبت'}
+                    {registrationReceipt?.is_participating ? 'ثبت‌نام قطعی است' : 'ثبت'}
                   </Button>
                 </Box>
               </Grid>

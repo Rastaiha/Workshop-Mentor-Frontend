@@ -20,8 +20,8 @@ import { faSeri, toPersianNumber } from '../../utils/translateNumber';
 
 const STATUS = {
   Waiting: 'منتظر',
-  Accepted: 'پذیرفته‌شده',
-  Rejected: 'پذیرفته‌‌نشده',
+  Accepted: 'مجاز به پرداخت',
+  Rejected: 'رد‌شده',
 }
 
 function Index({
@@ -48,7 +48,6 @@ function Index({
                 <TableCell align='center'>نام</TableCell>
                 <TableCell align='center'>پایه</TableCell>
                 <TableCell align='center'>وضعیت</TableCell>
-                <TableCell align='center'>قطعی</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -72,10 +71,7 @@ function Index({
                     {faSeri(registrationReceipt?.school_studentship?.grade)}
                   </TableCell>
                   <TableCell align='center'>
-                    {STATUS[registrationReceipt?.status]}
-                  </TableCell>
-                  <TableCell align='center'>
-                    {registrationReceipt?.is_participating ? 'بله' : 'خیر'}
+                    {registrationReceipt?.is_participating ? STATUS[registrationReceipt?.status] : 'قطعی'}
                   </TableCell>
                 </TableRow>
               )}
