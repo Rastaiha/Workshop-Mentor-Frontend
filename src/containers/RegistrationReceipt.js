@@ -117,7 +117,7 @@ function Index({
                 <Typography >{`شهر: ${userProfile?.city ? userProfile?.city : '؟'}`}</Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography >{`شماره تماس: ${userProfile?.phone_number}`}</Typography>
+                <Typography >{`شماره تماس: ${userProfile?.phone_number ? userProfile?.phone_number : '؟'}`}</Typography>
               </Grid>
             </Grid>
 
