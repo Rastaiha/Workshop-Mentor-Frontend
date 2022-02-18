@@ -178,7 +178,7 @@ export const getRequestMentorAction = createAsyncThunk(
       return { requestTeams };
     } catch (err) {
       return rejectWithValue({
-        message: 'یه مشکلی وجود داره. یه چند لحظه دیگه دوباره تلاش کن!',
+        message: 'مشکلی در دریافت درخواست‌‌های همیار وجود داشت.',
       });
     }
   }
@@ -267,7 +267,6 @@ const eventSlice = createSlice({
 
     [createWorkshopAction.pending.toString()]: isFetching,
     [createWorkshopAction.fulfilled.toString()]: (state, { payload: { response } }) => {
-      console.log(response)
       state.allEventWorkshops = [...state.allEventWorkshops, response];
       state.isFetching = false;
     },
