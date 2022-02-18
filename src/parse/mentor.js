@@ -2,6 +2,7 @@ import Parse from 'parse';
 
 export const getRequests = async () => {
   const query = new Parse.Query('RequestMentor');
+  query.limit(1000)
   return await query.find();
 };
 
