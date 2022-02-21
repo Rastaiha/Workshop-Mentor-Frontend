@@ -123,7 +123,7 @@ function Index({
           </Grid>
         </Grid>
 
-        <Grid item container xs={12} justify="space-between" spacing={2}>
+        <Grid item container xs={12} justify="flex-start" spacing={2}>
           {allEventWorkshops?.map((workshop) => (
             <Grid item xs={12} sm={6} md={4} key={workshop.id}>
               <WorkshopCard {...workshop} />
@@ -131,7 +131,7 @@ function Index({
           ))}
         </Grid>
 
-        <Grid item container justifyContent='space-between'>
+        <Grid item container>
           <Grid item>
             <Pagination
               variant="outlined"
