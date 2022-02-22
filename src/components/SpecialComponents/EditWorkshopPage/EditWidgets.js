@@ -1,5 +1,7 @@
 import {
+  Box,
   Button,
+  Divider,
   Grid,
   IconButton,
   makeStyles,
@@ -11,10 +13,10 @@ import {
 import { Add } from '@material-ui/icons';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@material-ui/icons';
 import SaveIcon from '@material-ui/icons/Save';
-import { useParams } from 'react-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
+import { useParams } from 'react-router';
 
 import {
   removeStateAction,
@@ -48,7 +50,13 @@ function EditWidgets({
   const [openCreateWidgetDialog, setOpenCreateWidgetDialog] = useState(false);
   const [openDeleteWidgetDialog, setOpenDeleteWidgetDialog] = useState(false);
   const [isEditingStateName, setIsEditingStateName] = useState(false);
-  const [newName, setNewName] = useState(name);
+  const [newName, setNewName] = useState();
+
+  useEffect(() => {
+    if (name) {
+      setNewName(name)
+    }
+  }, [name])
 
   const questions = widgets?.filter((widget) =>
     widget.widget_type.includes('Problem')
@@ -72,7 +80,7 @@ function EditWidgets({
                   defaultValue={name} />
               }
               {!isEditingStateName &&
-                <Typography align="center" component="h2" variant="h3" gutterBottom>
+                <Typography align="center" variant="h1" gutterBottom>
                   {name}
                 </Typography>
               }
@@ -109,6 +117,12 @@ function EditWidgets({
             </Grid>
           </>
         }
+        <Grid item xs={12}>
+          <Typography variant='h2' gutterBottom>
+            {'سوالات'}
+          </Typography>
+          <Divider />
+        </Grid>
         {
           questions.map((widget) => (
             <Grid item xs={12} key={widget.index}>
@@ -122,6 +136,19 @@ function EditWidgets({
             </Grid>
           ))
         }
+        {questions?.length === 0 &&
+          <Grid item xs={12}>
+            <Box m={2}>
+              <Typography variant='h4' align="center">{'سوالی در این گام وجود ندارد!'}</Typography>
+            </Box>
+          </Grid>
+        }
+        <Grid item xs={12}>
+          <Typography variant='h2' gutterBottom>
+            {'محتواها'}
+          </Typography>
+          <Divider />
+        </Grid>
         {
           notQuestions.map((widget) => (
             <Grid key={widget.id} item xs={12}>
@@ -135,9 +162,11 @@ function EditWidgets({
             </Grid>
           ))
         }
-        {widgets?.length === 0 &&
+        {notQuestions?.length === 0 &&
           <Grid item xs={12}>
-            <Typography align="center">{t('thereIsNoItem')}</Typography>
+            <Box m={2}>
+              <Typography variant='h4' align="center">{'محتوایی در این گام وجود ندارد!'}</Typography>
+            </Box>
           </Grid>
         }
         {stateId &&
