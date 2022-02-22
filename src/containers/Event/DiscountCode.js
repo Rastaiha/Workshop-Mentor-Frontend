@@ -130,10 +130,13 @@ function Index({
                 {discountCodes?.map((discountCode, index) =>
                   <TableRow key={index}>
                     <TableCell align='center'>
-                      {`${discountCode?.first_name} ${discountCode.last_name}`}
+                      {discountCode?.first_name && discountCode.last_name ?
+                        `${discountCode?.first_name} ${discountCode.last_name}` :
+                        '-'
+                      }
                     </TableCell>
                     <TableCell align='center'>
-                      {discountCode?.phone_number}
+                      {discountCode?.phone_number || '-'}
                     </TableCell>
                     <TableCell align='center'>
                       {discountCode?.code}
