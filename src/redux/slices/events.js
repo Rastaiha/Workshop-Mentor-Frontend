@@ -29,7 +29,13 @@ export const createTeamAction = createAsyncThunkApi(
 export const addUserToTeamAction = createAsyncThunkApi(
   'events/addUserToTeamAction',
   Apis.POST,
-  addUserToTeamUrl
+  addUserToTeamUrl,
+  {
+    defaultNotification: {
+      success: 'عضو با موفقیت به گروه اضافه شد',
+      error: 'اشکالی در اضافه‌کردن عضو به گروه وجود داشت.'
+    },
+  }
 );
 
 export const getAllEventsInfoAction = createAsyncThunkApi(
