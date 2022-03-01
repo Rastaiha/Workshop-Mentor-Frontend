@@ -197,7 +197,7 @@ export const deleteRequestMentorAction = createAsyncThunk(
       await deleteRequest({ teamId, fsmId });
     } catch (err) {
       return rejectWithValue({
-        message: 'یه مشکلی وجود داره. یه چند لحظه دیگه دوباره تلاش کن!',
+        message: 'مشکلی در پاک‌کردن درخواست وجود دارد.',
       });
     }
   }
@@ -211,6 +211,7 @@ const eventSlice = createSlice({
       state.requestTeams[teamId + '.' + fsmId] = playerId;
     },
     removeRequestMentor: (state, { payload: { teamId, fsmId } }) => {
+      console.log(teamId, '   ', fsmId);
       delete state.requestTeams[teamId + '.' + fsmId];
     },
   },

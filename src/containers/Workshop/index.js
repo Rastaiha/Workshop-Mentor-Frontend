@@ -27,8 +27,9 @@ import {
 import Layout from '../Layout';
 import Design from './Design';
 import Edges from './Edges';
+import IndividualRequests from './IndividualRequests';
 import Info from './Info';
-import Requests from './Requests';
+import TeamRequests from './TeamRequests';
 
 const useStyles = makeStyles((theme) => ({
   rightBox: {
@@ -36,50 +37,66 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tabs = [
-  {
-    label: 'اطلاعات کلی',
-    icon: '',
-    component: Info,
-  },
-  {
-    label: 'طراحی',
-    icon: '',
-    component: Design,
-  },
-  {
-    label: 'یال‌ها',
-    icon: '',
-    component: Edges,
-  },
-  {
-    label: 'درخواست‌ها',
-    icon: '',
-    component: Requests,
-  },
-];
-
 const Event = ({
   getEventTeams,
   getOneEventInfo,
   getOneWorkshopsInfo,
 
+  workshop,
   event,
 }) => {
   const classes = useStyles();
   const t = useTranslate();
   const { fsmId, eventId } = useParams();
   const [tabIndex, setTabIndex] = useState(0);
+  const [tabs, setTabs] = useState([
+    {
+      label: 'اطلاعات کلی',
+      icon: '',
+      component: Info,
+    },
+    {
+      label: 'طراحی',
+      icon: '',
+      component: Design,
+    },
+    {
+      label: 'یال‌ها',
+      icon: '',
+      component: Edges,
+    },
+  ])
+
   const TabComponent = tabs[tabIndex].component;
 
   useEffect(() => {
     getOneEventInfo({ eventId });
+    getOneWorkshopsInfo({ fsmId });
   }, []);
 
   useEffect(() => {
-    getOneWorkshopsInfo({ fsmId });
-  }, [])
-
+    if (workshop?.fsm_learning_type == 'Supervised') {
+      if (workshop?.fsm_p_type == 'Team' && !tabs.some(tab => tab.label == 'درخواست‌های تیمی')) {
+        setTabs([
+          ...tabs,
+          {
+            label: 'درخواست‌های تیمی',
+            icon: '',
+            component: TeamRequests,
+          },
+        ])
+      } else if (workshop?.fsm_p_type == 'Individual' && !tabs.some(tab => tab.label == 'درخواست‌های فردی')) {
+        setTabs([
+          ...tabs,
+          {
+            label: 'درخواست‌های فردی',
+            icon: '',
+            component: IndividualRequests,
+          },
+        ])
+      }
+    }
+  }, [workshop])
 
   useEffect(() => {
     if (event?.registration_form) {
@@ -130,6 +147,7 @@ const Event = ({
 
 const mapStateToProps = (state) => ({
   event: state.events.event,
+  workshop: state.workshop.workshop,
 });
 
 export default connect(

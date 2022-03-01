@@ -33,6 +33,7 @@ export const getEventWorkshopsUrl = ({ eventId }) => `fsm/event/${eventId}/get_f
 
 
 // workshop:
+export const getFSMPlayersUrl = ({ fsmId }) => `fsm/fsm/${fsmId}/players/`;
 export const getWorkshopsUrl = ({ eventId, pageNumber }) => {
   let url = '/fsm/fsm/';
   if (eventId) {
