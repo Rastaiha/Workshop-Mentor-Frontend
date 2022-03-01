@@ -7,6 +7,7 @@ import {
   edgeUrl,
   getAllWorkshopEdges,
   getAllWorkshopStatesInfoUrl,
+  getFSMPlayersUrl,
   stateCRUDUrl,
   teamCRUDUrl,
   workshopCRUDUrl,
@@ -17,6 +18,12 @@ import {
   updateWidgetAction,
 } from './widget';
 
+
+export const getFSMPlayersAction = createAsyncThunkApi(
+  'workshop/getFSMPlayersAction',
+  Apis.GET,
+  getFSMPlayersUrl,
+)
 
 export const getOneTeamInfoAction = createAsyncThunkApi(
   'workshop/getOneTeamInfoAction',
@@ -306,11 +313,18 @@ const eventSlice = createSlice({
 
     [getOneTeamInfoAction.pending.toString()]: isFetching,
     [getOneTeamInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
-      console.log(response)
       state.fetchedTeamsObjects = [response, ...state.fetchedTeamsObjects];
       state.isFetching = false;
     },
     [getOneTeamInfoAction.rejected.toString()]: isNotFetching,
+
+
+    [getFSMPlayersAction.pending.toString()]: isFetching,
+    [getFSMPlayersAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.players = response;
+      state.isFetching = false;
+    },
+    [getFSMPlayersAction.rejected.toString()]: isNotFetching,
 
   },
 });
