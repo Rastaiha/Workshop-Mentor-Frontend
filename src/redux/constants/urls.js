@@ -65,7 +65,8 @@ export const getPlayerFromTeamUrl = ({ id }) => `/fsm/fsm/${id}/get_player_from_
 
 export const getUnreadNotificationsUrl = 'notifications/api/unread_list/';
 
-export const articlesUrl = 'fsm/article/';
+// articles
+export const articlesUrl = 'fsm/articles/';
 
 export const helpUrl = 'fsm/help/';
 

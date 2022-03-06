@@ -4,8 +4,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 
-import { getArticleAction } from '../redux/slices/acticle';
 import EditWidgets from '../components/SpecialComponents/EditArticlePage/EditWidgets';
+import { getArticleAction } from '../redux/slices/article';
 
 const useStyles = makeStyles((theme) => ({
   tabbar: {
@@ -40,7 +40,10 @@ const EditArticle = ({
 }) => {
   const history = useHistory();
 
-  const widgets = [...article.widgets];
+  let widgets = [];
+  if (article?.widgets) {
+    widgets = [...article.widgets];
+  }
 
   useEffect(() => {
     if (articleId) {
@@ -74,7 +77,7 @@ const EditArticle = ({
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  article: state.mentor.articles.find(
+  article: state.article.articles.find(
     (article) => +article.id === +ownProps.match.params.articleId
   ),
   articleId: ownProps.match.params.articleId,

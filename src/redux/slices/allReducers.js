@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { accountReducer } from './account';
+import { articleReducer } from './article';
 import { currentStateReducer } from './currentState';
 import { eventsReducer } from './events'
 import { notificationReducer } from './notifications';
@@ -10,6 +11,7 @@ import { widgetReducer } from './widget';
 import { workshopReducer } from './workshop'
 
 const allReducers = combineReducers({
+  article: articleReducer,
   account: accountReducer,
   currentState: currentStateReducer,
   events: eventsReducer,

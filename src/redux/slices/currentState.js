@@ -6,7 +6,7 @@ import { getScoresUrl, mentorGetCurrentStateUrl } from '../constants/urls';
 import {
   getArticleAction,
   getArticlesAction,
-} from './acticle';
+} from './article';
 import {
   createHelpAction,
   createWidgetAction,
