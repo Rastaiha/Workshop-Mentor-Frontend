@@ -7,38 +7,6 @@ import { getAllEventsInfoAction } from '../../redux/slices/events';
 import Layout from '../Layout';
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: 80,
-    height: `calc(100vh - ${80}px)`,
-    display: 'flex',
-    justifyContent: 'center',
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-  },
-  logo: {
-    maxHeight: '80vh',
-    maxWidth: '100%',
-  },
-  paper: {
-    width: '100%',
-    height: '100%',
-    padding: theme.spacing(2),
-  },
-  title: {
-    fontSize: 40,
-    fontWeight: 600,
-    textShadow: '1px 1px #dbd9d9',
-  },
-  subtitle: {
-    fontSize: 25,
-    fontWeight: 400,
-    textShadow: '1px 1px #dbd9d9',
-  },
-  listItem: {
-    fontSize: 20,
-    fontWeight: 300,
-    textShadow: '1px 1px #dbd9d9',
-  },
 }));
 
 const Events = ({ getAllEventsInfo, allEvents }) => {
@@ -46,7 +14,7 @@ const Events = ({ getAllEventsInfo, allEvents }) => {
 
   useEffect(() => {
     getAllEventsInfo();
-  }, [getAllEventsInfo]);
+  }, []);
 
   return (
     <Layout>

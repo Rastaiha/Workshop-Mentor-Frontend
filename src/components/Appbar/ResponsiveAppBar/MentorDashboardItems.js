@@ -7,15 +7,16 @@ import LogoutButton from './components/LogoutButton';
 
 const DashboardItems = () => {
   const logoButton = <LogoButton />;
-  const dashboard = <DashboardButton name={'رویدادها'} to={'/events'} />;
+  const events = <DashboardButton name={'رویدادها'} to={'/events'} />;
+  const articles = <DashboardButton name={'مقاله‌ها'} to={'/articles'} />;
   const logoutButton = <LogoutButton />;
   const Avatar = <AvatarComponent />;
 
   return {
     desktopLeftItems: [logoutButton, Avatar],
-    desktopRightItems: [dashboard],
+    desktopRightItems: [events, articles],
     mobileLeftItems: [Avatar],
-    mobileRightItems: [dashboard],
+    mobileRightItems: [events, articles],
     mobileMenuListItems: [logoutButton],
   };
 };

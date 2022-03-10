@@ -13,14 +13,13 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import WorkshopCard from '../../components/Cards/WorkshopCard';
+import CreateWorkshopDialog from '../../components/Dialog/CreateWorkshopDialog';
 import {
   getEventTeamsAction,
   getEventWorkshopsAction,
   getOneEventInfoAction,
 } from '../../redux/slices/events';
-
-import WorkshopCard from '../../components/Cards/WorkshopCard';
-import CreateWorkshopDialog from '../../components/Dialog/CreateWorkshopDialog';
 import { addMentorToWorkshopAction } from '../../redux/slices/events';
 import { toEnglishNumber } from '../../utils/translateNumber';
 

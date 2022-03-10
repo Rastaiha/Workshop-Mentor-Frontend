@@ -28,8 +28,8 @@ const initialState = {
 
 export { initialState as mentorInitialState };
 
-export const getArticlesAction = createAsyncThunkApi(
-  'articles/getAll',
+export const getAllArticlesAction = createAsyncThunkApi(
+  'articles/getAllArticlesAction',
   Apis.GET,
   articlesUrl
 );
@@ -69,8 +69,10 @@ const mentorSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [getArticlesAction.fulfilled.toString()]: (state, { payload: { response } }) => {
-      state.articles = response;
+
+    [getAllArticlesAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.articles = response.results;
+      state.articlesCount = response.count;
     },
 
     [getArticleAction.fulfilled.toString()]: (state, { payload: { response } }) => {

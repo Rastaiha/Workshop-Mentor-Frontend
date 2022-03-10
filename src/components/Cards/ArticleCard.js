@@ -8,7 +8,7 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 import { Link } from 'react-router-dom';
 
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   },
 });
 
-const ArticleCard = ({ id, name = '', description = '' }) => {
+const ArticleCard = ({ id, name = '', description = '', cover_page = '' }) => {
   const t = useTranslate();
   const classes = useStyles();
 
@@ -33,7 +33,7 @@ const ArticleCard = ({ id, name = '', description = '' }) => {
       <CardActionArea disabled>
         <CardMedia
           className={classes.media}
-          image={process.env.PUBLIC_URL + '/ai.jpg'}
+          image={cover_page ? cover_page : `${process.env.PUBLIC_URL}/logo.png`}
           title={name}
         />
         <CardContent>
@@ -51,7 +51,7 @@ const ArticleCard = ({ id, name = '', description = '' }) => {
           fullWidth
           color="primary"
           component={Link}
-          to={`/edit_article/${id}`}>
+          to={`/edit-article/${id}`}>
           {t('edit')}
         </Button>
       </CardActions>

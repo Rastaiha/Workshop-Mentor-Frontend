@@ -4,8 +4,8 @@ import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import { getScoresUrl, mentorGetCurrentStateUrl } from '../constants/urls';
 import {
+  getAllArticlesAction,
   getArticleAction,
-  getArticlesAction,
 } from './article';
 import {
   createHelpAction,
@@ -14,26 +14,6 @@ import {
   getStateAction,
 } from './widget';
 
-export const mentorGetCurrentStateAction = createAsyncThunkApi(
-  'currentState/mentorGetCurrentState',
-  Apis.POST,
-  mentorGetCurrentStateUrl,
-  {
-    bodyCreator: ({ stateId, playerUUID }) => ({
-      state: stateId,
-      player_uuid: playerUUID,
-    }),
-  }
-);
-
-export const getScoresAction = createAsyncThunkApi(
-  'player/getScore',
-  Apis.POST,
-  getScoresUrl,
-  {
-    bodyCreator: ({ fsmId, playerId }) => ({ fsm: fsmId, player: playerId }),
-  }
-);
 
 const stateNeedUpdate = (state) => {
   state.needUpdateState = true;
@@ -76,22 +56,9 @@ const currentStateSlice = createSlice({
     [deleteWidgetAction.fulfilled.toString()]: stateNeedUpdate,
 
     [getArticleAction.fulfilled.toString()]: stateDontNeedUpdate,
-    [getArticlesAction.fulfilled.toString()]: stateDontNeedUpdate,
-
-    [mentorGetCurrentStateAction.fulfilled.toString()]: getNewState,
-    [getStateAction.fulfilled.toString()]: getNewState,
-
-    [getScoresAction.fulfilled.toString()]: (
-      state,
-      { payload: { response } }
-    ) => {
-      state.scores = response.score_transactions;
-      state.totalScore = response.scores_sum;
-    },
+    [getAllArticlesAction.fulfilled.toString()]: stateDontNeedUpdate,
   },
 });
 
-export const { initCurrentState: initCurrentStateAction } =
-  currentStateSlice.actions;
-
+export const { initCurrentState: initCurrentStateAction } = currentStateSlice.actions;
 export const { reducer: currentStateReducer } = currentStateSlice;
