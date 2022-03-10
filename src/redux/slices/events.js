@@ -5,6 +5,7 @@ import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
   addMentorToWorkshopUrl,
+  addTeamsViaCSVUrl,
   addUserToTeamUrl,
   allRegistrationReceiptsUrl,
   createTeamUrl,
@@ -19,6 +20,18 @@ import {
   validateRegistrationReceiptUrl,
   workshopCRUDUrl,
 } from '../constants/urls';
+
+export const addTeamsViaCSVAction = createAsyncThunkApi(
+  'events/addTeamsViaCSVAction',
+  Apis.POST_FORM_DATA,
+  addTeamsViaCSVUrl,
+  {
+    defaultNotification: {
+      success: 'تیم‌ها با موفقیت اضافه شدند!',
+      error: 'اشکالی در اضافه‌کردن تیم‌ها وجود داشت.'
+    },
+  }
+);
 
 export const createTeamAction = createAsyncThunkApi(
   'events/createTeamAction',
@@ -321,9 +334,17 @@ const eventSlice = createSlice({
     [getOneRegistrationReceiptAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.registrationReceipt = response;
       state.isFetching = false;
-
     },
     [getOneRegistrationReceiptAction.rejected.toString()]: isNotFetching,
+
+
+    [addTeamsViaCSVAction.pending.toString()]: isFetching,
+    [addTeamsViaCSVAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      window.location.reload();
+      state.isFetching = false;
+    },
+    [addTeamsViaCSVAction.rejected.toString()]: isNotFetching,
+
 
   },
 });

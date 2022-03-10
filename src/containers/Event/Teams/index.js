@@ -15,15 +15,16 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router';
 
-import TeamInfoCard from '../../components/Cards/TeamInfo';
-import { getRequestSubscription } from '../../parse/mentor';
+import TeamInfoCard from '../../../components/Cards/TeamInfo';
+import { getRequestSubscription } from '../../../parse/mentor';
 import {
   addUserToTeamAction,
   createRequestMentorAction,
   createTeamAction,
   getRequestMentorAction,
   removeRequestMentorAction,
-} from '../../redux/slices/events';
+} from '../../../redux/slices/events';
+import AddTeamsViaCSV from './AddTeamsViaCSV';
 
 function Teams({
   addUserToTeam,
@@ -48,7 +49,6 @@ function Teams({
   return (
     <>
       <Grid container spacing={2} alignItems="center">
-
         <Grid item xs={12}>
           <Typography variant='h4'>
             {'ساخت تیم'}
@@ -76,6 +76,8 @@ function Teams({
             </Button>
           </Grid>
         </Grid>
+
+        <AddTeamsViaCSV />
 
         <Grid item xs={12}>
           <Typography variant='h4'>

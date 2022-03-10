@@ -23,6 +23,7 @@ export const getTeamsUrl = ({ registrationFormId }) => registrationFormId ? `/fs
 export const makeTeamHeadUrl = ({ teamId }) => `/fsm/team/${teamId}/make_team_head/`;
 export const addUserToTeamUrl = ({ teamId }) => `fsm/team/${teamId}/register_and_join/`
 export const createTeamUrl = 'fsm/team/';
+export const addTeamsViaCSVUrl = ({ registrationFormId }) => `fsm/registration/${registrationFormId}/batch_register/`;
 
 // event:
 export const teamCRUDUrl = ({ teamId }) => teamId ? `fsm/team/${teamId}/` : 'fsm/team/';

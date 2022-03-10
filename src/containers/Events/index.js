@@ -26,7 +26,7 @@ const Events = ({ getAllEventsInfo, events, eventsCount }) => {
             {'رویدادها'}
           </Typography>
         </Grid>
-        <Grid item container justify="center" spacing={2} xs={12}>
+        <Grid item container spacing={2} xs={12}>
           {events?.map((event, index) => (
             <Grid key={index} item xs={12} sm={6} md={4}>
               <EventCard {...event} />
