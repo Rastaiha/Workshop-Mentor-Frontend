@@ -143,6 +143,9 @@ export const removeEdgeAction = createAsyncThunkApi(
 
 
 const initialState = {
+  currentState: {
+    widgets: [],
+  },
   isFetching: false,
   allStates: [],
   allWorkshopEdges: [],
@@ -255,7 +258,7 @@ const eventSlice = createSlice({
 
     [updateWidgetAction.pending.toString()]: isFetching,
     [updateWidgetAction.fulfilled.toString()]: (state, action) => {
-      const newCurrentState = [...state.currentState.widgets];
+      const newCurrentState = [...state.currentState?.widgets];
       for (let i = 0; i < newCurrentState.length; i++) {
         if (newCurrentState[i].id === action.meta.arg.widgetId) {
           newCurrentState[i] = action.payload.response;

@@ -315,7 +315,7 @@ const isNotFetching = (state) => {
 };
 
 const mentorSlice = createSlice({
-  name: 'mentor',
+  name: 'widget',
   initialState,
   reducers: {},
   extraReducers: {

@@ -1,6 +1,6 @@
 import { makeStyles, Paper } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 
@@ -39,11 +39,13 @@ const EditArticle = ({
   getArticle,
 }) => {
   const history = useHistory();
+  const [widgets, setWidgets] = useState([]);
 
-  let widgets = [];
-  if (article?.widgets) {
-    widgets = [...article.widgets];
-  }
+  useEffect(() => {
+    if (article?.widgets) {
+      setWidgets(article.widgets);
+    }
+  }, [article, needUpdateState])
 
   useEffect(() => {
     if (articleId) {

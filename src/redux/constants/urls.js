@@ -57,7 +57,7 @@ export const widgetCRUDUrl = ({ widgetId }) => widgetId ? `fsm/widget/${widgetId
 export const statesCRUDUrl = ({ stateId }) => stateId ? `fsm/state/${stateId}/` : 'fsm/state/';
 
 // fsm:
-export const eventInfoUrl = ({ eventId }) => eventId ? `fsm/event/${eventId}/` : 'fsm/event/';
+export const eventInfoUrl = ({ pageNumber, eventId }) => eventId ? `fsm/event/${eventId}/` : `fsm/event/?page=${pageNumber}`;
 export const allRegistrationReceiptsUrl = ({ registrationFormId }) => `fsm/registration/${registrationFormId}/receipts/`;
 export const oneRegistrationReceiptUrl = ({ registrationReceiptId }) => `fsm/receipts/${registrationReceiptId}/`;
 export const validateRegistrationReceiptUrl = ({ registrationReceiptId }) => `/fsm/receipts/${registrationReceiptId}/validate/`;
@@ -66,7 +66,7 @@ export const getPlayerFromTeamUrl = ({ id }) => `/fsm/fsm/${id}/get_player_from_
 export const getUnreadNotificationsUrl = 'notifications/api/unread_list/';
 
 // articles
-export const articlesUrl = ({ pageNumber }) => `fsm/articles/?page=${pageNumber}`;
+export const articlesUrl = ({ pageNumber, articleId }) => articleId ? `fsm/articles/${articleId}` : `fsm/articles/?page=${pageNumber}`;
 
 export const helpUrl = 'fsm/help/';
 

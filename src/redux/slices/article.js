@@ -37,7 +37,7 @@ export const getAllArticlesAction = createAsyncThunkApi(
 export const getArticleAction = createAsyncThunkApi(
   'articles/getOne',
   Apis.GET,
-  ({ articleId }) => articlesUrl + articleId + '/'
+  articlesUrl,
 );
 
 export const createArticleAction = createAsyncThunkApi(

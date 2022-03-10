@@ -15,7 +15,7 @@ const Events = ({ getAllEventsInfo, events, eventsCount }) => {
   const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
-    getAllEventsInfo();
+    getAllEventsInfo({ pageNumber });
   }, []);
 
   return (
