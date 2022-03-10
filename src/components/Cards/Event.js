@@ -7,11 +7,12 @@ import { Link } from 'react-router-dom';
 
 import { toPersianNumber } from '../../utils/translateNumber';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   notificationTitle: {
     color: '#4d4a70',
   },
   paper: {
+    height: '100%',
     padding: '0px !important',
     backgroundColor: 'rgb(255, 255, 255, 0.94)',
     fontSize: '1rem',
@@ -23,6 +24,10 @@ const useStyles = makeStyles(() => ({
       transform: 'translateY(-0.1rem) scale(1.01)',
       boxShadow: '0 0.5em 1rem -1rem rgba(0, 0, 0, 0.5)',
     },
+  },
+  grid: {
+    height: '100%',
+    justifyContent: 'space-between',
   },
   content: {
     padding: '10px !important',
@@ -41,10 +46,10 @@ const useStyles = makeStyles(() => ({
 const Event = (event) => {
   const classes = useStyles();
   const t = useTranslate();
-  // console.log(event)
+
   return (
     <Card className={classes.paper}>
-      <Grid container justifyContent="center" spacing={1}>
+      <Grid container justifyContent="center" className={classes.grid} spacing={1}>
         <Grid
           className={classes.noPadding}
           item

@@ -1,5 +1,6 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
-import React, { useEffect } from 'react';
+import Pagination from '@material-ui/lab/Pagination';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import EventCard from '../../components/Cards/Event';
@@ -9,8 +10,9 @@ import Layout from '../Layout';
 const useStyles = makeStyles((theme) => ({
 }));
 
-const Events = ({ getAllEventsInfo, allEvents }) => {
+const Events = ({ getAllEventsInfo, events, eventsCount }) => {
   const classes = useStyles();
+  const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
     getAllEventsInfo();
@@ -25,11 +27,21 @@ const Events = ({ getAllEventsInfo, allEvents }) => {
           </Typography>
         </Grid>
         <Grid item container justify="center" spacing={2} xs={12}>
-          {allEvents?.map((event, index) => (
+          {events?.map((event, index) => (
             <Grid key={index} item xs={12} sm={6} md={4}>
               <EventCard {...event} />
             </Grid>
           ))}
+        </Grid>
+        <Grid item>
+          <Pagination
+            variant="outlined"
+            color="primary"
+            shape='rounded'
+            count={Math.ceil(eventsCount / 12)}
+            page={pageNumber}
+            onChange={(e, value) => setPageNumber(value)}
+          />
         </Grid>
       </Grid>
     </Layout>
@@ -37,7 +49,8 @@ const Events = ({ getAllEventsInfo, allEvents }) => {
 };
 
 const mapStateToProps = (state) => ({
-  allEvents: state.events.allEvents,
+  events: state.events.events,
+  eventsCount: state.events.eventsCount,
 });
 
 export default connect(mapStateToProps, {

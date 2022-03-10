@@ -14,10 +14,14 @@ import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 300,
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    justifyContent: 'space-between',
+    // maxWidth: 300,
   },
   media: {
-    height: 150,
+    height: 200,
   },
   icon: {
     textAlign: 'center',

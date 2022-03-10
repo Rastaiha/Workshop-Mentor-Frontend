@@ -154,7 +154,7 @@ export const makeTeamHeadAction = createAsyncThunkApi(
 const initialState = {
   isFetching: false,
   allRegistrationReceipts: [],
-  allEvents: [],
+  events: [],
   allEventTeams: [],
   requestTeams: {},
   allEventWorkshops: [],
@@ -251,7 +251,8 @@ const eventSlice = createSlice({
 
     [getAllEventsInfoAction.pending.toString()]: isFetching,
     [getAllEventsInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
-      state.allEvents = response?.results;
+      state.events = response.results;
+      state.eventsCount = response.count;
       state.isFetching = false;
     },
     [getAllEventsInfoAction.rejected.toString()]: isNotFetching,
