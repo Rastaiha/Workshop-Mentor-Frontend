@@ -16,8 +16,14 @@ import {
   workshopTeamsUrl,
 } from '../constants/urls';
 
+import {
+  createWidgetAction,
+  deleteWidgetAction,
+  updateWidgetAction,
+} from './widget';
+
 const initialState = {
-  workshops: [],
+  widgets: [],
   articles: [],
   teams: {},
   notifications: [],
@@ -75,12 +81,48 @@ const mentorSlice = createSlice({
       state.articlesCount = response.count;
     },
 
+
     [getArticleAction.fulfilled.toString()]: (state, { payload: { response } }) => {
-      state.articles = state.articles.filter(
-        (article) => +article.id !== +response.id
-      );
-      state.articles.push(response);
+      state.article = response;
+      state.widgets = response.widgets;
     },
+
+
+    [createWidgetAction.pending.toString()]: isFetching,
+    [createWidgetAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.widgets = [...state.widgets, response];
+      state.isFetching = false;
+    },
+    [createWidgetAction.rejected.toString()]: isNotFetching,
+
+
+    [deleteWidgetAction.pending.toString()]: isFetching,
+    [deleteWidgetAction.fulfilled.toString()]: (state, action) => {
+      const newWidgets = [...state.widgets];
+      for (let i = 0; i < newWidgets.length; i++) {
+        if (newWidgets[i].id === action.meta.arg.widgetId) {
+          newWidgets.splice(i, 1);
+        }
+      }
+      state.widgets = newWidgets;
+      state.isFetching = false;
+    },
+    [deleteWidgetAction.rejected.toString()]: isNotFetching,
+
+
+    [updateWidgetAction.pending.toString()]: isFetching,
+    [updateWidgetAction.fulfilled.toString()]: (state, action) => {
+      const newWidgets = [...state.widgets];
+      for (let i = 0; i < newWidgets.length; i++) {
+        if (newWidgets[i].id === action.meta.arg.widgetId) {
+          newWidgets[i] = action.payload.response;
+        }
+      }
+      state.widgets = newWidgets;
+      state.isFetching = false;
+    },
+    [updateWidgetAction.rejected.toString()]: isNotFetching,
+
   },
 });
 

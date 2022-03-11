@@ -37,15 +37,9 @@ const EditArticle = ({
   articleId,
   needUpdateState,
   getArticle,
+  widgets,
 }) => {
   const history = useHistory();
-  const [widgets, setWidgets] = useState([]);
-
-  useEffect(() => {
-    if (article?.widgets) {
-      setWidgets(article.widgets);
-    }
-  }, [article, needUpdateState])
 
   useEffect(() => {
     if (articleId) {
@@ -79,9 +73,8 @@ const EditArticle = ({
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  article: state.article.articles.find(
-    (article) => +article.id === +ownProps.match.params.articleId
-  ),
+  article: state.article.article,
+  widgets: state.article.widgets,
   articleId: ownProps.match.params.articleId,
   needUpdateState: state.currentState.needUpdateState,
 });

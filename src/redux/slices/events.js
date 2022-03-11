@@ -344,8 +344,6 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [addTeamsViaCSVAction.rejected.toString()]: isNotFetching,
-
-
   },
 });
 
