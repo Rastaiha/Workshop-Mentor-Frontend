@@ -177,7 +177,6 @@ const eventSlice = createSlice({
 
     [getOneWorkshopsInfoAction.pending.toString()]: isFetching,
     [getOneWorkshopsInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
-      console.log(response)
       state.workshop = response;
       state.isFetching = false;
     },
