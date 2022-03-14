@@ -107,3 +107,6 @@ export const getWorkshopsDescriptionUrl = 'fsm/getworkshopsdescription/';
 
 // scoring:
 export const answerCRUDUrl = ({ answerId }) => answerId ? `fsm/answers/${answerId}/` : 'fsm/answers/';
+export const getAnswerScoresAndCommentsUrl = 'scoring/get_answer_scores_and_comments/';
+export const setAnswerScoreUrl = 'scoring/set_answer_score/';
+export const createCommentUrl = 'scoring/create_comment/';

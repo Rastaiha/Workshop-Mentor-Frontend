@@ -5,20 +5,22 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 import { useParams } from 'react-router-dom';
 
-import Widget, { MODES } from '../components/Widget';
+import Widget, { MODES } from '../../components/Widget';
 import {
   getAnswerAction,
-} from '../redux/slices/scoring';
-
+  getScoresAndCommentsAction,
+  setScoreAction,
+} from '../../redux/slices/scoring';
 import {
   getWidgetAction,
-} from '../redux/slices/widget';
-import Layout from './Layout';
+} from '../../redux/slices/widget';
+import Layout from '../Layout';
+import CorrectionColumn from './CorrectionColumn';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,16 +33,17 @@ const useStyles = makeStyles((theme) => ({
 function Index({
   getAnswer,
   getWidget,
+  getScoresAndComments,
   answer,
   problem,
 }) {
   const classes = useStyles();
   const t = useTranslate();
   const { answerId } = useParams();
-  const [status, setStatus] = useState();
 
   useEffect(() => {
     getAnswer({ answerId })
+    getScoresAndComments({ answer_id: answerId })
   }, [])
 
   useEffect(() => {
@@ -49,17 +52,15 @@ function Index({
     }
   }, [answer?.problem])
 
-  console.log(problem)
-
   return (
     <Layout>
-      <Grid container spacing={4} justify='center'>
+      <Grid container spacing={4} justify='center' alignItems='flex-start'>
         <Grid item xs={12}>
           <Typography variant="h1" align='center'>
             {'تصحیح'}
           </Typography>
         </Grid>
-        <Grid item container spacing={2} xs={12} md={8}>
+        <Grid item spacing={2} xs={12} md={8}>
           <Paper component={Paper} className={classes.paper}>
             <Grid container spacing={2}>
               {problem &&
@@ -86,16 +87,7 @@ function Index({
         </Grid>
         <Grid item container spacing={2} xs={12} md={4}>
           <Paper component={Paper} className={classes.paper}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant="h2" gutterBottom align='center'>
-                  {'نمره‌دهی'}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
-            </Grid>
+            <CorrectionColumn />
           </Paper>
         </Grid>
       </Grid>
@@ -105,12 +97,15 @@ function Index({
 
 const mapStateToProps = (state) => ({
   answer: state.scoring.answer,
+  scores: state.scoring.scores,
   problem: state.widget.widget,
 });
 
 export default connect(
   mapStateToProps,
   {
+    setScore: setScoreAction,
+    getScoresAndComments: getScoresAndCommentsAction,
     getWidget: getWidgetAction,
     getAnswer: getAnswerAction,
   }
