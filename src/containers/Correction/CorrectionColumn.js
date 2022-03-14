@@ -43,7 +43,7 @@ function Index({
     if (scores) {
       const tmp = {};
       scores.forEach((score) => {
-        tmp[score.type.id] = score.score.value;
+        tmp[score.type.id] = score.score?.value;
       })
       setScoreValues(tmp);
     }

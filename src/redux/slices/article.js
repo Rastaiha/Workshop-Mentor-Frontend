@@ -4,18 +4,7 @@ import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
   articlesUrl,
-  getProblemsUrl,
-  getSubmissionsUrl,
-  getUnreadNotificationsUrl,
-  helpUrl,
-  markSubmissionUrl,
-  statesCRUDUrl,
-  visitWorkshopPlayerUrl,
-  widgetCRUDUrl,
-  workshopCRUDUrl,
-  workshopTeamsUrl,
 } from '../constants/urls';
-
 import {
   createWidgetAction,
   deleteWidgetAction,

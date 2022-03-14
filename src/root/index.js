@@ -6,6 +6,7 @@ import Correction from '../containers/Correction';
 import EditArticle from '../containers/EditArticle';
 import Event from '../containers/Event';
 import Events from '../containers/Events';
+import GoToAnswer from '../containers/GoToAnswer';
 import Login from '../containers/Login';
 import RegistrationReceipt from '../containers/RegistrationReceipt';
 import Workshop from '../containers/Workshop';
@@ -15,6 +16,7 @@ const Root = () => {
   return (
     <Switch>
       <PrivateRoute path="/correction/:answerId/" component={Correction} />
+      <PrivateRoute path="/correction/" component={GoToAnswer} />
 
       <PrivateRoute path="/articles/" component={Articles} />
       <PrivateRoute path="/edit-article/:articleId/" component={EditArticle} />
