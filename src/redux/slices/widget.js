@@ -71,13 +71,13 @@ export const markSubmissionAction = createAsyncThunkApi(
 
 
 export const getStateAction = createAsyncThunkApi(
-  'states/getOne',
+  'widget/getOne',
   Apis.GET,
   statesCRUDUrl,
 );
 
 export const updateWidgetAction = createAsyncThunkApi(
-  'states/updateWidgetAction',
+  'widget/updateWidgetAction',
   Apis.PATCH,
   widgetCRUDUrl,
   {
@@ -90,7 +90,7 @@ export const updateWidgetAction = createAsyncThunkApi(
 );
 
 export const createWidgetAction = createAsyncThunkApi(
-  'states/widget/create',
+  'widget/widget/create',
   Apis.POST,
   widgetCRUDUrl,
   {
@@ -103,7 +103,7 @@ export const createWidgetAction = createAsyncThunkApi(
 );
 
 export const deleteWidgetAction = createAsyncThunkApi(
-  'states/widgets/delete',
+  'widget/widgets/delete',
   Apis.DELETE,
   widgetCRUDUrl,
   {
@@ -266,13 +266,13 @@ export const updateMultiChoicesQuestionWidgetAction = ({ paper, text, choices, w
   });
 
 export const deleteStateAction = createAsyncThunkApi(
-  'states/delete',
+  'widget/delete',
   Apis.DELETE,
   statesCRUDUrl,
 );
 
 export const getWidgetAction = createAsyncThunkApi(
-  'states/widgets/getOne',
+  'widget/getWidgetAction',
   Apis.GET,
   widgetCRUDUrl,
 );
@@ -298,7 +298,7 @@ export const visitWorkshopPlayerAction = createAsyncThunkApi(
 );
 
 export const createHelpAction = createAsyncThunkApi(
-  'states/helps/create',
+  'widget/helps/create',
   Apis.POST,
   helpUrl,
   {
@@ -355,6 +355,15 @@ const mentorSlice = createSlice({
       state.submissions = response;
       state.submissionsIsLoading = false;
     },
+
+
+
+    [getWidgetAction.pending.toString()]: isFetching,
+    [getWidgetAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.widget = response;
+      state.isFetching = false;
+    },
+    [getWidgetAction.rejected.toString()]: isNotFetching,
 
   },
 });

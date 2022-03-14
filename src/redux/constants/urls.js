@@ -104,3 +104,6 @@ export const getSubmissionsUrl = 'fsm/getsubmissions/';
 export const markSubmissionUrl = 'fsm/marksubmission/';
 
 export const getWorkshopsDescriptionUrl = 'fsm/getworkshopsdescription/';
+
+// scoring:
+export const answerCRUDUrl = ({ answerId }) => answerId ? `fsm/answers/${answerId}/` : 'fsm/answers/';

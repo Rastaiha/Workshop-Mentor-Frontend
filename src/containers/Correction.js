@@ -1,133 +1,117 @@
 import {
-  Button,
-  CircularProgress,
-  Container,
+  Divider,
   Grid,
   makeStyles,
   Paper,
+  Typography,
 } from '@material-ui/core';
-import React, { useEffect } from 'react';
-import LazyLoad from 'react-lazyload';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useTranslate } from 'react-redux-multilingual/lib/context';
+import { useParams } from 'react-router-dom';
 
-import ResponsiveAppBar from '../components/Appbar/ResponsiveAppBar';
-import CorrectionStatesTabbar from '../components/SpecialComponents/CorrectionPage/StatesTabbar';
-import SubmitCard from '../components/SpecialComponents/CorrectionPage/SubmitCard';
+import Widget, { MODES } from '../components/Widget';
 import {
-  getProblemsAction,
-  getSubmissionsAction,
-} from '../redux/slices/mentor';
+  getAnswerAction,
+} from '../redux/slices/scoring';
+
+import {
+  getWidgetAction,
+} from '../redux/slices/widget';
+import Layout from './Layout';
+
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: 80,
-    height: `calc(100vh - ${80}px)`,
-    justifyContent: 'center',
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-  },
-  tabbar: {
-    overflow: 'hidden',
-  },
   paper: {
+    width: '100%',
     padding: theme.spacing(2),
-    marginTop: theme.spacing(2),
-    minHeight: 100,
   },
 }));
 
-function Correction({
-  fsmId,
-  states,
-  submissions,
-  submissionsIsLoading,
-  getProblems,
-  getSubmissions,
+function Index({
+  getAnswer,
+  getWidget,
+  answer,
+  problem,
 }) {
   const classes = useStyles();
-  const [stateNum, setStateNum] = React.useState(0);
+  const t = useTranslate();
+  const { answerId } = useParams();
+  const [status, setStatus] = useState();
 
   useEffect(() => {
-    getProblems();
-  }, [fsmId]);
+    getAnswer({ answerId })
+  }, [])
 
   useEffect(() => {
-    if (stateNum) {
-      setStateNum(0);
-    } else if (states[0]) {
-      getSubmissions({
-        fsmId,
-        stateId: states[0].state_id,
-      });
+    if (answer?.problem) {
+      getWidget({ widgetId: answer?.problem })
     }
-  }, [states]);
+  }, [answer?.problem])
 
-  const updateCurrentState = () => {
-    if (states[stateNum]?.state_id) {
-      getSubmissions({
-        fsmId,
-        stateId: states[stateNum].state_id,
-      });
-    }
-  };
-
-  useEffect(() => {
-    updateCurrentState();
-  }, [stateNum]);
+  console.log(problem)
 
   return (
-    <>
-      <ResponsiveAppBar mode="MENTOR_DASHBOARD" />
-      <Container className={classes.container}>
-        <Paper className={classes.tabbar}>
-          <CorrectionStatesTabbar
-            value={stateNum}
-            setValue={setStateNum}
-            tabs={states}
-          />
-        </Paper>
-        <Paper className={classes.paper}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => updateCurrentState()}>
-            بروز کردن لیست
-          </Button>
-          <Grid container justify="center" spacing={2}>
-            {submissionsIsLoading ? (
-              <CircularProgress size={24} />
-            ) : (
-              submissions.map((submission) => (
-                <Grid item key={submission.id} xs={12} sm={4} md={3}>
-                  <LazyLoad height={200} once>
-                    <SubmitCard submission={submission} />
-                  </LazyLoad>
+    <Layout>
+      <Grid container spacing={4} justify='center'>
+        <Grid item xs={12}>
+          <Typography variant="h1" align='center'>
+            {'تصحیح'}
+          </Typography>
+        </Grid>
+        <Grid item container spacing={2} xs={12} md={8}>
+          <Paper component={Paper} className={classes.paper}>
+            <Grid container spacing={2}>
+              {problem &&
+                <Grid item xs={12}>
+                  <Typography variant="h2" gutterBottom>
+                    {'مسئله'}
+                  </Typography>
+                  <Widget mode={MODES.VIEW} widget={problem} />
                 </Grid>
-              ))
-            )}
-          </Grid>
-        </Paper>
-      </Container>
-    </>
+              }
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+              {answer &&
+                <Grid item xs={12}>
+                  <Typography variant="h2" gutterBottom>
+                    {'پاسخ'}
+                  </Typography>
+                  <Widget mode={MODES.VIEW} widget={answer} />
+                </Grid>
+              }
+            </Grid>
+          </Paper>
+        </Grid>
+        <Grid item container spacing={2} xs={12} md={4}>
+          <Paper component={Paper} className={classes.paper}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h2" gutterBottom align='center'>
+                  {'نمره‌دهی'}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+      </Grid>
+    </Layout>
   );
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const fsmId = ownProps.match.params.fsmId;
-  return {
-    states:
-      state.mentor.problems.find((fsm) => +fsm.fsm_id === +fsmId)?.states || [],
-    submissions: state.mentor.submissions
-      .slice()
-      .sort(
-        (a, b) => new Date(b.submission_date) - new Date(a.submission_date)
-      ),
-    submissionsIsLoading: state.mentor.submissionsIsLoading,
-    fsmId,
-  };
-};
+const mapStateToProps = (state) => ({
+  answer: state.scoring.answer,
+  problem: state.widget.widget,
+});
 
-export default connect(mapStateToProps, {
-  getProblems: getProblemsAction,
-  getSubmissions: getSubmissionsAction,
-})(Correction);
+export default connect(
+  mapStateToProps,
+  {
+    getWidget: getWidgetAction,
+    getAnswer: getAnswerAction,
+  }
+)(Index);
