@@ -37,8 +37,6 @@ function Index({
   const [scoreValues, setScoreValues] = useState({});
   const [commentContent, setCommentContent] = useState('');
 
-  console.log(scores)
-
   useEffect(() => {
     if (scores) {
       const tmp = {};
@@ -61,8 +59,6 @@ function Index({
       setCommentContent('');
     }
   }
-
-  console.log(scoreValues)
 
   return (
     <>

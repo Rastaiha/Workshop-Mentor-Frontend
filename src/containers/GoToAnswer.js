@@ -41,8 +41,6 @@ const Index = () => {
     }
   };
 
-  console.log(answerId)
-
   return (
     <>
       <Container className={classes.container}>

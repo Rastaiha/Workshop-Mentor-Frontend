@@ -75,8 +75,6 @@ function Teams({
     window.open(`https://kamva.academy/join/${playerId}/${token}/`);
   }
 
-  console.log(requests)
-
   return (
     <>
       <Grid container spacing={1} alignItems="center" justify="center">

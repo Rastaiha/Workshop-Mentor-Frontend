@@ -224,7 +224,6 @@ const eventSlice = createSlice({
       state.requestTeams[teamId + '.' + fsmId] = playerId;
     },
     removeRequestMentor: (state, { payload: { teamId, fsmId } }) => {
-      console.log(teamId, '   ', fsmId);
       delete state.requestTeams[teamId + '.' + fsmId];
     },
   },
