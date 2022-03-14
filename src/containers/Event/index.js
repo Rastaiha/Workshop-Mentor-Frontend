@@ -80,8 +80,6 @@ const Event = ({
     getOneEventInfo({ eventId });
   }, []);
 
-  console.log(event)
-
   useEffect(() => {
     if (event?.registration_form) {
       getEventTeams({ registrationFormId: event?.registration_form });
