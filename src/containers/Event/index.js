@@ -21,6 +21,7 @@ import {
 import Layout from '../Layout';
 import DiscountCode from './DiscountCode';
 import Info from './Info';
+import RegistrationForm from './RegistrationForm';
 import RegistrationReceipts from './RegistrationReceipts';
 import Teams from './Teams';
 import Workshops from './Workshops';
@@ -37,11 +38,11 @@ const tabs = [
     icon: '',
     component: Info,
   },
-  // {
-  //   label: 'ایجاد فرم ثبت‌نام',
-  //   icon: '',
-  //   component: CreateRegistrationForm,
-  // },
+  {
+    label: 'فرم ثبت‌نام',
+    icon: '',
+    component: RegistrationForm,
+  },
   {
     label: 'رسیدهای ثبت‌نام',
     icon: '',
@@ -78,6 +79,8 @@ const Event = ({
   useEffect(() => {
     getOneEventInfo({ eventId });
   }, []);
+
+  console.log(event)
 
   useEffect(() => {
     if (event?.registration_form) {
@@ -126,7 +129,7 @@ const Event = ({
         </Grid>
         <Grid item sm={9} xs={12}>
           <Paper elevation={3} className={classes.rightBox}>
-            <TabComponent />
+            <TabComponent registrationFormId={event?.registration_form} />
           </Paper>
         </Grid>
       </Grid>

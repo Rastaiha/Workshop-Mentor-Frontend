@@ -31,6 +31,7 @@ export const getAllEventsInfoUrl = 'fsm/event/';
 export const addMentorToWorkshopUrl = ({ fsmId }) => `/fsm/fsm/${fsmId}/add_mentor/`;
 export const getMentoredFsmsUrl = ({ eventId }) => `/fsm/event/${eventId}/get_mentored_fsms/`;
 export const getEventWorkshopsUrl = ({ eventId }) => `fsm/event/${eventId}/get_fsms/`;
+export const registrationFormCRUDUrl = ({ registrationFormId }) => registrationFormId ? `fsm/registration/${registrationFormId}/` : 'fsm/registration/';
 
 
 // workshop:

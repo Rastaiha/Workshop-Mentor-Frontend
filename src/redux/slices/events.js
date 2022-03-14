@@ -17,9 +17,23 @@ import {
   getWorkshopsUrl,
   makeTeamHeadUrl,
   oneRegistrationReceiptUrl,
+  registrationFormCRUDUrl,
   validateRegistrationReceiptUrl,
   workshopCRUDUrl,
 } from '../constants/urls';
+
+
+export const getRegistrationFormAction = createAsyncThunkApi(
+  'events/getRegistrationFormAction',
+  Apis.GET,
+  registrationFormCRUDUrl,
+  {
+    defaultNotification: {
+      error: 'مشکلی در دریافت فرم ثبت‌نام وجود داشت.'
+    },
+  }
+);
+
 
 export const addTeamsViaCSVAction = createAsyncThunkApi(
   'events/addTeamsViaCSVAction',
@@ -27,7 +41,7 @@ export const addTeamsViaCSVAction = createAsyncThunkApi(
   addTeamsViaCSVUrl,
   {
     defaultNotification: {
-      success: 'تیم‌ها با موفقیت اضافه شدند!',
+      success: 'تیم‌ها با موفقیت اضافه شدند.',
       error: 'اشکالی در اضافه‌کردن تیم‌ها وجود داشت.'
     },
   }
@@ -343,6 +357,16 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [addTeamsViaCSVAction.rejected.toString()]: isNotFetching,
+
+
+    [getRegistrationFormAction.pending.toString()]: isFetching,
+    [getRegistrationFormAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.widgets = response.widgets;
+      state.isFetching = false;
+    },
+    [getRegistrationFormAction.rejected.toString()]: isNotFetching,
+
+
   },
 });
 
