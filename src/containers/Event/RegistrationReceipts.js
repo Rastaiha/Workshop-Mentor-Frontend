@@ -31,10 +31,10 @@ function Index({
 }) {
 
   useEffect(() => {
-    if (allRegistrationReceipts?.length == 0 && registrationFormId) {
+    if (registrationFormId) {
       getAllRegistrationReceipts({ registrationFormId })
     }
-  }, [allRegistrationReceipts, registrationFormId, getAllRegistrationReceipts])
+  }, [registrationFormId])
 
   return (
     <Grid container direction='column' spacing={2}>
@@ -90,8 +90,8 @@ function Index({
     </Grid >
   );
 }
-const mapStateToProps = (state) => ({
-  registrationFormId: state.events.event?.registration_form,
+const mapStateToProps = (state, ownProps) => ({
+  registrationFormId: ownProps.registrationFormId,
   allRegistrationReceipts: state.events.allRegistrationReceipts || [],
 });
 
