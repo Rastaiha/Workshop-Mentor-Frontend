@@ -19,7 +19,6 @@ const EditArticle = ({
   registrationFormId,
   getRegistrationForm,
   widgets = [],
-  initialWidgets = [],
 }) => {
   const history = useHistory();
 
@@ -31,13 +30,11 @@ const EditArticle = ({
 
   const classes = useStyles();
 
-  const mainWidgets = widgets.length == 0 ? initialWidgets : widgets;
-
   return (
     <>
       {article && (
         <EditWidgets
-          widgets={mainWidgets}
+          widgets={widgets}
           stateId={registrationFormId}
           stateName={article.name}
         />
@@ -47,8 +44,7 @@ const EditArticle = ({
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  initialWidgets: state.events.widgets,
-  widgets: state.widget.widgets,
+  widgets: state.events.widgets,
   registrationFormId: ownProps.registrationFormId,
 });
 

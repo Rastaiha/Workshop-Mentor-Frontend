@@ -21,7 +21,11 @@ import {
   validateRegistrationReceiptUrl,
   workshopCRUDUrl,
 } from '../constants/urls';
-
+import {
+  createWidgetAction,
+  deleteWidgetAction,
+  updateWidgetAction,
+} from './widget';
 
 export const getRegistrationFormAction = createAsyncThunkApi(
   'events/getRegistrationFormAction',
@@ -366,6 +370,27 @@ const eventSlice = createSlice({
     },
     [getRegistrationFormAction.rejected.toString()]: isNotFetching,
 
+    [createWidgetAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.widgets = [...state.widgets, response];
+    },
+    [deleteWidgetAction.fulfilled.toString()]: (state, action) => {
+      const newWidgets = [...state.widgets];
+      for (let i = 0; i < newWidgets.length; i++) {
+        if (newWidgets[i].id === action.meta.arg.widgetId) {
+          newWidgets.splice(i, 1);
+        }
+      }
+      state.widgets = newWidgets;
+    },
+    [updateWidgetAction.fulfilled.toString()]: (state, action) => {
+      const newWidgets = [...state.widgets];
+      for (let i = 0; i < newWidgets.length; i++) {
+        if (newWidgets[i].id === action.meta.arg.widgetId) {
+          newWidgets[i] = action.payload.response;
+        }
+      }
+      state.widgets = newWidgets;
+    },
 
   },
 });

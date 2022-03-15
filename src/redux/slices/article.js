@@ -76,16 +76,10 @@ const mentorSlice = createSlice({
       state.widgets = response.widgets;
     },
 
-
-    [createWidgetAction.pending.toString()]: isFetching,
     [createWidgetAction.fulfilled.toString()]: (state, { payload: { response } }) => {
       state.widgets = [...state.widgets, response];
       state.isFetching = false;
     },
-    [createWidgetAction.rejected.toString()]: isNotFetching,
-
-
-    [deleteWidgetAction.pending.toString()]: isFetching,
     [deleteWidgetAction.fulfilled.toString()]: (state, action) => {
       const newWidgets = [...state.widgets];
       for (let i = 0; i < newWidgets.length; i++) {
@@ -94,12 +88,7 @@ const mentorSlice = createSlice({
         }
       }
       state.widgets = newWidgets;
-      state.isFetching = false;
     },
-    [deleteWidgetAction.rejected.toString()]: isNotFetching,
-
-
-    [updateWidgetAction.pending.toString()]: isFetching,
     [updateWidgetAction.fulfilled.toString()]: (state, action) => {
       const newWidgets = [...state.widgets];
       for (let i = 0; i < newWidgets.length; i++) {
@@ -108,9 +97,7 @@ const mentorSlice = createSlice({
         }
       }
       state.widgets = newWidgets;
-      state.isFetching = false;
     },
-    [updateWidgetAction.rejected.toString()]: isNotFetching,
 
   },
 });
