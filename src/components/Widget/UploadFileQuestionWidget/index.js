@@ -4,7 +4,7 @@ import {
   DescriptionOutlined as DescriptionOutlinedIcon,
 } from '@material-ui/icons';
 import ClearIcon from '@material-ui/icons/Clear';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslate } from 'react-redux-multilingual/lib/context';
 
@@ -47,10 +47,16 @@ const UploadFileQuestionWidget = ({
 }) => {
   const t = useTranslate();
   const classes = useStyles({ haveFile: answer_file });
-  const [file, setFile] = useState({
-    link: answer_file,
-    name: 'پاسخ'
-  });
+  const [file, setFile] = useState();
+
+  useEffect(() => {
+    if (answer_file) {
+      setFile({
+        link: answer_file,
+        name: 'پاسخ'
+      })
+    }
+  }, [answer_file])
 
   const handleFileChange = async (e) => {
     e.preventDefault();
@@ -112,7 +118,7 @@ const UploadFileQuestionWidget = ({
               />
             </Grid>
           }
-          {file.link &&
+          {file?.link &&
             <Grid container justify='center' alignItems='center'>
               <Grid item>
                 <Typography variant='caption'>

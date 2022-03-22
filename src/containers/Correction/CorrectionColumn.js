@@ -71,7 +71,7 @@ function Index({
           <Grid key={index} item container spacing={1} xs={12}>
             <Grid item xs={12}>
               <TextField
-                value={scoreValues[score.type.id]}
+                value={scoreValues[score.type.id] ? scoreValues[score.type.id] : ''}
                 onChange={(e) => setScoreValues({ ...scoreValues, [score.type.id]: e.target.value })}
                 fullWidth label={score.type.name} />
             </Grid>
