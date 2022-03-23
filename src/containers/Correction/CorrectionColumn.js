@@ -60,8 +60,6 @@ function Index({
     }
   }
 
-  console.log(scoreValues)
-
   return (
     <>
       <Grid container spacing={2} justify='center'>
