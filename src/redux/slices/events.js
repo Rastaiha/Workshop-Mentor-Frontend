@@ -185,6 +185,7 @@ export const makeTeamHeadAction = createAsyncThunkApi(
 const initialState = {
   isFetching: false,
   allRegistrationReceipts: [],
+  widgets: [],
   events: [],
   allEventTeams: [],
   requestTeams: {},
